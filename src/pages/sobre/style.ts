@@ -6,5 +6,4 @@ export const Main = styled.main`
     height: fit-content;
     background-color: var(--white-fixed);
     padding-top: 80px;
-
 `
