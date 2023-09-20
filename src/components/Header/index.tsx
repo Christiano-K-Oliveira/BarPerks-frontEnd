@@ -17,14 +17,17 @@ import {
 } from './style'
 import IconLogo from '../../assets/images/icon-barperks.svg'
 import { useState } from 'react'
+import { useNavigate } from "react-router-dom";
+
 
 const Header = () => {
     const [menuMobile, openMenuMobile] = useState(false)
+      const navigate = useNavigate();
 
     return (
         <HeaderGlobal>
             <DivBox>
-                <Figure>
+                <Figure onClick={() => navigate('/')}>
                     <TitleLogo>BarPerks</TitleLogo>
                     <ImgLogo src={IconLogo} alt="icone-logo"/>
                 </Figure>
@@ -51,9 +54,9 @@ const Header = () => {
                 menuMobile !== false ?
                 <NavLinksMobile>
                     <DivBoxMobile>
-                        <LinkSectionMobile to={''}>Início</LinkSectionMobile>
-                        <LinkSectionMobile to={'/planos'}>Planos</LinkSectionMobile>
+                        <LinkSectionMobile to={'/'}>Início</LinkSectionMobile>
                         <LinkSectionMobile to={'/sobre'}>Sobre</LinkSectionMobile>
+                        <LinkSectionMobile to={'/planos'}>Planos</LinkSectionMobile>
                     </DivBoxMobile>
 
                     <LinkLogMobile to={''}>Inscreva-se</LinkLogMobile>

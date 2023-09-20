@@ -4,9 +4,10 @@ export const SectionStarting = styled.section`
     display: flex;
     justify-content: space-between;
     width: 80vw;
-    height: 85vh;
+    height: 88vh;
     background-color: var(--white-fixed);
     margin: 0 auto;
+    margin-bottom: 80px;
 `
 
 export const DivBox = styled.div`

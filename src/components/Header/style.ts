@@ -9,6 +9,7 @@ export const HeaderGlobal = styled.header`
     height: 90px;
     display: flex;
     flex-direction: column;
+    position: fixed;
 
     @media (max-width: 800px) {
         height: 65px;
@@ -27,12 +28,14 @@ export const DivBox = styled.div`
 export const Figure = styled.figure`
     display: flex;
     align-items: center;
+    cursor: pointer;
 `
 
 export const TitleLogo = styled.h1`
     font-size: var(--font-size-1);
     font-weight: 600;
     color: var(--grey-0);
+    cursor: pointer;
 
     @media(max-width: 800px){
         font-size: var(--font-size-4);
@@ -43,6 +46,7 @@ export const ImgLogo = styled.img`
     width: 45px;
     height: 45px;
     transform: translateY(-3px) translateX(-3px);
+    cursor: pointer;
 
     @media(max-width: 800px){
         width: 24px;
