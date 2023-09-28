@@ -58,8 +58,10 @@ export const DivBoxInfo = styled.div`
 export const DivBoxInfoUnique = styled.div`
     display: flex;
     flex-direction: column;
+    margin-bottom: 8px;
 
     @media(max-width: 800px) {
+        margin-bottom: 0;
     }
 `
 

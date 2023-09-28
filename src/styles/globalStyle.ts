@@ -18,6 +18,7 @@ const GlobalStyle = createGlobalStyle`
 
     button{
         cursor: pointer;
+        border: none;
     }
 
     a{
@@ -57,6 +58,7 @@ const GlobalStyle = createGlobalStyle`
 
         --font-title-1: 32px;
         --font-title-2: 28px;
+        --font-title-recover: 42px;
 
 
         font-size: 60%;

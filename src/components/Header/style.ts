@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom'
-import styled, { keyframes } from 'styled-components'
-import { HiMenu } from 'react-icons/hi'
-import { FaWindowClose } from 'react-icons/fa'
+import { Link } from "react-router-dom"
+import styled, { keyframes } from "styled-components"
+import { HiMenu } from "react-icons/hi"
+import { FaWindowClose } from "react-icons/fa"
 
 export const HeaderGlobal = styled.header`
     background-color: var(--white-fixed);
