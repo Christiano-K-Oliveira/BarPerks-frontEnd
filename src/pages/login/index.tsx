@@ -4,6 +4,7 @@ import SectionOptions from "../../components/SectionOptions"
 import { Main } from "./style"
 
 const LoginPage = () => {
+
     return (
         <>
             <Header/>

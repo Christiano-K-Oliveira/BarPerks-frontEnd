@@ -20,7 +20,7 @@ const SectionStart = () => {
             <DivBox>
                 <Title>Aumente o sucesso do seu <BreakLine/> bar com nosso programa de pontos <BreakLine/> de fidelidade!</Title>
                 <Paragraph>BarPerks oferece um jeito eficaz de <BreakLine/> gerenciar os pontos de fidelidade de seus clientes.</Paragraph>
-                <LinkStart>Começar</LinkStart>
+                <LinkStart to={'/inscricao'}>Começar</LinkStart>
 
                 <DivBoxIcons>
                     <DivBoxIcon>
@@ -34,7 +34,7 @@ const SectionStart = () => {
                         <FigureIcon>
                             <FourArrowsIcon src={ArrowsIcon} alt={'4setas-icon'}/>
                         </FigureIcon>
-                        <SpanIcon>Flexibilidade e agilidade</SpanIcon>
+                        <SpanIcon>Flexibilidade e Agilidade</SpanIcon>
                     </DivBoxIcon>
                 </DivBoxIcons>
             </DivBox>

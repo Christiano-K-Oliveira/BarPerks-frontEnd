@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 
 export const FooterDouble = styled.footer`
     display: flex;
@@ -58,8 +57,10 @@ export const DivBoxInfo = styled.div`
 export const DivBoxInfoUnique = styled.div`
     display: flex;
     flex-direction: column;
+    margin-bottom: 8px;
 
     @media(max-width: 800px) {
+        margin-bottom: 0;
     }
 `
 
@@ -95,7 +96,7 @@ export const TitleCopyright = styled.h2`
     color: var(--white-fixed);
 `
 
-export const LinkInfo = styled(Link)`
+export const LinkInfo = styled.a`
     display: flex;
     text-decoration: underline;
     color: var(--grey-0);
@@ -104,7 +105,7 @@ export const LinkInfo = styled(Link)`
     cursor: pointer;
 `
 
-export const LinkIcon = styled(Link)`
+export const LinkIcon = styled.a`
     cursor: pointer;
 `
 

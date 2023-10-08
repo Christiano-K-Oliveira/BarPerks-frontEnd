@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const SectionStarting = styled.section`
     display: flex;
@@ -63,7 +64,7 @@ export const ImageBeer = styled.img`
     margin-top: 80px;
 `
 
-export const LinkStart = styled.a`
+export const LinkStart = styled(Link)`
     background-color: var(--grey-0);
     color: var(--white-fixed);
     font-size: var(--font-size-3);

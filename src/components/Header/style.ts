@@ -1,7 +1,6 @@
-import { Link } from 'react-router-dom'
-import styled, { keyframes } from 'styled-components'
-import { HiMenu } from 'react-icons/hi'
-import { FaWindowClose } from 'react-icons/fa'
+import styled, { keyframes } from "styled-components"
+import { HiMenu } from "react-icons/hi"
+import { FaWindowClose } from "react-icons/fa"
 
 export const HeaderGlobal = styled.header`
     background-color: var(--white-fixed);
@@ -10,6 +9,7 @@ export const HeaderGlobal = styled.header`
     display: flex;
     flex-direction: column;
     position: fixed;
+    z-index: 2;
 
     @media (max-width: 800px) {
         height: 65px;
@@ -65,7 +65,7 @@ export const NavLinks = styled.nav`
     }
 `
 
-export const LinkSection = styled(Link)`
+export const LinkSection = styled.a`
     color: var(--grey-0);
     font-size: var(--font-size-4);
     font-weight: 300;
@@ -79,7 +79,7 @@ export const LinkSection = styled(Link)`
 
 `
 
-export const LinkSectionMobile = styled(Link)`
+export const LinkSectionMobile = styled.a`
     color: var(--grey-0);
     font-size: var(--font-size-5);
     font-weight: 300;
@@ -107,7 +107,7 @@ export const BoxLinkLog = styled.div`
     margin-left: 20px;
 `
 
-export const LinkLog = styled(Link)`
+export const LinkLog = styled.a`
     color: var(--grey-0);
     font-size: var(--font-size-5);
     font-weight: 500;
@@ -181,7 +181,7 @@ export const DivBoxMobile = styled.div`
     margin-bottom: 15px;
 `
 
-export const LinkLogMobile = styled(Link)`
+export const LinkLogMobile = styled.a`
     color: var(--grey-0);
     font-size: var(--font-size-6);
     font-weight: 500;
