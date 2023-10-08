@@ -88,18 +88,55 @@ export const IconImage = styled.img`
 
 export const InputFile = styled.input`
     color: var(--gray-0);
-    font-size: var(--font-size-4);
+    font-size: var(--font-size-5);
     font-size: 500;
     outline: none;
-    border: none;
-    padding: 10px 0;
+    border: 2px solid var(--yellow-1);
+    padding: 5px;
     transition: 0.2s ease;
-    margin-bottom: 15px;
+    display: flex;
+    padding: 5px 15px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s ease;
+    width: 50%;
+
+    &::placeholder{
+        color: var(--grey-0);
+        font-weight: 600;
+    }
+
+    &:hover{
+        background-color: var(--yellow-1);
+        transition: 0.3s ease;
+
+        &::placeholder{
+            color: var(--white-fixed);
+        }
+    }
 `
 
 export const LabelFile = styled.label`
     color: var(--gray-0);
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
     font-size: 600;
+`
+
+export const DivOlderAge = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
     margin-top: 5px;
+
+    input{
+        width: 16px;
+        height: 16px;
+    }
+
+    label{
+        color: var(--grey-0);
+        font-size: var(--font-size-4);
+        font-weight: 400;
+        margin-left: 10px;
+    }
 `

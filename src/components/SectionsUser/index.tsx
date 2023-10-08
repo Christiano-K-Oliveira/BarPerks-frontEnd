@@ -30,7 +30,7 @@ const SectionRegisterPoints = () => {
 const SectionRegisterProducts = () => {
     return (
         <SectionUser>
-            <Title style={{justifyContent: "center"}}>Cadastrar Produtos</Title>
+            <Title style={{justifyContent: "center", marginBottom: "30px"}}>Cadastrar Produtos</Title>
 
             <FormUserRegisterProducts/>
         </SectionUser>
@@ -40,7 +40,7 @@ const SectionRegisterProducts = () => {
 const SectionRegisterClient = () => {
     return (
         <SectionUser>
-            <Title style={{justifyContent: "center"}}>Cadastrar Cliente</Title>
+            <Title style={{justifyContent: "center", marginBottom: "30px"}}>Cadastrar Cliente</Title>
 
             <FormUserRegisterClient/>
         </SectionUser>
@@ -50,7 +50,7 @@ const SectionRegisterClient = () => {
 const SectionSearchUser = () => {
     return (
         <SectionUser>
-            <Title style={{justifyContent: "center"}}>Buscar Usuário</Title>
+            <Title style={{justifyContent: "center", marginBottom: "30px"}}>Buscar Usuário</Title>
 
             <FormUserSearchClient/>
 
@@ -65,7 +65,7 @@ const SectionUserEdit = () => {
     return (
         <SectionUser>
             <Title style={{fontSize: "var(--font-size-1)"}}><BiSolidUser size="32px"/>Meu Perfil</Title>
-            <SpanName>Gustavo Barbalho - 150pts</SpanName>
+            <SpanName>Gustavo Barbalho</SpanName>
 
             <FormUserEdit/>
         </SectionUser>
@@ -100,7 +100,10 @@ const SectionRedeemReward = () => {
             <DivSearchPub>
                 <figure>
                     <img src={img} alt="img-usuario"/>
-                    <h2>Bar do Perks</h2>
+                    <div>
+                        <h2>Bar do Perks</h2>
+                        <span>Gustavo Barbalho - 150pts</span>
+                    </div>
                 </figure>
 
                 <input type="text" placeholder="Bucar produto"/>

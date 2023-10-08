@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InputUser, InputUserRegisterClient, InputUserRegisterPoints, InputUserRegisterProduct, InputUserSearchClient } from "../Input"
-import { ButtonSearch, DivBoxInput, DivBtns, Form, Label, OptionSelect, SelectMenu, Span, DivBoxInputSearch, InputFile, DivInputsYellow } from "./style"
+import { DivBoxInput, DivBtns, Form, Label, Span, InputFile, DivInputsYellow } from "./style"
 import { SubmitHandler, useForm } from "react-hook-form";
 import { iFormRegisterClient, iFormSearchClient, iFormSearchPub, iFormUserEdit, iFormUserRegisterPoints, iRegisterProduct } from "../../../interfaces/user/user.interface";
 import { userEditSchema, userRegisterClientSchema, userRegisterPointsSchema, userRegisterProductSchema, userSearchClientSchema, userSearchPubSchema } from "../../../schemas/user.schema";
@@ -85,19 +85,11 @@ const FormUserRegisterPoints = () => {
 
     return (
         <Form onSubmit={handleSubmit(submitRegisterPoints)} style={{alignItems: "center", gap: "15px", marginTop: "20px"}}>
-            <DivBoxInputSearch>
-                <InputUserRegisterPoints id="search" name="name" type="text" register={register} placeholder="Buscar Usuário"/>
-                <ButtonSearch>Buscar</ButtonSearch>
-            </DivBoxInputSearch>
-            { errors.name?.message ? <Span style={{marginTop: "-15px"}}>{errors.name.message}</Span> : null }
-
-            <InputUserRegisterPoints id="socialNumber" name="cpf" type="text" register={register} placeholder="CPF"/>
+            <InputUserRegisterPoints id="socialNumber" name="cpf" type="text" register={register} placeholder="CPF do cliente"/>
             { errors.cpf?.message ? <Span style={{marginTop: "-15px"}}>{errors.cpf.message}</Span> : null }
 
-            <SelectMenu { ...register("product") }>
-                <OptionSelect value="">Produto</OptionSelect>
-            </SelectMenu>
-            { errors.product?.message ? <Span style={{marginTop: "-15px"}}>{errors.product.message}</Span> : null }
+            <InputUserRegisterPoints id="points" name="points" type="text" register={register} placeholder="Pontuação do usuário"/>
+            { errors.points?.message ? <Span style={{marginTop: "-15px"}}>{errors.points.message}</Span> : null }
 
             <ButtonUser type="submit" text="Registrar Pontuação"/>
         </Form>

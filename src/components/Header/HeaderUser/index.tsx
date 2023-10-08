@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { CloseMenuIcon, DivBox, DivBoxLinksMobile, Figure, LinkMobile, MenuIcon, SpanName } from "./style"
+import { CloseMenuIcon, DivBox, DivBoxLinksMobile, Figure, IconExit, LinkExit, LinkMobile, LinkMobileExit, MenuIcon, SpanName } from "./style"
 import { DivBoxIcon, HeaderUserEdit, ImgLogo, LinkHeader, NavLinks, NavLinksMobile, TitleLogo, UserIcon } from "./style"
 import IconLogo from '../../../assets/images/icon-barperks.svg'
 import { BiSolidUser } from "react-icons/bi"
@@ -20,7 +20,7 @@ const HeaderUserAdmin = () => {
                 <NavLinks>
                     <LinkHeader to={"/admin/registro-pontuacao"}>Registrar Pontuação</LinkHeader>
                     <LinkHeader to={"/admin/cadastrar-produtos"}>Cadastrar Produtos</LinkHeader>
-                    <LinkHeader to={"/admin/cadastrar-cliente"}>Cadastrar Usuário</LinkHeader>
+                    <LinkHeader to={"/admin/cadastrar-cliente"}>Cadastrar Cliente</LinkHeader>
                     <LinkHeader to={"/admin/buscar-usuario"}>Buscar Usuário</LinkHeader>
 
                     <DivBoxIcon onClick={() => navigate("/admin")}>
@@ -30,6 +30,8 @@ const HeaderUserAdmin = () => {
 
                         <SpanName>Gustavo Barbalho</SpanName>
                     </DivBoxIcon>
+                    
+                    <LinkExit to={"/"}><IconExit/></LinkExit>
                 </NavLinks>
 
                 {
@@ -46,8 +48,9 @@ const HeaderUserAdmin = () => {
                             <LinkMobile to={'/admin'}>Editar Usuário</LinkMobile>
                             <LinkMobile to={'/admin/registro-pontuacao'}>Registar Pontuação</LinkMobile>
                             <LinkMobile to={'/admin/cadastrar-produtos'}>Cadastrar Produtos</LinkMobile>
-                            <LinkMobile to={'/admin/cadastrar-cliente'}>Cadastrar Usuário</LinkMobile>
+                            <LinkMobile to={'/admin/cadastrar-cliente'}>Cadastrar Cliente</LinkMobile>
                             <LinkMobile to={'/admin/buscar-usuario'}>Buscar Usuário</LinkMobile>
+                            <LinkMobileExit to={'/'}>Sair da Página</LinkMobileExit>
                         </DivBoxLinksMobile>
                     </NavLinksMobile>
                     :
@@ -70,17 +73,19 @@ const HeaderUser = () => {
                 </Figure>
 
                 <NavLinks>
-                    <LinkHeader to={"/usuario/historico-resgates"}>Histórico de Resgates</LinkHeader>
-                    <LinkHeader to={"/usuario"}>Editar Perfil</LinkHeader>
-                    <LinkHeader to={"/usuario/resgatar-recompensas"}>Resgatar Recompensas</LinkHeader>
+                    <LinkHeader style={{width: "fit-content"}} to={"/usuario/historico-resgates"}>Histórico de Resgates</LinkHeader>
+                    <LinkHeader style={{width: "fit-content"}} to={"/usuario"}>Editar Perfil</LinkHeader>
+                    <LinkHeader style={{width: "fit-content"}} to={"/usuario/resgatar-recompensas"}>Resgatar Recompensas</LinkHeader>
 
                     <DivBoxIcon onClick={() => navigate("/usuario")}>
                         <UserIcon>
                             <BiSolidUser size="26px"/>
                         </UserIcon>
 
-                        <SpanName>Gustavo Barbalho - 150pts</SpanName>
+                        <SpanName>Gustavo Barbalho</SpanName>
                     </DivBoxIcon>
+
+                    <LinkExit to={"/"}><IconExit/></LinkExit>
                 </NavLinks>
 
                 {
@@ -97,6 +102,7 @@ const HeaderUser = () => {
                             <LinkMobile to={'/usuario/historico-resgates'}>Histórico de Resgates</LinkMobile>
                             <LinkMobile to={'/usuario'}>Editar Perfil</LinkMobile>
                             <LinkMobile to={'/usuario/resgatar-recompensas'}>Resgatar Recompensas</LinkMobile>
+                            <LinkMobileExit to={'/'}>Sair da Página</LinkMobileExit>
                         </DivBoxLinksMobile>
                     </NavLinksMobile>
                     :

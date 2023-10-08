@@ -19,8 +19,8 @@ const SectionPlans = () => {
 
                     <LinkStartBlack href="/inscricao">Começar</LinkStartBlack>
 
-                    <SpanLight>- Benefício 1</SpanLight>
-                    <SpanLight>- Benefício 2</SpanLight>
+                    <SpanLight style={{width: '100%'}}>- Até 500 clientes mensais</SpanLight>
+                    <SpanLight style={{width: '100%'}}>- Válido por 6 meses</SpanLight>
                 </ItemPlan>
 
                 <ItemPlan style={{padding: '0px'}}>
@@ -40,9 +40,9 @@ const SectionPlans = () => {
 
                     <LinkStartWhite href="/inscricao">Começar</LinkStartWhite>
 
-                    <SpanLight style={{padding: '0px 40px'}}>- Benefício 1</SpanLight>
-                    <SpanLight style={{padding: '0px 40px'}}>- Benefício 2</SpanLight>
-                    <SpanLight style={{padding: '0px 40px'}}>- Benefício 3</SpanLight>
+                    <SpanLight style={{padding: '0px 40px'}}>- Clientes ilimitados</SpanLight>
+                    <SpanLight style={{padding: '0px 40px'}}>- Suporte prioritário</SpanLight>
+                    <SpanLight style={{padding: '0px 40px'}}>- Válido por 12 meses</SpanLight>
                 </ItemPlan>
             </ListPlans>
         </SectionAllPlans>

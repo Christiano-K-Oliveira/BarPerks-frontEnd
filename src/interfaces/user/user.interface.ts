@@ -19,9 +19,8 @@ export interface iInputUserEdit{
 }
 
 export interface iFormUserRegisterPoints {
-    name: string;
     cpf: string;
-    product: string;
+    points: string;
 }
 
 export interface iInputUserRegisterPoints{
@@ -29,7 +28,7 @@ export interface iInputUserRegisterPoints{
     type: string;
     placeholder: string;
     register: UseFormRegister<iFormUserRegisterPoints>;
-    name: "name" | "cpf" | "product";
+    name: "cpf" | "points";
 }
 
 export interface iButton {

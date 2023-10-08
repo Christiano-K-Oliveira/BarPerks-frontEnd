@@ -27,9 +27,8 @@ const userEditSchema = z.object({
 })
 
 const userRegisterPointsSchema = z.object({
-    name: z.string().nonempty('Nome obrigatório').max(150, 'Máximo de 150 caracteres'),
     cpf: z.string().nonempty('O CPF é obrigatório').min(11, 'Mínimo de 11 dígitos').max(11, 'Máximo de 11 dígitos'),
-    product: z.string().nonempty('A escolha do produto é obrigatória')
+    points: z.string().nonempty('A pontuação é obrigatória')
 
 })
 
@@ -40,14 +39,14 @@ const userRegisterProductSchema = z.object({
 })
 
 const userRegisterClientSchema = z.object({
-    name: z.string().max(150, 'Máximo de 150 caracteres'),
+    name: z.string().max(150, 'Máximo de 150 caracteres').nonempty("Nome obrigatório"),
     cpf: z.string().min(11, 'Mínimo de 11 dígitos').max(11, 'Máximo de 11 dígitos'),
     email: z.string().email('Forneça um e-mail válido'),
     phone: z.string().min(11, 'DDD + Seu número').max(11, 'Máximo de 11 dígitos'),
 })
 
 const userSearchClientSchema = z.object({
-    name: z.string().max(150, 'Máximo de 150 caracteres'),
+    name: z.string().max(150, 'Máximo de 150 caracteres').nonempty("Nome obrigatório"),
     cpf: z.string().min(11, 'Mínimo de 11 dígitos').max(11, 'Máximo de 11 dígitos'),
 })
 

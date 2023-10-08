@@ -40,7 +40,7 @@ const GlobalStyle = createGlobalStyle`
         --white-fixed: #FFFFFF;
 
         --alert-1: #CD2B31;
-        --alert-2: #FDD8D8;
+        --alert-2: #ff0000;
         --alert-3: #FFE5E5;
         --sucess-1: #18794E;
         --sucess-2: #CCEBD7;
@@ -60,14 +60,7 @@ const GlobalStyle = createGlobalStyle`
         --font-title-2: 28px;
         --font-title-recover: 42px;
 
-
-        font-size: 60%;
-    }
-
-    @media(min-width: 800px) {
-        :root{
-            font-size: 62.5%;
-        }
+        font-size: 85%;
     }
 `
 

@@ -6,7 +6,7 @@ const SectionSlogan = () => {
             <DivBox>
                 <TitleSlogan>Com a empresa certa, grandes coisas acontecem</TitleSlogan>
                 <ParagraphSlogan>
-                    No MyPerks, sabemos que a noite perfeita envolve mais do que apenas 
+                    No BarPerks, sabemos que a noite perfeita envolve mais do que apenas 
                     uma bebida. 
                     É sobre criar memórias inesquecíveis, compartilhar risadas com amigos 
                     e descobrir novos lugares emocionantes. 

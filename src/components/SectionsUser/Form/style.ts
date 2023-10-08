@@ -47,7 +47,6 @@ export const Span = styled.span`
     font-size: var(--font-size-6);
     font-weight: 500;
     margin-top: -10px;
-    margin-bottom: 15px;
 `
 
 export const DivBtns = styled.div`
