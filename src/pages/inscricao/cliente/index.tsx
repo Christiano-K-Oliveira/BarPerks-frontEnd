@@ -27,7 +27,6 @@ const InscricaoClientePage = () => {
           password="Senha"
           passwordRepeated="Repita a senha"
           phone="Telefone"
-          photo="Foto"
           register={register}
           handleSubmit={handleSubmit}
           errors={errors}

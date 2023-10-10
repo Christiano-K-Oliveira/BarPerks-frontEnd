@@ -1,8 +1,5 @@
 import { z } from "zod"
 
-const MAX_FILE_SIZE = 500000;
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/svg"];
-
 const registerClientSchema = z.object({
     name: z.string().nonempty('Nome obrigatório').max(150, 'Máximo de 150 caracteres'),
     birthDate: z.string().nonempty("Data de nascimento obrigatória"),
@@ -16,13 +13,6 @@ const registerClientSchema = z.object({
     .regex(/(?=.*?[a-z])/, "É necessário pelo menos uma letra minúscula"),
     passwordRepeated: z.string().nonempty("A confirmação da senha é obrigatória"),
     phone: z.string().nonempty('Telefone obrigatório').min(11, 'DDD + Seu número').max(11, 'Máximo de 11 dígitos'),
-    photo: z.any()
-    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `O tamanho máximo da imagem é de 5 MB.`)
-    .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Apenas os formatos .jpg, .jpeg, .png e .svg são suportados."
-    ).nullish(),
-    oldAge: z.boolean({required_error: "Obrigatório a assinatura", invalid_type_error: "isActive must be a boolean"}),
 }).refine(({ password, passwordRepeated}) => password === passwordRepeated, {
     message: "A senha não corresponde",
     path: ["passwordRepeated"]

@@ -140,3 +140,25 @@ export const DivOlderAge = styled.div`
         margin-left: 10px;
     }
 `
+
+export const FacebookLoginDiv = styled.div`
+    display: flex;
+
+    .icon-facebook{
+        height: 45px;
+        background-color: #2961d6;
+        color: var(--grey-0);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 10px;
+        border-radius: 5px;
+        color: var(--white-fixed);
+        font-weight: 400;
+        font-size: var(--font-size-5);
+
+        @media(max-width: 799px){
+            height: 55px;
+        }
+    }
+`
