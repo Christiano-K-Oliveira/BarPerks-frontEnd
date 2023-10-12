@@ -259,7 +259,9 @@ const FormLogin = () => {
             if(url === '/login-cliente'){
                 clientLogin(loginData)
             }
-            adminLogin(loginData)
+            if(url === '/login-estabelecimento'){
+                adminLogin(loginData)
+            }
         }
         else{
             toast.error('Recaptcha não assinado, tente novamente.', {

@@ -1,26 +1,18 @@
 import { z } from "zod";
 
-const MAX_FILE_SIZE = 500000;
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/svg"];
-
 const userEditSchema = z.object({
     name: z.string().max(150, 'Máximo de 150 caracteres').nullish(),
-    cpf: z.string().min(11, 'Mínimo de 11 dígitos').max(11, 'Máximo de 11 dígitos').nullish(),
-    email: z.string().email('Forneça um e-mail válido').nullish(),
-    password: z.string()
+    birth_date: z.union([z.string().min(10, 'Mínimo de 10 dígitos').max(10, 'Máximo de 10 dígitos').nullish(), z.string().max(0)]),
+    cpf: z.union([z.string().min(11, 'Mínimo de 11 dígitos').max(11, 'Máximo de 11 dígitos').nullish(), z.string().max(0)]),
+    email: z.union([z.string().email('Forneça um e-mail válido').nullish().default(null), z.string().max(0)]),
+    password: z.union([z.string()
     .min(8, "A senha precisa conter pelo menos 8 caracteres")
     .regex(/(?=.*?[#?!@$%^&*-])/, "É necessário pelo menos um caracter especial")
     .regex(/(?=.*?[A-Z])/, "É necessário pelo menos uma letra maiúscula")
     .regex(/(?=.*?[a-z])/, "É necessário pelo menos uma letra minúscula")
-    .nullish(),
-    passwordRepeated: z.string().nullish(),
-    phone: z.string().min(11, 'DDD + Seu número').max(11, 'Máximo de 11 dígitos').nullish(),
-    photo: z.any()
-    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `O tamanho máximo da imagem é de 5 MB.`)
-    .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Apenas os formatos .jpg, .jpeg, .png e .svg são suportados."
-    ).nullish()
+    .nullish().default(null), z.string().max(0)]),
+    passwordRepeated: z.union([z.string().nullish(), z.string().max(0)]),
+    telephone: z.union([z.string().min(11, 'DDD + Seu número').max(11, 'Máximo de 11 dígitos').nullish(), z.string().max(0)]),
 }).refine(({ password, passwordRepeated}) => password === passwordRepeated, {
     message: "A senha não corresponde",
     path: ["passwordRepeated"]
@@ -33,16 +25,34 @@ const userRegisterPointsSchema = z.object({
 })
 
 const userRegisterProductSchema = z.object({
-    name: z.string().nonempty('Nome obrigatório').max(150, 'Máximo de 150 caracteres'),
-    code: z.string().nonempty('Código obrigatório'),
-    points: z.string().nonempty('Valor da pontuação obrigatório')
+    name: z.string().nonempty('Nome obrigatório').max(150, 'Máximo de 150 caracteres').max(50, 'Máximo de 50 caracteres'),
+    code: z.string().nonempty('Código obrigatório').max(10, 'Máximo de 10 caracteres'),
+    value: z.string().nonempty('Valor da pontuação obrigatório').max(8, 'Máximo de 8 dígitos').refine((val: string) => isNaN(+val) === false, {
+        message: "Aceito somente números",
+    }),
 })
+
+const userRegisterUpdateProductSchema = z.object({
+    name: z.union([z.string().nonempty('Nome obrigatório').max(150, 'Máximo de 150 caracteres').max(50, 'Máximo de 50 caracteres'), z.string().max(0).nullish()]),
+    code: z.union([z.string().nonempty('Código obrigatório').max(10, 'Máximo de 10 caracteres'), z.string().max(0).nullish()]),
+    value: z.union([z.string().nonempty('Valor da pontuação obrigatório').max(8, 'Máximo de 8 dígitos').refine((val: string) => isNaN(+val) === false, {
+        message: "Aceito somente números",
+    }), z.string().max(0).nullish()]),
+})
+
 
 const userRegisterClientSchema = z.object({
     name: z.string().max(150, 'Máximo de 150 caracteres').nonempty("Nome obrigatório"),
     cpf: z.string().min(11, 'Mínimo de 11 dígitos').max(11, 'Máximo de 11 dígitos'),
     email: z.string().email('Forneça um e-mail válido'),
-    phone: z.string().min(11, 'DDD + Seu número').max(11, 'Máximo de 11 dígitos'),
+    telephone: z.string().min(11, 'DDD + Seu número').max(11, 'Máximo de 11 dígitos'),
+})
+
+const userUpdateRegisterClientSchema = z.object({
+    name: z.union([z.string().max(150, 'Máximo de 150 caracteres').nonempty("Nome obrigatório"), z.string().max(0)]),
+    cpf: z.union([z.string().min(11, 'Mínimo de 11 dígitos').max(11, 'Máximo de 11 dígitos'), z.string().max(0)]),
+    email: z.union([z.string().email('Forneça um e-mail válido'), z.string().max(0)]),
+    telephone: z.union([z.string().min(11, 'DDD + Seu número').max(11, 'Máximo de 11 dígitos'), z.string().max(0)]),
 })
 
 const userSearchClientSchema = z.object({
@@ -61,5 +71,7 @@ export {
     userRegisterProductSchema,
     userRegisterClientSchema,
     userSearchClientSchema,
-    userSearchPubSchema
+    userSearchPubSchema,
+    userRegisterUpdateProductSchema,
+    userUpdateRegisterClientSchema,
 }

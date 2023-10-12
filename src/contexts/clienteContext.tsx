@@ -1,9 +1,10 @@
-import { Dispatch, SetStateAction, createContext, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
 import api from "../services/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { iSendEmail } from "../interfaces/user/recoverPassword.interface";
+import { iClientInfo, iFormUserEdit } from "../interfaces/user/user.interface";
 
 interface iClientProviderProps {
     children: React.ReactNode;   
@@ -24,7 +25,7 @@ interface iLoginData {
     password: string;
 }
 
-  
+
 interface iClientContext {
     clientRegister: (clientData: iRegisterData) => Promise<void>;
     uploadClient: (id: number, data: File) => Promise<void>;
@@ -38,6 +39,12 @@ interface iClientContext {
     clientAuthLogin: (token: string) => Promise<void>;
     sendEmailClient: (data: iSendEmail) => Promise<void>;
     resetPasswordClient: (token: string, data: { password: string }) => Promise<void>;
+    getClientInfo: (token: string) => Promise<void>;
+    clientInfo: iClientInfo | undefined;
+    setClientInfo: Dispatch<SetStateAction<iClientInfo | undefined>>;
+    exitClient: () => Promise<void>;
+    updateClient: (data: iFormUserEdit, id: number) => Promise<void>;
+    listHistoryRewards: () => Promise<void>;
     // login: (loginData: TLoginData) => Promise<void>;
     // isSeller: boolean;
     // successfullyCreated: boolean;
@@ -58,7 +65,15 @@ export const ClientContext = createContext({} as iClientContext);
 const ClientProvider = ({ children }: iClientProviderProps) => {
     const [dropFile, setFile] = useState<File | null>(null);
     const navigate = useNavigate()
-    const [cookies, setCookie] = useCookies(['token']);
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const [ clientInfo, setClientInfo] = useState<iClientInfo | undefined>()
+
+    useEffect(() => {
+        const cookie = cookies['token']
+
+        getClientInfo(cookie)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cookies]);
 
     const clientRegister = async (clientData: iRegisterData): Promise<void> => {
         try {
@@ -80,7 +95,7 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
             });
             
             setTimeout(() => {
-                navigate('/login-cliente')
+                window.location.replace('/login-cliente')
             }, 3500)        
         } 
         catch (error) {
@@ -103,6 +118,8 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
         if(data.name.includes("jpg") || data.name.includes("jpeg") || data.name.includes("png")){
           file.append("file", data)
           await api.patch(`clients/upload/${id}`, file, config)
+    
+          setFile(null)
         }    
     }
 
@@ -253,7 +270,7 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
             draggable: true,
             progress: undefined,
             theme: "light",
-        });
+          });
         }
     }
     const resetPasswordClient = async (token: string, data: { password: string; }): Promise<void> => {
@@ -287,7 +304,95 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
             theme: "light",
           });
         }
-      }
+    }
+
+    const getClientInfo = async (token: string): Promise<void> => {
+        try {
+            const res = await api.get('clients', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`                
+                }
+            })
+
+            const data: iClientInfo = {
+                id: res.data.id,
+                name: res.data.name,
+                birth_date: res.data.birth_date,
+                email: res.data.email,
+                cpf: res.data.cpf,
+                telephone: res.data.telephone,
+                photo_url: res.data.photo_url
+            }
+            setClientInfo(data)
+        }
+        catch (erro){
+            console.log(erro)
+        }
+    }
+    const exitClient = async () => {
+        removeCookie("token")
+
+        navigate("/")
+    }
+    const updateClient = async (data: iFormUserEdit, id: number): Promise<void> => {
+        try {
+            const token = cookies["token"]
+
+            await api.patch(`clients/${id}`, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`                
+                }
+            })
+
+            if(id && dropFile){
+                await uploadClient(id, dropFile)
+            }
+
+            getClientInfo(token)
+
+            toast.success('Dados atualizados com sucesso!', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+        catch {
+            toast.error('Ops, algo de errado!', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }
+
+    const listHistoryRewards = async (): Promise<void> => {
+        try {
+            const token = cookies["token"]
+
+            const list = await api.get("client/rescue-history", {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`    
+                }
+            })
+            console.log(list)
+        }
+        catch(err) {
+            console.log(err)
+        }
+    }
 
     return (
         <ClientContext.Provider
@@ -303,7 +408,13 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
                 clientLoginFacebook,
                 clientAuthLogin,
                 sendEmailClient,
-                resetPasswordClient
+                resetPasswordClient,
+                getClientInfo,
+                clientInfo,
+                setClientInfo,
+                exitClient,
+                updateClient,
+                listHistoryRewards
             }}>
             {children}
         </ClientContext.Provider>

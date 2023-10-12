@@ -1,5 +1,7 @@
+import { useContext } from "react"
 import { iButton } from "../../../interfaces/user/user.interface"
 import { Button, ButtonSmallStyle } from "./style"
+import { AdminContext } from "../../../contexts/administradorContext"
 
 const ButtonUserSmall = ({text, type}: iButton) => {
     return (
@@ -13,4 +15,12 @@ const ButtonUser = ({text, type, margin}: iButton) => {
     )
 }
 
-export { ButtonUserSmall, ButtonUser }
+const ButtonEditProducts = () => {
+    const { setEditProductsModal } = useContext(AdminContext)
+
+    return (
+        <Button style={{marginTop: "-5px"}} type="button" onClick={() => setEditProductsModal(true)}>Editar Produtos</Button>
+    )
+}
+
+export { ButtonUserSmall, ButtonUser, ButtonEditProducts }

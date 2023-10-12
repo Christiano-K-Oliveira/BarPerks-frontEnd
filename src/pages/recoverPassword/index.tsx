@@ -38,7 +38,7 @@ const RecoverPasswordSendingEmailPage = () => {
         if(optionAdmin){
             sendEmailAdmin(data)
         }
-        else{
+        if(optionClient == false && optionAdmin == false){
             toast.error('Escolha uma das opções: cliente ou estabelcimento.', {
                 position: "bottom-right",
                 autoClose: 3000,
@@ -48,7 +48,7 @@ const RecoverPasswordSendingEmailPage = () => {
                 draggable: true,
                 progress: undefined,
                 theme: "light",
-              });
+            });
         }
     }
 
@@ -99,13 +99,14 @@ const RecoverPasswordPage = () => {
         const newData = {
             password: data.password
         }
+
         if(user === 'cliente' && token){
             resetPasswordClient(token, newData)
         }
         if(user === 'estabelecimento' && token){
             resetPasswordAdmin(token, newData)
         }
-        else {
+        if(user !== 'cliente' && user !== 'estabelecimento' || token == undefined) {
             toast.error('Ops, algo deu errado... Abra o seu email e tente novamente.', {
                 position: "bottom-right",
                 autoClose: 3000,

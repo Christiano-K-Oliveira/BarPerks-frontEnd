@@ -99,7 +99,6 @@ export const InputFile = styled.input`
     cursor: pointer;
     text-align: center;
     transition: 0.3s ease;
-    width: 50%;
 
     &::placeholder{
         color: var(--grey-0);

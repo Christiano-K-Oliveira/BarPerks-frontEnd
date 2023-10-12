@@ -1,13 +1,24 @@
 import { UseFormRegister } from "react-hook-form";
 
 export interface iFormUserEdit {
-    name: string;
-    cpf: string;
-    email: string;
-    password: string;
-    passwordRepeated: string;
-    phone: string;
-    photo: string;
+    name?: string;
+    birth_date?: string;
+    cpf?: string;
+    email?: string;
+    password?: string;
+    passwordRepeated?: string;
+    phone?: string;
+    telephone?: string;
+}
+
+export interface iFormAdminEdit {
+    name?: string;
+    social_number?: string;
+    email?: string;
+    password?: string;
+    passwordRepeated?: string;
+    phone?: string;
+    telephone?: string;
 }
 
 export interface iInputUserEdit{
@@ -15,7 +26,7 @@ export interface iInputUserEdit{
     type: string;
     placeholder?: string;
     register: UseFormRegister<iFormUserEdit>;
-    name: "name" | "cpf" | "email" | "password" | "passwordRepeated" | "phone" | "photo";
+    name: "name" | "cpf" | "email" | "password" | "passwordRepeated" | "telephone" | "birth_date";
 }
 
 export interface iFormUserRegisterPoints {
@@ -40,11 +51,17 @@ export interface iButton {
 export interface iRegisterProduct {
     name: string;
     code: string;
-    points: string;
+    value: string;
+}
+
+export interface iUpdateProduct {
+    name?: string;
+    code?: string;
+    value?: string;
 }
 
 export interface iInputRegisterProduct {
-    name: "name" | "code" | "points";
+    name: "name" | "code" | "value";
     register: UseFormRegister<iRegisterProduct>;
     type: string;
     placeholder: string;
@@ -54,19 +71,38 @@ export interface iFormRegisterClient {
     name: string;
     cpf: string;
     email: string;
-    phone: string;
+    telephone: string;
+    points?: string;
+}
+
+export interface iUpdateRegisterClient {
+    name?: string;
+    cpf?: string;
+    email?: string;
+    telephone?: string;
 }
 
 export interface iInputFormRegisterClient{
     type: string;
     placeholder: string;
     register: UseFormRegister<iFormRegisterClient>;
-    name: "name" | "cpf" | "email" | "phone";
+    name: "name" | "cpf" | "email" | "telephone";
 }
 
 export interface iFormSearchClient {
     name: string;
     cpf: string;
+}
+
+export interface iSearchClient {
+    id: number;
+    name: string;
+    cpf: string;
+    email: string;
+    telephone: string;
+    client: {
+        photo_url?: string;
+    };
 }
 
 export interface iInputFormSearchClient{
@@ -77,8 +113,11 @@ export interface iInputFormSearchClient{
 }
 
 export interface iCardUser {
+    id: number;
     name: string;
     cpf: string;
+    email: string;
+    telephone: string;
     photo_url?: string;
 }
 
@@ -87,9 +126,36 @@ export interface iFormSearchPub {
     socialNumber: string;
 }
 
-export interface iInputFormSearchPub{
+export interface iInputFormSearchPub {
     type: string;
     placeholder: string;
     register: UseFormRegister<iFormSearchPub>;
     name: "name" | "socialNumber";
+}
+
+export interface iClientInfo {
+    id: number;
+    name: string;
+    birth_date: string;
+    cpf: string;
+    email: string;
+    telephone: string;
+    photo_url: string;
+}
+
+export interface iAdminInfo {
+    id: number;
+    name: string;
+    social_number: string;
+    email: string;
+    telephone: string;
+    photo_url: string;
+}
+
+export interface iProduct {
+    id: number;
+    name: string;
+    value: string;
+    code: string;
+    photo_url?: string;
 }

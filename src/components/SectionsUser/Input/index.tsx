@@ -1,9 +1,9 @@
 import { iInputFormRegisterClient, iInputFormSearchClient, iInputRegisterProduct, iInputUserEdit, iInputUserRegisterPoints } from "../../../interfaces/user/user.interface"
-import { Input } from "./style"
+import { Input, InputEdit } from "./style"
 
 const InputUser = ({ id, name, register, type, placeholder }: iInputUserEdit) => {
     return (
-        <Input id={id} type={type} placeholder={placeholder} { ...register(name) }/>
+        <InputEdit id={id} type={type} placeholder={placeholder} { ...register(name) }/>
     )
 }
 

@@ -3,20 +3,25 @@ import styled from "styled-components"
 export const ItemList = styled.li`
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     background-color: var(--grey-5);
     max-width: 100%;
     width: 258px;
-    height: 120px;
+    height: 260px;
     border-radius: 8px;
-    padding: 10px 5px;
+    padding: 15px;
+
+    div{
+        display: flex;
+        flex-direction: column;
+    }
 `
 
 export const FigureUser = styled.figure`
     display: flex;
     align-items: center;
     gap: 5px;
+    margin-bottom: 15px;
 `
 
 export const ImgUser = styled.img`
@@ -29,15 +34,21 @@ export const ImgUser = styled.img`
 
 export const TitleUser = styled.h3`
     text-align: center;
-    font-size: var(--font-size-4);
+    font-size: var(--font-size-2);
     font-weight: 600;
     color: var(--grey-0);
 `
 
-export const SpanCpfUser = styled.span`
-    font-size: var(--font-size-5);
+export const SpanInfoUser = styled.span`
+    font-size: var(--font-size-3);
     font-weight: 600;
     color: var(--grey-0);
+    margin-bottom: 5px;
+
+    span{
+        font-weight: 400;
+        word-break: break-all;
+    }
 `
 
 export const ButtonEditUser = styled.button`
