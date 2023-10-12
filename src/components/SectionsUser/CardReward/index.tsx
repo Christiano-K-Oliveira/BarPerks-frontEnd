@@ -1,11 +1,11 @@
 import { DivBox, DivBoxGray, DivBoxInfoMobile, DivBoxMobile, ItemListReward, SpanInfo, SpanInfoMobile, TitleInfo, TitleInfoMobile } from "./style"
 
 interface iCardReward {
-    id: string;
-    status: string;
-    data: string;
-    recompensa: string;
-    nome_bar: string;
+    id?: number;
+    status?: string;
+    data?: string;
+    recompensa?: string;
+    nome_bar?: string;
 }
 
 const CardReward = ({ id, status, data, recompensa, nome_bar }: iCardReward) => {

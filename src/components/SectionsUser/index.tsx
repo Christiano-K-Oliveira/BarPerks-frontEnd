@@ -3,7 +3,7 @@ import { FormSearchPub, FormUserAdminEdit, FormUserEdit, FormUserRegisterClient,
 import { DivSearchPub, ListCards, ListCardsPub, ListCardsRewards, SectionUser, SpanName, Title } from "./style"
 import { BiSolidUser } from "react-icons/bi"
 import img from "../../assets/images/4seta-vector.svg"
-// import { CardReward, CardRewardWithoutTitle } from "./CardReward"
+import { CardReward, CardRewardWithoutTitle } from "./CardReward"
 import CardPub from "./CardPub"
 import { useContext } from "react"
 import { ClientContext } from "../../contexts/clienteContext"
@@ -88,17 +88,51 @@ const SectionUserEdit = () => {
 }
 
 const SectionRewardHistoric = () => {
+    const { listHistoryRewards } = useContext(ClientContext)
+
     return (
         <SectionUser style={{width: "100vw", padding: "0px"}}>
             <Title style={{justifyContent: "center", marginTop: "20px"}}>Histórico de Resgates</Title>
 
             <ListCardsRewards>
-                {/* <CardReward/>
-                <CardRewardWithoutTitle/>
-                <CardRewardWithoutTitle/>
-                <CardRewardWithoutTitle/>
-                <CardRewardWithoutTitle/>
-                <CardRewardWithoutTitle/> */}
+                {
+                    listHistoryRewards.length > 0 ? 
+                    <CardReward 
+                        id={listHistoryRewards[0].id}
+                        status={listHistoryRewards[0].status} 
+                        data={listHistoryRewards[0].date} 
+                        nome_bar={listHistoryRewards[0].pub.name}
+                        recompensa={listHistoryRewards[0].reward_name}
+                        key="1"                        
+                    />
+                    :
+                    <CardReward 
+                    id={0}
+                    status=""
+                    data=""
+                    nome_bar=""
+                    recompensa=""
+                    key="1"                        
+                />
+                }
+                {
+                    listHistoryRewards.length > 1 ? 
+                    listHistoryRewards.map((item, index) => {
+                        if(index === 2) {
+                            return (
+                                <CardRewardWithoutTitle
+                                    id={item.id}
+                                    status={item.status}
+                                    data={item.date}
+                                    nome_bar={item.pub.name}
+                                    recompensa={item.reward_name}
+                                    key={index}
+                                />
+                            )
+                        }
+                    })
+                    : null
+                }
             </ListCardsRewards>
         </SectionUser>
     )

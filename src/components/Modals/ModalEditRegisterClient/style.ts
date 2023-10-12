@@ -10,7 +10,7 @@ export const ModalBackground = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
+    z-index: 2;
 `
 
 export const Modal = styled.div`
@@ -19,7 +19,7 @@ export const Modal = styled.div`
     width: 35%;
     background-color: var(--white-fixed);
     border-radius: 8px;
-    z-index: 2;
+    z-index: 3;
     padding: 20px;
     margin: 50px 0px;
     position: absolute;

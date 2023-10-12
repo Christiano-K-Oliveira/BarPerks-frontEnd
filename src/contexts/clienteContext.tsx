@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { iSendEmail } from "../interfaces/user/recoverPassword.interface";
 import { iClientInfo, iFormUserEdit } from "../interfaces/user/user.interface";
+import { iListHistoryRewards } from "../interfaces/user/historyRewards.interface";
+import { useGoogleLogout } from "react-google-login";
 
 interface iClientProviderProps {
     children: React.ReactNode;   
@@ -44,19 +46,9 @@ interface iClientContext {
     setClientInfo: Dispatch<SetStateAction<iClientInfo | undefined>>;
     exitClient: () => Promise<void>;
     updateClient: (data: iFormUserEdit, id: number) => Promise<void>;
-    listHistoryRewards: () => Promise<void>;
-    // login: (loginData: TLoginData) => Promise<void>;
-    // isSeller: boolean;
-    // successfullyCreated: boolean;
-    // setSuccessfullyCreated: Dispatch<SetStateAction<boolean>>;
-    // sendEmail: (email: TSendEmail) => Promise<void>;
-    // updatePassword: (newPassData: TNewPass) => Promise<void>;
-    // userLogout: () => void;
-    // user: IUser | null;
-    // seller: TAllUserPoster | null;
-    // getInitials: (name: string | undefined) => string;
-    // excludeUser: (id: number | null) => void;
-    // updateUser: (data: iUpdateUser, idUser: number | null) => void
+    getListHistoryRewards: () => Promise<void>;
+    listHistoryRewards: iListHistoryRewards[] |  [];
+    setListHistoryRewards: Dispatch<SetStateAction<iListHistoryRewards[] | []>>;
 }
   
 
@@ -67,11 +59,17 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
     const navigate = useNavigate()
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ clientInfo, setClientInfo] = useState<iClientInfo | undefined>()
+    const [ listHistoryRewards, setListHistoryRewards ] = useState<iListHistoryRewards[]>([])
+    const { signOut } = useGoogleLogout({
+        clientId: "481227944368-euu396jbn5pnafft63hn4d6rpsgqu121.apps.googleusercontent.com"
+    })
+
 
     useEffect(() => {
         const cookie = cookies['token']
 
         getClientInfo(cookie)
+        getListHistoryRewards()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cookies]);
 
@@ -332,6 +330,7 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
     }
     const exitClient = async () => {
         removeCookie("token")
+        signOut()
 
         navigate("/")
     }
@@ -377,17 +376,18 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
         }
     }
 
-    const listHistoryRewards = async (): Promise<void> => {
+    const getListHistoryRewards = async (): Promise<void> => {
         try {
             const token = cookies["token"]
 
-            const list = await api.get("client/rescue-history", {
+            const res = await api.get("client/rescue-history", {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`    
                 }
             })
-            console.log(list)
+            
+            setListHistoryRewards(res.data)
         }
         catch(err) {
             console.log(err)
@@ -414,7 +414,9 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
                 setClientInfo,
                 exitClient,
                 updateClient,
-                listHistoryRewards
+                getListHistoryRewards,
+                listHistoryRewards,
+                setListHistoryRewards,
             }}>
             {children}
         </ClientContext.Provider>

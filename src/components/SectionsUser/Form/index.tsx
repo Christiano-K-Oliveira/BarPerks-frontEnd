@@ -4,7 +4,7 @@ import { DivBoxInput, DivBtns, Form, Label, Span, InputFile, DivInputsYellow, Sp
 import { SubmitHandler, useForm } from "react-hook-form";
 import { iFormAdminEdit, iFormRegisterClient, iFormSearchClient, iFormSearchPub, iFormUserEdit, iFormUserRegisterPoints, iRegisterProduct } from "../../../interfaces/user/user.interface";
 import { userEditSchema, userRegisterClientSchema, userRegisterPointsSchema, userRegisterProductSchema, userSearchClientSchema, userSearchPubSchema } from "../../../schemas/user.schema";
-import { ButtonEditProducts, ButtonUser, ButtonUserSmall } from "../Button";
+import { ButtonEditProducts, ButtonListRegisterClient, ButtonUser, ButtonUserSmall } from "../Button";
 import { useCallback, useContext } from "react";
 import { ClientContext } from "../../../contexts/clienteContext";
 import { useDropzone } from "react-dropzone";
@@ -223,7 +223,7 @@ const FormUserSearchClient = () => {
             { errors.cpf?.message ? <Span style={{marginTop: "-15px"}}>{errors.cpf.message}</Span> : null }
 
             <ButtonUser type="submit" text="Buscar" margin="20px"/>
-            <ButtonUser type="submit" text="Lista Completa" margin="0px"/>
+            <ButtonListRegisterClient type="button" text="Lista Completa" margin="0px"/>
         </Form>
     )
 }
@@ -254,7 +254,7 @@ const FormUserEdit = () => {
             cpf: data.cpf ? data.cpf : clientInfo?.cpf,
             email: data.email ? data.email : clientInfo?.email,
             password: data.password ? data.password : '',
-            telephone: data.phone ? data.phone : clientInfo?.telephone,
+            telephone: data.telephone ? data.telephone : clientInfo?.telephone,
         }
 
         if (newData.password === ''){

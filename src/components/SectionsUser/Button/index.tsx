@@ -9,9 +9,20 @@ const ButtonUserSmall = ({text, type}: iButton) => {
     )
 }
 
-const ButtonUser = ({text, type, margin}: iButton) => {
+const ButtonUser = ({text, type, margin }: iButton) => {
     return (
         <Button style={{marginTop: `${margin}`}} type={type}>{text}</Button>
+    )
+}
+
+const ButtonListRegisterClient = ({text, type, margin }: iButton) => {
+    const { setModalListRegisterClient, getListClients } = useContext(AdminContext)
+
+    return (
+        <Button onClick={() => {
+            getListClients()
+            setModalListRegisterClient(true)
+        }} style={{marginTop: `${margin}`}} type={type}>{text}</Button>
     )
 }
 
@@ -23,4 +34,4 @@ const ButtonEditProducts = () => {
     )
 }
 
-export { ButtonUserSmall, ButtonUser, ButtonEditProducts }
+export { ButtonUserSmall, ButtonUser, ButtonEditProducts, ButtonListRegisterClient }

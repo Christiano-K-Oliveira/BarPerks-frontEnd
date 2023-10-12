@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { iSendEmail } from "../interfaces/user/recoverPassword.interface";
 import { iAdminInfo, iFormRegisterClient, iFormSearchClient, iFormUserEdit, iProduct, iRegisterProduct, iSearchClient, iUpdateProduct, iUpdateRegisterClient } from "../interfaces/user/user.interface";
+import { useGoogleLogout } from "react-google-login";
 
 interface iAdminProviderProps {
     children: React.ReactNode;   
@@ -71,6 +72,11 @@ interface iAdminContext {
   idRegisterClient: number | undefined;
   setIdRegisterClient: Dispatch<SetStateAction<number | undefined>>;
   updateRegisterClient: (data: iUpdateRegisterClient) => Promise<void>;
+  modalListRegisterClient: boolean;
+  setModalListRegisterClient: Dispatch<SetStateAction<boolean>>;
+  listRegisterClient: iSearchClient[] | [];
+  setListRegisterClient: Dispatch<SetStateAction<iSearchClient[] | []>>;
+  getListClients: () => Promise<void>;
 }
   
 export const AdminContext = createContext({} as iAdminContext);
@@ -87,6 +93,11 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   const [ searchUser, setSearchUser ] = useState<iSearchClient[]>([])
   const [ modalEditRegisterClient, setModalEditRegisterClient ] = useState(false)
   const [ idRegisterClient, setIdRegisterClient ] = useState<number>()
+  const [ listRegisterClient, setListRegisterClient ] = useState<iSearchClient[]>([])
+  const [ modalListRegisterClient, setModalListRegisterClient ] = useState(false)
+  const { signOut } = useGoogleLogout({
+    clientId: "481227944368-euu396jbn5pnafft63hn4d6rpsgqu121.apps.googleusercontent.com"
+})
 
   useEffect(() => {
     const cookie = cookies['token']
@@ -353,6 +364,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   }
   const exitAdmin = async () => {
     removeCookie("token")
+    signOut()
 
     navigate("/")
   }
@@ -636,12 +648,12 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         }
       })
 
-      console.log(res.data)
+      getClient({
+        name: res.data.name,
+        cpf: res.data.cpf
+      })
 
-      // getClient({
-      //   name: res.data.name,
-      //   cpf: res.data.cpf
-      // })
+      getListClients()
 
       toast.success('Registro de cliente atualizado com sucesso!', {
         position: "bottom-right",
@@ -665,6 +677,23 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         progress: undefined,
         theme: "light",
       });
+    }
+  }
+  const getListClients = async (): Promise<void> => {
+    try {
+      const token = cookies["token"]
+
+      const res = await api.get('pub/registered-clients', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        }
+      })
+
+      setListRegisterClient(res.data)
+    }
+    catch(erro) {
+      console.log(erro)
     }
   }
   
@@ -709,6 +738,11 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         idRegisterClient,
         setIdRegisterClient,
         updateRegisterClient,
+        listRegisterClient,
+        setListRegisterClient,
+        modalListRegisterClient,
+        setModalListRegisterClient,
+        getListClients,
       }}>
       {children}
     </AdminContext.Provider>

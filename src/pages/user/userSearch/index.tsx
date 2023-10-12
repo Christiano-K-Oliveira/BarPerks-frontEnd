@@ -5,9 +5,10 @@ import { SectionSearchUser } from "../../../components/SectionsUser"
 import { AdminContext } from "../../../contexts/administradorContext"
 import { Main } from "../style"
 import { ModalUpdateRegisterClient } from "../../../components/Modals/ModalEditRegisterClient"
+import { ModalListRegisterClient } from "../../../components/Modals/ModalListRegisterClient"
 
 const UserSearchClientPage = () => {
-    const { modalEditRegisterClient } = useContext(AdminContext)
+    const { modalEditRegisterClient, modalListRegisterClient } = useContext(AdminContext)
 
     return (
         <>
@@ -20,6 +21,7 @@ const UserSearchClientPage = () => {
             <FooterUser/>
 
             { modalEditRegisterClient ? <ModalUpdateRegisterClient/> : null }
+            { modalListRegisterClient ? <ModalListRegisterClient/> : null}
         </>
     )
 }
