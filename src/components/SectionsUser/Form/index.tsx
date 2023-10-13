@@ -85,7 +85,8 @@ const FormUserAdminEdit = () => {
 
             <DivBoxInput { ...getRootProps() }>
                 <Label htmlFor="photo">Foto:</Label>
-                <InputFile id="photo" placeholder="Escolher arquivo" { ...getInputProps } />
+                <InputFile id="photo" type="button" value="Escolher arquivo"/>
+                <InputFile style={{display: "none"}} id="photo" placeholder="Escolher arquivo" { ...getInputProps() } />
                 <span style={{display: 'flex', marginLeft: '5px', cursor: 'pointer'}}>{dropFile === null ? 'Nenhum arquivo selecionado...' : dropFile.name}</span>
             </DivBoxInput>
 
@@ -160,7 +161,8 @@ const FormUserRegisterProducts = () => {
             <DivBoxInput { ...getRootProps() } style={{display: "flex", flexDirection: "column"}}>
                 <Label style={{display: "flex"}} htmlFor="photo">Foto do produto:</Label>
                 <div style={{display: "flex", flexDirection: "column"}}>
-                    <InputFile id="photo" placeholder="Escolher arquivo" { ...getInputProps } />
+                    <InputFile type="button" id="photo" value="Escolher arquivo"/>
+                    <InputFile style={{display: "none"}} id="photo" placeholder="Escolher arquivo" { ...getInputProps() } />
                     <SpanFile>{dropFile === null ? 'Nenhum arquivo selecionado...' : dropFile.name}</SpanFile>
                 </div>
             </DivBoxInput>
@@ -310,7 +312,8 @@ const FormUserEdit = () => {
 
             <DivBoxInput { ...getRootProps() }>
                 <Label htmlFor="photo">Foto:</Label>
-                <InputFile id="photo" placeholder="Escolher arquivo" { ...getInputProps } />
+                <InputFile type="button" id="photo" value="Escolher arquivo"/>
+                <InputFile style={{display: "none"}} id="photo" placeholder="Escolher arquivo" { ...getInputProps() } />
                 <SpanFile>{dropFile === null ? 'Nenhum arquivo selecionado...' : dropFile.name}</SpanFile>
             </DivBoxInput>
 
@@ -326,21 +329,25 @@ const FormSearchPub = () => {
         resolver: zodResolver(userSearchPubSchema),
     });
 
-    const submitSearchPub: SubmitHandler<iFormSearchPub> = (data: iFormSearchPub) => {
-        alert("fslts")           
-        console.log(data)
+    const { getPub } = useContext(ClientContext)
 
-        return;
+    const submitSearchPub: SubmitHandler<iFormSearchPub> = (data: iFormSearchPub) => {
+        getPub(data)
     };
 
     return (
         <Form onSubmit={handleSubmit(submitSearchPub)}>
             <DivInputsYellow>
-                <input type="text" placeholder="Nome do Bar" { ...register("name") }/>
-                { errors.name?.message ? <Span>{errors.name.message}</Span> : null }
-
-                <input type="text" placeholder="CPF/CNPJ" { ...register("socialNumber") }/>
-                { errors.socialNumber?.message ? <Span>{errors.socialNumber.message}</Span> : null }
+                <div>
+                    <div>
+                        <input type="text" placeholder="Nome do Bar" { ...register("name") }/>
+                        { errors.name?.message ? <Span style={{margin: "0", color: "var(--grey-0)"}}>{errors.name.message}</Span> : null }
+                    </div>
+                    <div>
+                        <input type="text" placeholder="CPF/CNPJ" { ...register("socialNumber") }/>
+                        { errors.socialNumber?.message ? <Span style={{margin: "0", color: "var(--grey-0)"}}>{errors.socialNumber.message}</Span> : null }
+                    </div>
+                </div>
 
                 <button type="submit">Buscar</button>
             </DivInputsYellow>

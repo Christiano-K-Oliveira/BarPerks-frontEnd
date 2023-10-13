@@ -1,14 +1,14 @@
 import { DivBox, DivBoxGray, DivBoxInfoMobile, DivBoxMobile, ItemListReward, SpanInfo, SpanInfoMobile, TitleInfo, TitleInfoMobile } from "./style"
 
 interface iCardReward {
-    id?: number;
+    rescue_code?: string;
     status?: string;
     data?: string;
     recompensa?: string;
     nome_bar?: string;
 }
 
-const CardReward = ({ id, status, data, recompensa, nome_bar }: iCardReward) => {
+const CardReward = ({ rescue_code, status, data, recompensa, nome_bar }: iCardReward) => {
     return (
         <ItemListReward>
             <DivBox>
@@ -20,7 +20,7 @@ const CardReward = ({ id, status, data, recompensa, nome_bar }: iCardReward) => 
             </DivBox>
 
             <DivBoxGray>
-                <SpanInfo>{id}</SpanInfo>
+                <SpanInfo>{rescue_code}</SpanInfo>
                 <SpanInfo>{status}</SpanInfo>
                 <SpanInfo>{data}</SpanInfo>
                 <SpanInfo>{recompensa}</SpanInfo>
@@ -30,7 +30,7 @@ const CardReward = ({ id, status, data, recompensa, nome_bar }: iCardReward) => 
             <DivBoxMobile>
                 <DivBoxInfoMobile>
                     <TitleInfoMobile>ID Recompensa:</TitleInfoMobile>
-                    <SpanInfoMobile>{id}</SpanInfoMobile>
+                    <SpanInfoMobile>{rescue_code}</SpanInfoMobile>
                 </DivBoxInfoMobile>
 
                 <DivBoxInfoMobile>
@@ -58,11 +58,11 @@ const CardReward = ({ id, status, data, recompensa, nome_bar }: iCardReward) => 
     )
 }
 
-const CardRewardWithoutTitle = ({ id, status, data, recompensa, nome_bar }: iCardReward) => {
+const CardRewardWithoutTitle = ({ rescue_code, status, data, recompensa, nome_bar }: iCardReward) => {
     return (
         <ItemListReward>
             <DivBoxGray>
-                <SpanInfo>{id}</SpanInfo>
+                <SpanInfo>{rescue_code}</SpanInfo>
                 <SpanInfo>{status}</SpanInfo>
                 <SpanInfo>{data}</SpanInfo>
                 <SpanInfo>{recompensa}</SpanInfo>
@@ -72,7 +72,7 @@ const CardRewardWithoutTitle = ({ id, status, data, recompensa, nome_bar }: iCar
             <DivBoxMobile>
                 <DivBoxInfoMobile>
                     <TitleInfoMobile>ID Recompensa:</TitleInfoMobile>
-                    <SpanInfoMobile>{id}</SpanInfoMobile>
+                    <SpanInfoMobile>{rescue_code}</SpanInfoMobile>
                 </DivBoxInfoMobile>
 
                 <DivBoxInfoMobile>

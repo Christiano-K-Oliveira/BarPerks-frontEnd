@@ -13,8 +13,8 @@ import { useDropzone } from "react-dropzone";
 import { AdminContext } from "../../contexts/administradorContext";
 import { toast } from "react-toastify";
 import { ClientContext } from "../../contexts/clienteContext";
-import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login"
-import FacebookLogin, { ReactFacebookFailureResponse, ReactFacebookLoginInfo } from "react-facebook-login"
+import GoogleLogin, { GoogleLoginResponse } from "react-google-login"
+import FacebookLogin, { ReactFacebookLoginInfo } from "react-facebook-login"
 import { BsFacebook } from 'react-icons/bs';
 
 
@@ -109,7 +109,8 @@ const FormInscricaoAdmin = ({
             <div { ...getRootProps() }>
                 <LabelFile htmlFor="dropzone-file">Escolha sua Foto</LabelFile>
                 <div style={{display: 'flex', alignItems: 'center', marginBottom: '20px'}}>
-                    <InputFile id="dropzone-file" placeholder='Escolher arquivo' { ...getInputProps }/>
+                    <InputFile type="button" id="drop-file" value='Escolher arquivo'/>
+                    <InputFile style={{display: "none"}} id="dropzone-file" placeholder='Escolher arquivo' { ...getInputProps() }/>
                     <span style={{display: 'flex', marginLeft: '5px', cursor: 'pointer'}}>{dropFile === null ? 'Nenhum arquivo selecionado...' : dropFile.name}</span>
                 </div>
             </div>
@@ -214,7 +215,8 @@ const FormInscricaoUser = ({
             <div { ...getRootProps() }>
                 <LabelFile htmlFor="drop-file">Escolha sua Foto</LabelFile>
                 <div style={{display: 'flex', alignItems: 'center', marginBottom: '20px'}}>
-                    <InputFile id="drop-file" placeholder='Escolher arquivo' { ...getInputProps }/>
+                    <InputFile type="button" id="drop-file" value='Escolher arquivo'/>
+                    <InputFile style={{display: "none"}} id="drop-file" placeholder='Escolher arquivo' { ...getInputProps() }/>
                     <span style={{display: 'flex', marginLeft: '5px', cursor: 'pointer'}}>{dropFile === null ? 'Nenhum arquivo selecionado...' : dropFile.name}</span>
                 </div>
             </div>
@@ -248,7 +250,6 @@ const FormLogin = () => {
     const url: string = window.location.pathname
     const { clientLogin, clientLoginGoogle, clientLoginFacebook } = useContext(ClientContext)
     const { adminLogin, adminLoginGoogle, adminLoginFacebook } = useContext(AdminContext)
-    const [ logGoogle, setLogGoogle ] = useState<string>('')
 
     const { register, handleSubmit, formState: { errors } } = useForm<iFormLogin>({
         resolver: zodResolver(loginSchema),
@@ -277,20 +278,16 @@ const FormLogin = () => {
         }
     };
 
-    const responseGoogle = (res: GoogleLoginResponse | GoogleLoginResponseOffline) => {
-        setLogGoogle(res.profileObj.email)
-
-        if(logGoogle !== ''){
-            if(url === '/login-cliente'){
-                clientLoginGoogle(logGoogle)
-            }
-            else {
-                adminLoginGoogle(logGoogle)    
-            }
+    const responseGoogle = (res: GoogleLoginResponse | { readonly code: string, profileObj: { googleId: string, imageUrl: string, email: string, name: string, givenName: string, familyName: string,} }) => {
+        if(url === '/login-cliente'){
+            clientLoginGoogle(res.profileObj.email)
+        }
+        else {
+            adminLoginGoogle(res.profileObj.email)    
         }
     }
 
-    const responseFacebook = (res: ReactFacebookLoginInfo | ReactFacebookFailureResponse) => {
+    const responseFacebook = (res: ReactFacebookLoginInfo | { status?: string | undefined, email?: string }) => {
         if(url === '/login-cliente'){
             clientLoginFacebook(res.email!)
         }

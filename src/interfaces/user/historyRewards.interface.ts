@@ -3,6 +3,7 @@ export interface iListHistoryRewards {
     status: string;
     date: string;
     reward_name: string;
+    rescue_code: string;
     pub: {
         id: number;
         name: string;

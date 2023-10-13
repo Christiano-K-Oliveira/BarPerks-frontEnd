@@ -2,7 +2,6 @@ import styled, { keyframes } from "styled-components"
 import { Link } from "react-router-dom"
 import { HiMenu } from "react-icons/hi"
 import { FaWindowClose } from "react-icons/fa"
-import { MdExitToApp } from "react-icons/md"
 
 export const HeaderUserEdit = styled.header`
     background-color: var(--grey-6);
@@ -101,7 +100,7 @@ export const UserIcon = styled.figure`
     justify-content: center;
     align-items: center;
     background-color: var(--yellow-1);
-    padding: 5px;
+    padding: 3px;
     border-radius: 50%;
     cursor: pointer;
 
@@ -210,32 +209,6 @@ export const LinkMobileExit = styled.a`
         color: var(--alert-2);
         border-bottom: 2px solid var(--alert-2);
         transition: 0.2s ease;
-    }
-`
-
-export const SpanName = styled.span`
-    color: var(--grey-0);
-    font-size: var(--font-size-4);
-    font-weight: 600;
-    margin-left: 5px;
-`
-
-export const LinkExit = styled.a`
-    position: absolute;
-    cursor: pointer;
-    top: 25px;
-    right: 30px;
-`
-
-export const IconExit = styled(MdExitToApp)`
-    width: 32px;
-    height: 32px;
-    color: var(--grey-0);
-    transition: 0.3s ease;
-
-    &:hover{
-        color: red;
-        transition: 0.3s ease;
     }
 `
 

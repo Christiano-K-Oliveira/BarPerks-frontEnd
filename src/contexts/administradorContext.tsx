@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { iSendEmail } from "../interfaces/user/recoverPassword.interface";
 import { iAdminInfo, iFormRegisterClient, iFormSearchClient, iFormUserEdit, iProduct, iRegisterProduct, iSearchClient, iUpdateProduct, iUpdateRegisterClient } from "../interfaces/user/user.interface";
-import { useGoogleLogout } from "react-google-login";
 
 interface iAdminProviderProps {
     children: React.ReactNode;   
@@ -77,6 +76,7 @@ interface iAdminContext {
   listRegisterClient: iSearchClient[] | [];
   setListRegisterClient: Dispatch<SetStateAction<iSearchClient[] | []>>;
   getListClients: () => Promise<void>;
+  excludeRegisterClient: (id: number) => Promise<void> ;
 }
   
 export const AdminContext = createContext({} as iAdminContext);
@@ -95,9 +95,6 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   const [ idRegisterClient, setIdRegisterClient ] = useState<number>()
   const [ listRegisterClient, setListRegisterClient ] = useState<iSearchClient[]>([])
   const [ modalListRegisterClient, setModalListRegisterClient ] = useState(false)
-  const { signOut } = useGoogleLogout({
-    clientId: "481227944368-euu396jbn5pnafft63hn4d6rpsgqu121.apps.googleusercontent.com"
-})
 
   useEffect(() => {
     const cookie = cookies['token']
@@ -177,7 +174,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         }, 3500)                  
     }
     catch (erro){
-      toast.error('Ops, algo deu errado!', {
+      toast.error('Dados inválidos.', {
           position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -364,7 +361,6 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   }
   const exitAdmin = async () => {
     removeCookie("token")
-    signOut()
 
     navigate("/")
   }
@@ -696,6 +692,44 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
       console.log(erro)
     }
   }
+  const excludeRegisterClient = async (id: number): Promise<void> => {
+    try {
+      const token = cookies["token"]
+
+      await api.delete(`pub/registered-clients/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        }
+      })
+
+      getListClients()
+      setSearchUser([])
+
+      toast.success('Registro de cliente excluído com sucesso!', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    catch {
+      toast.error('Registro de cliente não encontrado.', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
   
   return (
     <AdminContext.Provider
@@ -743,6 +777,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         modalListRegisterClient,
         setModalListRegisterClient,
         getListClients,
+        excludeRegisterClient,
       }}>
       {children}
     </AdminContext.Provider>

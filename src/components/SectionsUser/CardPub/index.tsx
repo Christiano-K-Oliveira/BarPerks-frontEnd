@@ -1,14 +1,20 @@
 import { ButtonRescue, FigurePub, ItemPub } from "./style"
 
-const CardPub = () => {
+interface iCardPub {
+    name: string;
+    value: string;
+    photo?: string;
+}
+
+const CardPub = ({ name, value, photo }: iCardPub) => {
     return (
         <ItemPub>
             <FigurePub>
-                <img src="" alt="img-bar" />
+                <img src={photo} alt="img-produto" />
 
                 <div>
-                    <h3>Nome do Produto</h3>
-                    <span>Valor R$50.00</span>
+                    <h3>{name}</h3>
+                    <span>{`Valor ${value}pts`}</span>
                 </div>
             </FigurePub>
 

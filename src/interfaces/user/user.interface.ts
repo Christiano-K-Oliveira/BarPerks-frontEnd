@@ -159,3 +159,26 @@ export interface iProduct {
     code: string;
     photo_url?: string;
 }
+
+export interface iPub {
+    id: string;
+    name: string;
+    cpf: string;
+    email: string;
+    telephone: string;
+    points: string;
+    pub: {
+        id: number;
+        name: string;
+        photo_url: string;
+    };
+    client: {
+        id: string;
+        name: string;
+    }
+}
+
+export interface iSearchPub {
+    name: string;
+    socialNumber: string;
+}

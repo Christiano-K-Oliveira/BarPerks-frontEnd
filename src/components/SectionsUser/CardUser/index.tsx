@@ -1,12 +1,11 @@
 import { useContext } from "react"
 import { AdminContext } from "../../../contexts/administradorContext"
 import { iCardUser } from "../../../interfaces/user/user.interface"
-import { ButtonEditUser, FigureUser, ImgUser, ItemList, SpanInfoUser, TitleUser } from "./style"
+import { ButtonEditUser, ButtonExclude, FigureUser, ImgUser, ItemList, SpanInfoUser, TitleUser } from "./style"
 import { FaUserCircle } from "react-icons/fa"
 
-
 const CardUser = ({ name, cpf, photo_url, telephone, email, id }: iCardUser) => {
-    const { setModalEditRegisterClient, setIdRegisterClient } = useContext(AdminContext)  
+    const { setModalEditRegisterClient, setIdRegisterClient, excludeRegisterClient } = useContext(AdminContext)  
 
     return (
         <ItemList>
@@ -31,6 +30,7 @@ const CardUser = ({ name, cpf, photo_url, telephone, email, id }: iCardUser) => 
                     setIdRegisterClient(id)
                     }
                 }>Editar Perfil</ButtonEditUser>
+                <ButtonExclude onClick={() => excludeRegisterClient(id)}>Excluir Registro</ButtonExclude>
             </div>
         </ItemList>
     )

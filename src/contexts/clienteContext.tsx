@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { iSendEmail } from "../interfaces/user/recoverPassword.interface";
-import { iClientInfo, iFormUserEdit } from "../interfaces/user/user.interface";
+import { iClientInfo, iFormUserEdit, iProduct, iPub, iSearchPub } from "../interfaces/user/user.interface";
 import { iListHistoryRewards } from "../interfaces/user/historyRewards.interface";
 import { useGoogleLogout } from "react-google-login";
 
@@ -49,6 +49,14 @@ interface iClientContext {
     getListHistoryRewards: () => Promise<void>;
     listHistoryRewards: iListHistoryRewards[] |  [];
     setListHistoryRewards: Dispatch<SetStateAction<iListHistoryRewards[] | []>>;
+    searchPub: iPub | undefined;
+    setSearchPub: Dispatch<SetStateAction<iPub | undefined>>;
+    getPub: (data: iSearchPub) => Promise<void>;
+    listProducts: iProduct[] | [];
+    setListProducts: Dispatch<SetStateAction<iProduct[] | []>>;
+    getProducts: () => Promise<void>;
+    filterListProducts: iProduct[] | [];
+    setFilterListProducts: Dispatch<SetStateAction<iProduct[] | []>>;
 }
   
 
@@ -60,10 +68,13 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ clientInfo, setClientInfo] = useState<iClientInfo | undefined>()
     const [ listHistoryRewards, setListHistoryRewards ] = useState<iListHistoryRewards[]>([])
+    const [ searchPub, setSearchPub ] = useState<iPub>()
+    const [ listProducts, setListProducts ] = useState<iProduct[]>([])
+    const [filterListProducts, setFilterListProducts ] = useState<iProduct[]>([])
     const { signOut } = useGoogleLogout({
-        clientId: "481227944368-euu396jbn5pnafft63hn4d6rpsgqu121.apps.googleusercontent.com"
+        clientId: "481227944368-euu396jbn5pnafft63hn4d6rpsgqu121.apps.googleusercontent.com",
+        cookiePolicy: "single_host_origin",
     })
-
 
     useEffect(() => {
         const cookie = cookies['token']
@@ -143,7 +154,7 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
             }, 3500)                  
         }
         catch (erro){
-          toast.error('Ops, algo deu errado!', {
+          toast.error('Dados inválidos.', {
               position: "bottom-right",
               autoClose: 3000,
               hideProgressBar: false,
@@ -394,6 +405,52 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
         }
     }
 
+    const getPub = async (data: iSearchPub): Promise<void> => {
+        try {
+            const token = cookies["token"]
+
+            const res = await api.get(`client/registered-clients/${data.name}/${data.socialNumber}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`   
+                }
+            })
+
+            await setSearchPub(res.data)
+
+            getProducts()
+        }
+        catch {
+            toast.error('Bar não encontrado.', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }
+    const getProducts = async (): Promise<void> => {
+        try{
+            const token = cookies["token"]
+
+            const res = await api.get(`products/${searchPub!.pub.id}`, { 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`    
+                } 
+            })
+
+            setListProducts(res.data)
+        }
+        catch (erro){
+            console.log(erro)
+        }
+    }
+
     return (
         <ClientContext.Provider
             value={{
@@ -417,6 +474,14 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
                 getListHistoryRewards,
                 listHistoryRewards,
                 setListHistoryRewards,
+                searchPub,
+                setSearchPub,
+                getPub,
+                getProducts,
+                listProducts,
+                setListProducts,
+                filterListProducts,
+                setFilterListProducts,
             }}>
             {children}
         </ClientContext.Provider>

@@ -97,7 +97,7 @@ export const DivSearchPub = styled.div`
             height: 70px;
             background-color: var(--grey-0);
             border-radius: 50%;
-            padding: 10px;
+            padding: 5px;
 
             @media(max-width: 800px){
                 width: 60px;
@@ -149,6 +149,7 @@ export const DivSearchPub = styled.div`
 
 export const ListCardsPub = styled.ul`
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 15px;
     margin-top: 30px;

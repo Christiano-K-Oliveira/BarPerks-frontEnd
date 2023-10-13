@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const userEditSchema = z.object({
     name: z.string().max(150, 'Máximo de 150 caracteres').nullish(),
-    birth_date: z.union([z.string().min(10, 'Mínimo de 10 dígitos').max(10, 'Máximo de 10 dígitos').nullish(), z.string().max(0)]),
+    birth_date: z.union([z.string().min(10, 'Mínimo de 10 dígitos').max(10, 'Máximo de 10 dígitos').regex(/^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/, "Formato dd/mm/yyyy").nullish(), z.string().max(0)]),
     cpf: z.union([z.string().min(11, 'Mínimo de 11 dígitos').max(11, 'Máximo de 11 dígitos').nullish(), z.string().max(0)]),
     email: z.union([z.string().email('Forneça um e-mail válido').nullish().default(null), z.string().max(0)]),
     password: z.union([z.string()
@@ -61,8 +61,8 @@ const userSearchClientSchema = z.object({
 })
 
 const userSearchPubSchema = z.object({
-    name: z.string().max(150, 'Máximo de 150 caracteres'),
-    socailNumber: z.string().min(11, 'Mínimo de 11 dígitos').max(14, 'Máximo de 14 dígitos'),
+    name: z.string().nonempty('Nome obrigatório').max(150, 'Máximo de 150 caracteres'),
+    socialNumber: z.string().nonempty('CPF/CNPJ obrigatório').min(11, 'Mínimo de 11 dígitos').max(14, 'Máximo de 14 dígitos'),
 })
 
 export { 

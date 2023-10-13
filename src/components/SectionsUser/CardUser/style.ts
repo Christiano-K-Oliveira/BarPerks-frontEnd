@@ -7,7 +7,7 @@ export const ItemList = styled.li`
     background-color: var(--grey-5);
     max-width: 100%;
     width: 258px;
-    height: 260px;
+    height: 320px;
     border-radius: 8px;
     padding: 15px;
 
@@ -66,6 +66,26 @@ export const ButtonEditUser = styled.button`
 
     &:hover{
         background-color: var(--grey-0);
+        color: var(--white-fixed);
+        transition: 0.3s ease;
+    }
+`
+
+export const ButtonExclude = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 24px;
+    background-color: var(--yellow-1);
+    padding: 5px 30px; 
+    font-size: var(--font-size-5);
+    font-weight: 600;
+    color: var(--grey-0);
+    margin-top: 5px;
+    transition: 0.3s ease;
+
+    &:hover{
+        background-color: var(--alert-3);
         color: var(--white-fixed);
         transition: 0.3s ease;
     }

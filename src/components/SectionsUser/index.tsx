@@ -98,7 +98,7 @@ const SectionRewardHistoric = () => {
                 {
                     listHistoryRewards.length > 0 ? 
                     <CardReward 
-                        id={listHistoryRewards[0].id}
+                        rescue_code={listHistoryRewards[0].rescue_code}
                         status={listHistoryRewards[0].status} 
                         data={listHistoryRewards[0].date} 
                         nome_bar={listHistoryRewards[0].pub.name}
@@ -106,8 +106,7 @@ const SectionRewardHistoric = () => {
                         key="1"                        
                     />
                     :
-                    <CardReward 
-                    id={0}
+                    <CardReward
                     status=""
                     data=""
                     nome_bar=""
@@ -121,7 +120,7 @@ const SectionRewardHistoric = () => {
                         if(index === 2) {
                             return (
                                 <CardRewardWithoutTitle
-                                    id={item.id}
+                                    rescue_code={item.rescue_code}
                                     status={item.status}
                                     data={item.date}
                                     nome_bar={item.pub.name}
@@ -139,6 +138,21 @@ const SectionRewardHistoric = () => {
 }
 
 const SectionRedeemReward = () => {
+    const { searchPub, listProducts, filterListProducts, setFilterListProducts } = useContext(ClientContext)
+
+    function filterList(element: React.KeyboardEvent<HTMLInputElement>){
+        // setFilterListProducts(listProducts)
+        const target = element.target as HTMLInputElement;
+
+        if(target.value){
+            const listFilter = listProducts.filter((item) => item.name.includes(target.value))
+
+            setFilterListProducts(listFilter)
+        }
+        else{
+            setFilterListProducts([])
+        }
+    }
 
     return (
         <SectionUser>
@@ -146,29 +160,48 @@ const SectionRedeemReward = () => {
 
             <FormSearchPub/>
 
-            <DivSearchPub>
-                <figure>
-                    <img src={img} alt="img-usuario"/>
-                    <div>
-                        <h2>Bar do Perks</h2>
-                        <span>Gustavo Barbalho - 150pts</span>
-                    </div>
-                </figure>
+            {
+                searchPub ?
+                <DivSearchPub>
+                    <figure>
+                        <img src={searchPub.pub.photo_url} alt="img-usuario"/>
+                        <div>
+                            <h2>{searchPub.pub.name}</h2>
+                            <span>{`${searchPub.name} - ${searchPub.points}pts`}</span>
+                        </div>
+                    </figure>
 
-                <input type="text" placeholder="Bucar produto"/>
-            </DivSearchPub>
+                    <input type="text" placeholder="Buscar produto" onKeyUp={(element) => filterList(element)}/>
+                </DivSearchPub> 
+                : null
+            }
 
-            <ListCardsPub>
-                <CardPub/>
-                <CardPub/>
-                <CardPub/>
-                <CardPub/>
-                <CardPub/>
-                <CardPub/>
-                <CardPub/>
-                <CardPub/>
-
-            </ListCardsPub>
+            {
+                listProducts.length > 0 && filterListProducts.length === 0 ?
+                <ListCardsPub>
+                    {
+                        listProducts.map((item, index) => {
+                            return (
+                                <CardPub key={index} name={item.name} photo={item.photo_url} value={item.value}/>
+                            )
+                        })
+                    }
+                </ListCardsPub>
+                : null
+            }
+            {
+                filterListProducts.length > 0 ? 
+                <ListCardsPub>
+                    {
+                        filterListProducts.map((item, index) => {
+                            return (
+                                <CardPub key={index} name={item.name} photo={item.photo_url} value={item.value}/>
+                            )
+                        })
+                    }
+                </ListCardsPub>                
+                : null
+            }
         </SectionUser>
     )
 }
