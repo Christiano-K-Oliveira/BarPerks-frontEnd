@@ -6,9 +6,10 @@ import { AdminContext } from "../../../contexts/administradorContext"
 import { Main } from "../style"
 import { ModalUpdateRegisterClient } from "../../../components/Modals/ModalEditRegisterClient"
 import { ModalListRegisterClient } from "../../../components/Modals/ModalListRegisterClient"
+import { ModalRescueRewards } from "../../../components/Modals/ModalListRewards"
 
 const UserSearchClientPage = () => {
-    const { modalEditRegisterClient, modalListRegisterClient } = useContext(AdminContext)
+    const { modalEditRegisterClient, modalListRegisterClient, modalRescueRewards } = useContext(AdminContext)
 
     return (
         <>
@@ -21,7 +22,8 @@ const UserSearchClientPage = () => {
             <FooterUser/>
 
             { modalEditRegisterClient ? <ModalUpdateRegisterClient/> : null }
-            { modalListRegisterClient ? <ModalListRegisterClient/> : null}
+            { modalListRegisterClient ? <ModalListRegisterClient/> : null }
+            { modalRescueRewards ? <ModalRescueRewards/> : null }
         </>
     )
 }

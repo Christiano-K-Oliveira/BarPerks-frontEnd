@@ -149,7 +149,6 @@ export const DivSearchPub = styled.div`
 
 export const ListCardsPub = styled.ul`
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
     gap: 15px;
     margin-top: 30px;

@@ -12,7 +12,7 @@ const CardReward = ({ rescue_code, status, data, recompensa, nome_bar }: iCardRe
     return (
         <ItemListReward>
             <DivBox>
-                <TitleInfo>ID Recompensa:</TitleInfo>
+                <TitleInfo>Código:</TitleInfo>
                 <TitleInfo>Status:</TitleInfo>
                 <TitleInfo>Data:</TitleInfo>
                 <TitleInfo>Recompensa:</TitleInfo>

@@ -101,6 +101,7 @@ export interface iSearchClient {
     email: string;
     telephone: string;
     client: {
+        id: string;
         photo_url?: string;
     };
 }
@@ -181,4 +182,8 @@ export interface iPub {
 export interface iSearchPub {
     name: string;
     socialNumber: string;
+}
+
+export interface iSearchReward {
+    code_rescue: string;
 }

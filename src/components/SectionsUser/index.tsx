@@ -90,6 +90,14 @@ const SectionUserEdit = () => {
 const SectionRewardHistoric = () => {
     const { listHistoryRewards } = useContext(ClientContext)
 
+    function formataStringData(data: string) {
+        const ano  = data.split("-")[0];
+        const mes  = data.split("-")[1];
+        const dia  = data.split("-")[2];
+      
+        return `${dia}-${mes}-${ano}`;
+    }
+
     return (
         <SectionUser style={{width: "100vw", padding: "0px"}}>
             <Title style={{justifyContent: "center", marginTop: "20px"}}>Histórico de Resgates</Title>
@@ -98,9 +106,9 @@ const SectionRewardHistoric = () => {
                 {
                     listHistoryRewards.length > 0 ? 
                     <CardReward 
-                        rescue_code={listHistoryRewards[0].rescue_code}
-                        status={listHistoryRewards[0].status} 
-                        data={listHistoryRewards[0].date} 
+                        rescue_code={listHistoryRewards[0].code_rescue}
+                        status={listHistoryRewards[0].status === "disponivel" ? "Disponível" : "Resgatada"} 
+                        data={formataStringData(listHistoryRewards[0].date)} 
                         nome_bar={listHistoryRewards[0].pub.name}
                         recompensa={listHistoryRewards[0].reward_name}
                         key="1"                        
@@ -117,12 +125,12 @@ const SectionRewardHistoric = () => {
                 {
                     listHistoryRewards.length > 1 ? 
                     listHistoryRewards.map((item, index) => {
-                        if(index === 2) {
+                        if(index >= 2) {
                             return (
                                 <CardRewardWithoutTitle
-                                    rescue_code={item.rescue_code}
-                                    status={item.status}
-                                    data={item.date}
+                                    rescue_code={item.code_rescue}
+                                    status={item.status === 'disponivel' ? "Disponível" : "Resgatada"}
+                                    data={formataStringData(item.date)}
                                     nome_bar={item.pub.name}
                                     recompensa={item.reward_name}
                                     key={index}

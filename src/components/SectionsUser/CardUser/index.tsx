@@ -1,11 +1,11 @@
 import { useContext } from "react"
 import { AdminContext } from "../../../contexts/administradorContext"
 import { iCardUser } from "../../../interfaces/user/user.interface"
-import { ButtonEditUser, ButtonExclude, FigureUser, ImgUser, ItemList, SpanInfoUser, TitleUser } from "./style"
+import { ButtonEditUser, ButtonExclude, ButtonRewards, FigureUser, ImgUser, ItemList, SpanInfoUser, TitleUser } from "./style"
 import { FaUserCircle } from "react-icons/fa"
 
 const CardUser = ({ name, cpf, photo_url, telephone, email, id }: iCardUser) => {
-    const { setModalEditRegisterClient, setIdRegisterClient, excludeRegisterClient } = useContext(AdminContext)  
+    const { setModalEditRegisterClient, setIdRegisterClient, excludeRegisterClient, setModalRescueRewards } = useContext(AdminContext)  
 
     return (
         <ItemList>
@@ -25,6 +25,7 @@ const CardUser = ({ name, cpf, photo_url, telephone, email, id }: iCardUser) => 
             </div>
 
             <div>
+                <ButtonRewards onClick={() => setModalRescueRewards(true)}>Resgatar Recompensa</ButtonRewards>
                 <ButtonEditUser onClick={() => {
                     setModalEditRegisterClient(true)
                     setIdRegisterClient(id)

@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { ButtonRescue, FigurePub, ItemPub } from "./style"
+import { ClientContext } from "../../../contexts/clienteContext";
 
 interface iCardPub {
     name: string;
@@ -7,6 +9,8 @@ interface iCardPub {
 }
 
 const CardPub = ({ name, value, photo }: iCardPub) => {
+    const { setModalConfReward, setRewardInfo } = useContext(ClientContext)
+
     return (
         <ItemPub>
             <FigurePub>
@@ -18,7 +22,15 @@ const CardPub = ({ name, value, photo }: iCardPub) => {
                 </div>
             </FigurePub>
 
-            <ButtonRescue>Resgatar</ButtonRescue>
+            <ButtonRescue onClick={() => {
+                setRewardInfo({
+                    name: name,
+                    points: value,
+                })
+                
+                setModalConfReward(true)
+                }
+            }>Resgatar</ButtonRescue>
         </ItemPub>
     )
 }

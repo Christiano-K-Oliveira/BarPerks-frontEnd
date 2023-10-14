@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { iSendEmail } from "../interfaces/user/recoverPassword.interface";
 import { iClientInfo, iFormUserEdit, iProduct, iPub, iSearchPub } from "../interfaces/user/user.interface";
-import { iListHistoryRewards } from "../interfaces/user/historyRewards.interface";
-import { useGoogleLogout } from "react-google-login";
+import { iListHistoryRewards, iRewardInfo } from "../interfaces/user/historyRewards.interface";
+// import { GoogleLogout } from "react-google-login";
 
 interface iClientProviderProps {
     children: React.ReactNode;   
@@ -54,9 +54,15 @@ interface iClientContext {
     getPub: (data: iSearchPub) => Promise<void>;
     listProducts: iProduct[] | [];
     setListProducts: Dispatch<SetStateAction<iProduct[] | []>>;
-    getProducts: () => Promise<void>;
+    getProducts: (id: number) => Promise<void>;
     filterListProducts: iProduct[] | [];
     setFilterListProducts: Dispatch<SetStateAction<iProduct[] | []>>;
+    modalConfReward: boolean;
+    setModalConfReward: Dispatch<SetStateAction<boolean>>;
+    createHistoryReward: () => Promise<void>;
+    updatePoints: () => Promise<string | void>;
+    rewardInfo: iRewardInfo | undefined;
+    setRewardInfo: Dispatch<SetStateAction<iRewardInfo | undefined>>;
 }
   
 
@@ -71,10 +77,8 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
     const [ searchPub, setSearchPub ] = useState<iPub>()
     const [ listProducts, setListProducts ] = useState<iProduct[]>([])
     const [filterListProducts, setFilterListProducts ] = useState<iProduct[]>([])
-    const { signOut } = useGoogleLogout({
-        clientId: "481227944368-euu396jbn5pnafft63hn4d6rpsgqu121.apps.googleusercontent.com",
-        cookiePolicy: "single_host_origin",
-    })
+    const [ modalConfReward, setModalConfReward ] = useState(false)
+    const [ rewardInfo, setRewardInfo ] = useState<iRewardInfo>()
 
     useEffect(() => {
         const cookie = cookies['token']
@@ -83,6 +87,16 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
         getListHistoryRewards()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cookies]);
+
+    function create_UUID(){
+        let dt = new Date().getTime();
+        const uuid = 'xyxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = (dt + Math.random()*16)%16 | 0;
+            dt = Math.floor(dt/16);
+            return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+        });
+        return uuid;
+    }
 
     const clientRegister = async (clientData: iRegisterData): Promise<void> => {
         try {
@@ -341,7 +355,6 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
     }
     const exitClient = async () => {
         removeCookie("token")
-        signOut()
 
         navigate("/")
     }
@@ -397,14 +410,100 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
                     'Authorization': `Bearer ${token}`    
                 }
             })
+
+            const dataFilter = res.data.reverse().filter((item: iListHistoryRewards) => {
+                const ano  = item.date.split("-")[0];
+                const mes  = item.date.split("-")[1];
+                const dia  = item.date.split("-")[2];
+
+                const date = new Date();
+
+                if(+ano - date.getFullYear() >= 0 && (+mes + 2) - date.getMonth() + 1 >= 0 && +dia - date.getDate() >= 0){
+                    return item
+                }
+            })
             
-            setListHistoryRewards(res.data)
+            setListHistoryRewards(dataFilter)
         }
         catch(err) {
             console.log(err)
         }
     }
+    const updatePoints = async (): Promise<string | void> => {
+        try {
+            const token = cookies["token"]
 
+            await api.patch(`client/registered-clients/${searchPub?.id}`, { points: rewardInfo?.points }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`  
+                }
+            })
+
+            return 'ok'
+        }
+        catch {
+            toast.error('Pontos insuficientes.', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    } 
+    const createHistoryReward = async (): Promise<void> => {
+        try {
+            const resultUpdate = await updatePoints()
+
+            if(resultUpdate === 'ok'){
+                const token = cookies["token"]
+    
+                const data = {
+                    status: "disponivel",
+                    reward_name: rewardInfo?.name,
+                    code_rescue: create_UUID(),
+                }
+    
+                await api.post(`client/rescue-history/${searchPub!.pub.id}`, data, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`    
+                    }
+                })
+    
+                getListHistoryRewards()
+    
+                toast.success('Recompensa resgatada com sucesso!', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+
+        }
+        catch {
+            toast.error('Ops, algo de errado!', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }
+    
     const getPub = async (data: iSearchPub): Promise<void> => {
         try {
             const token = cookies["token"]
@@ -416,9 +515,9 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
                 }
             })
 
-            await setSearchPub(res.data)
+            setSearchPub(res.data)
 
-            getProducts()
+            getProducts(res.data.pub.id)
         }
         catch {
             toast.error('Bar não encontrado.', {
@@ -433,11 +532,11 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
             });
         }
     }
-    const getProducts = async (): Promise<void> => {
+    const getProducts = async (id: number): Promise<void> => {
         try{
             const token = cookies["token"]
 
-            const res = await api.get(`products/${searchPub!.pub.id}`, { 
+            const res = await api.get(`products/${id}`, { 
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`    
@@ -482,6 +581,12 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
                 setListProducts,
                 filterListProducts,
                 setFilterListProducts,
+                modalConfReward,
+                setModalConfReward,
+                setRewardInfo,
+                rewardInfo,
+                createHistoryReward,
+                updatePoints,
             }}>
             {children}
         </ClientContext.Provider>

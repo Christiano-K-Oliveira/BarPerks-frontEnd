@@ -76,7 +76,9 @@ interface iAdminContext {
   listRegisterClient: iSearchClient[] | [];
   setListRegisterClient: Dispatch<SetStateAction<iSearchClient[] | []>>;
   getListClients: () => Promise<void>;
-  excludeRegisterClient: (id: number) => Promise<void> ;
+  excludeRegisterClient: (id: number) => Promise<void>;
+  modalRescueRewards: boolean;
+  setModalRescueRewards: Dispatch<SetStateAction<boolean>>;
 }
   
 export const AdminContext = createContext({} as iAdminContext);
@@ -95,6 +97,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   const [ idRegisterClient, setIdRegisterClient ] = useState<number>()
   const [ listRegisterClient, setListRegisterClient ] = useState<iSearchClient[]>([])
   const [ modalListRegisterClient, setModalListRegisterClient ] = useState(false)
+  const [ modalRescueRewards, setModalRescueRewards ] = useState(false)
 
   useEffect(() => {
     const cookie = cookies['token']
@@ -730,6 +733,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
       });
     }
   }
+  // const updateRescueHistory = async (): Promise<void> => {}
   
   return (
     <AdminContext.Provider
@@ -778,6 +782,8 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         setModalListRegisterClient,
         getListClients,
         excludeRegisterClient,
+        modalRescueRewards,
+        setModalRescueRewards,
       }}>
       {children}
     </AdminContext.Provider>

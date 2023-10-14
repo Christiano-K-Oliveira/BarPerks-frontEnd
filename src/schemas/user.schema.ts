@@ -65,6 +65,10 @@ const userSearchPubSchema = z.object({
     socialNumber: z.string().nonempty('CPF/CNPJ obrigatório').min(11, 'Mínimo de 11 dígitos').max(14, 'Máximo de 14 dígitos'),
 })
 
+const userSearchReward = z.object({
+    code_rescue: z.string().nonempty('Código obrigatório').max(10),
+})
+
 export { 
     userEditSchema, 
     userRegisterPointsSchema, 
@@ -74,4 +78,5 @@ export {
     userSearchPubSchema,
     userRegisterUpdateProductSchema,
     userUpdateRegisterClientSchema,
+    userSearchReward
 }
