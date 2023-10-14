@@ -1,4 +1,4 @@
-import { DivBox, DivBoxMobile, DivIcons, DivOlderAge, FormStyle, IconImage, InputFile, LabelFile, LinkForgotPassword, Span, SpanLogin } from "./style"
+import { DivBox, DivBoxMobile, DivIcons, DivOlderAge, FacebookLoginDiv, FormStyle, InputFile, LabelFile, LinkForgotPassword, Span, SpanLogin } from "./style"
 import { iFormInscricao, iFormInscricaoUser, iSectionFormInscricao, iSectionFormInscricaoUser } from "../../interfaces/inscricao/inscricao.interface";
 import { InputLogin, InputRegisterAdmin, InputRegisterUser } from "./Input";
 import ButtonForm from "./Button";
@@ -8,12 +8,15 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { iFormLogin } from "../../interfaces/login/login.interface";
 import { loginSchema } from "../../schemas/login.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import GoogleIcon from "../../assets/images/google-icon.png"
-import FacebookIcon from "../../assets/images/facebook-logo-redondo.png"
 import { useCallback, useContext, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { AdminContext } from "../../contexts/administradorContext";
 import { toast } from "react-toastify";
+import { ClientContext } from "../../contexts/clienteContext";
+import GoogleLogin, { GoogleLoginResponse } from "react-google-login"
+import FacebookLogin, { ReactFacebookLoginInfo } from "react-facebook-login"
+import { BsFacebook } from 'react-icons/bs';
+
 
 const FormInscricaoAdmin = ({
     name,
@@ -44,7 +47,6 @@ const FormInscricaoAdmin = ({
             "image/png": [".png"]
         }
     })
-
 
     const submitRegister: SubmitHandler<iFormInscricao> = (registerData: iFormInscricao) => {
         const data = {
@@ -107,7 +109,8 @@ const FormInscricaoAdmin = ({
             <div { ...getRootProps() }>
                 <LabelFile htmlFor="dropzone-file">Escolha sua Foto</LabelFile>
                 <div style={{display: 'flex', alignItems: 'center', marginBottom: '20px'}}>
-                    <InputFile id="dropzone-file" placeholder='Escolher arquivo' { ...getInputProps }/>
+                    <InputFile type="button" id="drop-file" value='Escolher arquivo'/>
+                    <InputFile style={{display: "none"}} id="dropzone-file" placeholder='Escolher arquivo' { ...getInputProps() }/>
                     <span style={{display: 'flex', marginLeft: '5px', cursor: 'pointer'}}>{dropFile === null ? 'Nenhum arquivo selecionado...' : dropFile.name}</span>
                 </div>
             </div>
@@ -138,16 +141,51 @@ const FormInscricaoUser = ({
     handleSubmit,
     errors
 }: iSectionFormInscricaoUser) => {
+    const [ recaptcha, setRecaptcha ] = useState(false)
+    const [ errorOlderAge, setErrorOlderAge ] = useState(1)
+    const [isOlderAge, setIsOlderAge] = useState(false)
+    const { dropFile, setFile, clientRegister } = useContext(ClientContext)
+
+    const onDrop = useCallback((file: File[]) => {
+        setFile(file[0])
+    }, [setFile])
+
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop,
+        accept: {
+            "image/jpeg": [".jpg", ".jpeg"],
+            "image/png": [".png"]
+        }
+    })
 
     const submitRegister: SubmitHandler<iFormInscricaoUser> = (registerData: iFormInscricaoUser) => {
-        console.log(registerData)
+        const data = {
+            name: registerData.name,
+            birth_date: registerData.birthDate,
+            cpf: registerData.socialNumber,
+            email: registerData.email,
+            password: registerData.password,
+            telephone: registerData.phone
+        }
 
-        return;
+        if(recaptcha){
+            if(errorOlderAge % 2 === 0){
+                clientRegister(data)
+            }
+        }
+        else {   
+            toast.error('Recaptcha não assinado, tente novamente.', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });  
+        }
     };
-
-    const [ recaptcha, setRecaptcha ] = useState(false)
-    const [ isOlderAge, setIsOlderAge ] = useState(false)
-    const [ errorOlderAge, setErrorOlderAge ] = useState(false)
 
 
     return (
@@ -174,24 +212,34 @@ const FormInscricaoUser = ({
             <InputRegisterUser id={phone} type="text"  placeholder={phone} register={register} name="phone"/>
             { errors.phone?.message ? <Span>{errors.phone.message}</Span> : null }
 
-            <LabelFile htmlFor="photo">Escolha sua Foto</LabelFile>
-            <InputFile id="photo" type="file"  placeholder=''/>
+            <div { ...getRootProps() }>
+                <LabelFile htmlFor="drop-file">Escolha sua Foto</LabelFile>
+                <div style={{display: 'flex', alignItems: 'center', marginBottom: '20px'}}>
+                    <InputFile type="button" id="drop-file" value='Escolher arquivo'/>
+                    <InputFile style={{display: "none"}} id="drop-file" placeholder='Escolher arquivo' { ...getInputProps() }/>
+                    <span style={{display: 'flex', marginLeft: '5px', cursor: 'pointer'}}>{dropFile === null ? 'Nenhum arquivo selecionado...' : dropFile.name}</span>
+                </div>
+            </div>
 
             <DivOlderAge>
-                <input id="checkAge" type="checkbox" placeholder={birthDate} onChange={() => isOlderAge ? setIsOlderAge(false) : setIsOlderAge(true)}/>
+                <input id="checkAge" type="checkbox" placeholder={birthDate} onChange={() => {
+                    setErrorOlderAge(errorOlderAge + 1)
+                    isOlderAge ? setIsOlderAge(false) : setIsOlderAge(true) 
+                    }
+                }/>
                 <label htmlFor="checkAge">Declaro ser maior de 18 anos</label>
             </DivOlderAge>
-            { errorOlderAge ? <Span style={{marginTop: "-25px", marginBottom: "30px", display: isOlderAge ? "none" : "flex"}}>Obrigatório a assinatura</Span> : null}
+            { isOlderAge ? <Span style={{marginTop: "-25px", marginBottom: "30px", display: errorOlderAge % 2 === 0 ? "none" : "flex"}}>Obrigatório a assinatura</Span> : null }
 
-        <DivBox>
-            <ReCAPTCHA sitekey="6LdfDFMoAAAAAJsTZn7EjSNOVHHGASWulVDDq28i" size="normal" onChange={() => recaptcha ? setRecaptcha(false) : setRecaptcha(true)}/>
-        </DivBox>
+            <DivBox>
+                <ReCAPTCHA sitekey="6LdfDFMoAAAAAJsTZn7EjSNOVHHGASWulVDDq28i" size="normal" onChange={() => recaptcha ? setRecaptcha(false) : setRecaptcha(true)}/>
+            </DivBox>
 
-        <DivBoxMobile>
-                <ReCAPTCHA sitekey="6LdfDFMoAAAAAJsTZn7EjSNOVHHGASWulVDDq28i" size="compact" onChange={() => recaptcha ? setRecaptcha(false) : setRecaptcha(true)}/>
-        </DivBoxMobile>
+            <DivBoxMobile>
+                    <ReCAPTCHA sitekey="6LdfDFMoAAAAAJsTZn7EjSNOVHHGASWulVDDq28i" size="compact" onChange={() => recaptcha ? setRecaptcha(false) : setRecaptcha(true)}/>
+            </DivBoxMobile>
 
-            <ButtonForm name="Registre-se" olderAge={isOlderAge} errorOlderAge={setErrorOlderAge}/>
+            <ButtonForm name="Registre-se" olderAge={isOlderAge} errorOlderAge={setIsOlderAge}/>
             <LinkLogin/>
         </FormStyle>
     )
@@ -199,17 +247,55 @@ const FormInscricaoUser = ({
 
 const FormLogin = () => {
     const [ recaptcha, setRecaptcha ] = useState(false)
+    const url: string = window.location.pathname
+    const { clientLogin, clientLoginGoogle, clientLoginFacebook } = useContext(ClientContext)
+    const { adminLogin, adminLoginGoogle, adminLoginFacebook } = useContext(AdminContext)
 
     const { register, handleSubmit, formState: { errors } } = useForm<iFormLogin>({
         resolver: zodResolver(loginSchema),
     });
 
     const submitLogin: SubmitHandler<iFormLogin> = (loginData: iFormLogin) => {
-        alert("Recaptcha nãop assinado!")           
-        console.log(loginData)
-
-        return;
+        if(recaptcha){
+            if(url === '/login-cliente'){
+                clientLogin(loginData)
+            }
+            if(url === '/login-estabelecimento'){
+                adminLogin(loginData)
+            }
+        }
+        else{
+            toast.error('Recaptcha não assinado, tente novamente.', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });  
+        }
     };
+
+    const responseGoogle = (res: GoogleLoginResponse | { readonly code: string, profileObj: { googleId: string, imageUrl: string, email: string, name: string, givenName: string, familyName: string,} }) => {
+        if(url === '/login-cliente'){
+            clientLoginGoogle(res.profileObj.email)
+        }
+        else {
+            adminLoginGoogle(res.profileObj.email)    
+        }
+    }
+
+    const responseFacebook = (res: ReactFacebookLoginInfo | { status?: string | undefined, email?: string }) => {
+        if(url === '/login-cliente'){
+            clientLoginFacebook(res.email!)
+        }
+        else {
+            adminLoginFacebook(res.email!)    
+        }
+        
+    }
 
     return (
         <FormStyle onSubmit={handleSubmit(submitLogin)}>
@@ -232,8 +318,26 @@ const FormLogin = () => {
 
             <SpanLogin>Ou faça seu login com:</SpanLogin>
             <DivIcons>
-                <IconImage src={GoogleIcon} alt="icon-google"/>
-                <IconImage src={FacebookIcon} alt="icon-facebook"/>
+                <GoogleLogin
+                    clientId="481227944368-euu396jbn5pnafft63hn4d6rpsgqu121.apps.googleusercontent.com"
+                    buttonText="Login Google"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy="single_host_origin"
+                    isSignedIn={false}
+                />
+                <FacebookLoginDiv>
+                    <FacebookLogin
+                        appId="1273677963347786"
+                        autoLoad={false}
+                        fields="name,email,picture"
+                        textButton="Login Facebook"
+                        callback={responseFacebook}
+                        size="medium"
+                        cssClass="icon-facebook"
+                        icon={<BsFacebook size="22px" color="#fff"/>}
+                    />
+                </FacebookLoginDiv>
             </DivIcons>
         </FormStyle>
     )

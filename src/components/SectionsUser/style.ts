@@ -97,7 +97,7 @@ export const DivSearchPub = styled.div`
             height: 70px;
             background-color: var(--grey-0);
             border-radius: 50%;
-            padding: 10px;
+            padding: 5px;
 
             @media(max-width: 800px){
                 width: 60px;

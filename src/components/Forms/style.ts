@@ -90,29 +90,21 @@ export const InputFile = styled.input`
     color: var(--gray-0);
     font-size: var(--font-size-5);
     font-size: 500;
-    outline: none;
+    font-weight: 600;
     border: 2px solid var(--yellow-1);
-    padding: 5px;
+    padding: 5px 15px;
     transition: 0.2s ease;
     display: flex;
-    padding: 5px 15px;
+    justify-content: center;
+    padding: 5px 10px;
     cursor: pointer;
-    text-align: center;
     transition: 0.3s ease;
-    width: 50%;
-
-    &::placeholder{
-        color: var(--grey-0);
-        font-weight: 600;
-    }
+    background-color: var(--white-fixed);
 
     &:hover{
         background-color: var(--yellow-1);
         transition: 0.3s ease;
-
-        &::placeholder{
-            color: var(--white-fixed);
-        }
+        color: var(--white-fixed);
     }
 `
 
@@ -138,5 +130,27 @@ export const DivOlderAge = styled.div`
         font-size: var(--font-size-4);
         font-weight: 400;
         margin-left: 10px;
+    }
+`
+
+export const FacebookLoginDiv = styled.div`
+    display: flex;
+
+    .icon-facebook{
+        height: 45px;
+        background-color: #2961d6;
+        color: var(--grey-0);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 10px;
+        border-radius: 5px;
+        color: var(--white-fixed);
+        font-weight: 400;
+        font-size: var(--font-size-5);
+
+        @media(max-width: 799px){
+            height: 55px;
+        }
     }
 `

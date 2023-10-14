@@ -2,7 +2,6 @@ import styled, { keyframes } from "styled-components"
 import { Link } from "react-router-dom"
 import { HiMenu } from "react-icons/hi"
 import { FaWindowClose } from "react-icons/fa"
-import { MdExitToApp } from "react-icons/md"
 
 export const HeaderUserEdit = styled.header`
     background-color: var(--grey-6);
@@ -101,9 +100,15 @@ export const UserIcon = styled.figure`
     justify-content: center;
     align-items: center;
     background-color: var(--yellow-1);
-    padding: 5px;
+    padding: 3px;
     border-radius: 50%;
     cursor: pointer;
+
+    img {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+    }
 `
 
 export const DivBoxIcon = styled.div`
@@ -115,6 +120,7 @@ export const DivBoxIcon = styled.div`
     margin-left: 20px;
     border-radius: 12px;
     transition: 0.3s ease;
+    gap: 5px;
 
     &:hover{
         border-bottom: 3px solid var(--grey-0);
@@ -188,7 +194,7 @@ export const LinkMobile = styled(Link)`
     }
 `
 
-export const LinkMobileExit = styled(Link)`
+export const LinkMobileExit = styled.a`
     display: flex;
     margin: 0 auto;
     color: var(--grey-3);
@@ -197,6 +203,7 @@ export const LinkMobileExit = styled(Link)`
     transition: 0.2s ease;
     border-bottom: 2px solid transparent;
     margin: 5px;
+    cursor: pointer;
 
     &:hover{
         color: var(--alert-2);
@@ -205,27 +212,42 @@ export const LinkMobileExit = styled(Link)`
     }
 `
 
-export const SpanName = styled.span`
-    color: var(--grey-0);
-    font-size: var(--font-size-4);
-    font-weight: 600;
-    margin-left: 5px;
-`
-
-export const LinkExit = styled(Link)`
+export const MenuNav = styled.nav`
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 2px solid var(--grey-0);
+    background-color: var(--white-fixed);
     position: absolute;
-    top: 25px;
-    right: 30px;
-`
+    right: 20px;
+    top: 65px;
+    padding: 5px 10px;
 
-export const IconExit = styled(MdExitToApp)`
-    width: 32px;
-    height: 32px;
-    color: var(--grey-0);
-    transition: 0.3s ease;
-
-    &:hover{
-        color: red;
+    a{
+        color: var(--grey-0);
+        font-size: var(--font-size-5);
+        font-weight: 600;
         transition: 0.3s ease;
+        border-bottom: 2px solid transparent;
+        
+        &:hover{
+            border-bottom: 2px solid var(--yellow-1);
+        }
+    }
+    .exit-link{
+        color: var(--grey-0);
+        font-size: var(--font-size-5);
+        font-weight: 600;
+        transition: 0.3s ease;
+        border-bottom: 2px solid transparent;
+        
+        &:hover{
+            color: var(--alert-2);
+            border-bottom: 2px solid var(--alert-2);
+        }
+    }
+
+    @media(max-width: 860px){
+        display: none;
     }
 `

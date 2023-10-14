@@ -62,7 +62,7 @@ export const InputRecover = styled.input`
     padding: 5px 10px;
     border: 2px solid transparent;
     transition: 0.2s ease;
-    width: 560px;
+    width: 480px;
     max-width: 100%;
     outline: none;
     margin-bottom: 10px;
@@ -134,4 +134,43 @@ export const ParagraphCode = styled.p`
     width: 455px;
     max-width: 100%;
     text-align: justify;
+`
+
+export const FormRecoverPassword = styled.form`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 85%;
+
+    @media(max-width: 800px){
+        max-width: 100%;
+    }
+`
+
+export const DivBoxBtnsOpts = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    gap: 20px;
+
+    @media(max-width: 380px){
+        flex-direction: column;
+        gap: 5px;
+    }
+`
+
+export const ButtonOption = styled.button`
+    border-radius: 5px;
+    border: 2px solid var(--grey-0);
+    background-color: var(--white-fixed);
+    color: var(--grey-0);
+    font-size: var(--font-size-5);
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    width: 140px;
 `

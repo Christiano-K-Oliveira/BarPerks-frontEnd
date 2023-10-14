@@ -7,6 +7,7 @@ export const ItemPub = styled.li`
     padding: 15px;
     -webkit-box-shadow: 0px 1px 8px 0px #000000; 
     box-shadow: 0px 1px 8px 0px #000000;
+    width: 356px;
 `
 
 export const FigurePub = styled.figure`
