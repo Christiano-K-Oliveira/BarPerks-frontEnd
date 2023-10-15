@@ -4,7 +4,9 @@ import api from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { iSendEmail } from "../interfaces/user/recoverPassword.interface";
-import { iAdminInfo, iFormRegisterClient, iFormSearchClient, iFormUserEdit, iProduct, iRegisterProduct, iSearchClient, iUpdateProduct, iUpdateRegisterClient } from "../interfaces/user/user.interface";
+import { iAdminInfo, iFormRegisterClient, iFormSearchClient, iFormUserEdit, iProduct, iRegisterProduct, iSearchClient, iSearchReward, iUpdateProduct, iUpdateRegisterClient } from "../interfaces/user/user.interface";
+import { iListHistoryRewardsClient } from "../interfaces/user/historyRewards.interface";
+import { useGoogleLogout } from "react-google-login";
 
 interface iAdminProviderProps {
     children: React.ReactNode;   
@@ -79,6 +81,13 @@ interface iAdminContext {
   excludeRegisterClient: (id: number) => Promise<void>;
   modalRescueRewards: boolean;
   setModalRescueRewards: Dispatch<SetStateAction<boolean>>;
+  getListRewardsClient: (id: number | undefined) => Promise<void>;
+  listRewardsClient: iListHistoryRewardsClient[] | [];
+  setListRewardsClient: Dispatch<SetStateAction<iListHistoryRewardsClient[] | []>>;
+  updateRescueHistory: (data: iSearchReward, idRescueHistory: number) => Promise<void>;
+  idClient: number | undefined;
+  setIdClient: Dispatch<SetStateAction<number | undefined>>;
+  getRescueHistory: (data: iSearchReward) => Promise<void>;
 }
   
 export const AdminContext = createContext({} as iAdminContext);
@@ -98,6 +107,13 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   const [ listRegisterClient, setListRegisterClient ] = useState<iSearchClient[]>([])
   const [ modalListRegisterClient, setModalListRegisterClient ] = useState(false)
   const [ modalRescueRewards, setModalRescueRewards ] = useState(false)
+  const [ listRewardsClient, setListRewardsClient ] = useState<iListHistoryRewardsClient[]>([])
+  const [ idClient, setIdClient ] = useState<number>()
+  const { signOut } = useGoogleLogout({
+    clientId: "481227944368-euu396jbn5pnafft63hn4d6rpsgqu121.apps.googleusercontent.com",
+    cookiePolicy: "single_host_origin",
+  })
+
 
   useEffect(() => {
     const cookie = cookies['token']
@@ -364,6 +380,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   }
   const exitAdmin = async () => {
     removeCookie("token")
+    signOut()
 
     navigate("/")
   }
@@ -733,7 +750,104 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
       });
     }
   }
-  // const updateRescueHistory = async (): Promise<void> => {}
+
+  const getListRewardsClient = async (id: number | undefined): Promise<void> => {
+    try {
+      const token = cookies["token"]
+
+      const res = await api.get(`pub/rescue-history/${id ? id : idClient}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        }
+      })
+      
+      const dataFilter = res.data.reverse().filter((item: iListHistoryRewardsClient) => {
+        if(item.status !== "disponivel"){
+          const data  = item.rescue_date.split("/", 3);
+          const date = new Date();
+
+          if(+data[2].split(",")[0] - date.getFullYear() >= 0 && +data[1] - date.getMonth() + 1 >= 0 || +data[0] - date.getDate() >= 0){
+            return item
+          }
+        }
+      })
+
+      setListRewardsClient(dataFilter)
+    }
+    catch(erro) {
+      console.log(erro)
+    }
+  }
+  const getRescueHistory = async (data: iSearchReward): Promise<void> => {
+    try{
+      const token = cookies["token"]
+
+      const res = await api.get(`pub/rescue-history/search/${idClient}/${data.code_rescue}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        }
+      })
+
+      updateRescueHistory(data, res.data.id)
+
+    }
+    catch {
+      toast.error('Código de resgate inválido.', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });    }
+  }
+  const updateRescueHistory = async (data: iSearchReward, idRescueHistory: number): Promise<void> => {
+    try {
+      const token = cookies["token"]
+      const date = new Date().toLocaleString()
+      const newData = {
+        status: "resgatado",
+        rescue_date: date,
+        ...data,
+      }
+
+      await api.patch(`pub/rescue-history/${idRescueHistory}`, newData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        }
+      })
+
+      getListRewardsClient(idClient)
+
+      toast.success('Recompensa resgatada com sucesso!', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    catch {
+      toast.error('Código de resgate inválido.', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
   
   return (
     <AdminContext.Provider
@@ -784,6 +898,13 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         excludeRegisterClient,
         modalRescueRewards,
         setModalRescueRewards,
+        getListRewardsClient,
+        listRewardsClient,
+        setListRewardsClient,
+        updateRescueHistory,
+        idClient,
+        setIdClient,
+        getRescueHistory,
       }}>
       {children}
     </AdminContext.Provider>

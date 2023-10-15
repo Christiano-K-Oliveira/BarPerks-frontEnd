@@ -418,7 +418,8 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
 
                 const date = new Date();
 
-                if(+ano - date.getFullYear() >= 0 && (+mes + 2) - date.getMonth() + 1 >= 0 && +dia - date.getDate() >= 0){
+
+                if(+ano - date.getFullYear() >= 0 && (+mes + 2) - date.getMonth() + 1 >= 0 || +dia - date.getDate() >= 0){
                     return item
                 }
             })

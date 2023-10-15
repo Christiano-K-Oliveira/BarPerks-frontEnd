@@ -1,5 +1,5 @@
 import { iInputFormRegisterClient, iInputFormSearchClient, iInputRegisterProduct, iInputUserEdit, iInputUserRegisterPoints } from "../../../interfaces/user/user.interface"
-import { Input, InputEdit } from "./style"
+import { DivInfo, DivInputCalculate, IconQuest, Input, InputEdit } from "./style"
 
 const InputUser = ({ id, name, register, type, placeholder }: iInputUserEdit) => {
     return (
@@ -31,10 +31,28 @@ const InputUserSearchClient = ({ name, register, type, placeholder }: iInputForm
     )
 }
 
+const InputCalculatePoints = () => {
+    return (
+        <>
+        <DivInputCalculate>
+            <Input type="text" placeholder="Valor Gasto"/>
+            <button type="button">
+                <IconQuest size="20px"/>
+            </button>
+
+        </DivInputCalculate>
+        <DivInfo>
+            <p>A soma dos pontos é realizada através da soma de valores cheios. Ex: 20, 30, 50...</p>
+        </DivInfo>
+        </>
+    )
+}
+
 export { 
     InputUser, 
     InputUserRegisterPoints, 
     InputUserRegisterProduct,
     InputUserRegisterClient,
-    InputUserSearchClient
+    InputUserSearchClient,
+    InputCalculatePoints,
 }

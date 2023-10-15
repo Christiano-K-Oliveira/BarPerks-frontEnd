@@ -120,6 +120,7 @@ export interface iCardUser {
     email: string;
     telephone: string;
     photo_url?: string;
+    client_id: string;
 }
 
 export interface iFormSearchPub {

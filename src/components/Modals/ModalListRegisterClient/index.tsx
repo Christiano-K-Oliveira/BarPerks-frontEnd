@@ -30,7 +30,7 @@ const ModalListRegisterClient = () => {
                         listRegisterClient.length > 0 ?
                         listRegisterClient.map((item, index) => {
                             return (
-                                <CardUser id={item.id} name={item.name} cpf={item.cpf} email={item.email} telephone={item.telephone} photo_url={item.client.photo_url} key={index}/>
+                                <CardUser id={item.id} name={item.name} client_id={item.client.id} cpf={item.cpf} email={item.email} telephone={item.telephone} photo_url={item.client.photo_url} key={index}/>
                             )
                         })
                         : null

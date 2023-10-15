@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InputUser, InputUserRegisterClient, InputUserRegisterPoints, InputUserRegisterProduct, InputUserSearchClient } from "../Input"
+import { InputCalculatePoints, InputUser, InputUserRegisterClient, InputUserRegisterPoints, InputUserRegisterProduct, InputUserSearchClient } from "../Input"
 import { DivBoxInput, DivBtns, Form, Label, Span, InputFile, DivInputsYellow, SpanFile } from "./style"
 import { SubmitHandler, useForm } from "react-hook-form";
 import { iFormAdminEdit, iFormRegisterClient, iFormSearchClient, iFormSearchPub, iFormUserEdit, iFormUserRegisterPoints, iRegisterProduct } from "../../../interfaces/user/user.interface";
@@ -103,7 +103,6 @@ const FormUserRegisterPoints = () => {
         resolver: zodResolver(userRegisterPointsSchema),
     });
 
-
     const submitRegisterPoints: SubmitHandler<iFormUserRegisterPoints> = (data: iFormUserRegisterPoints) => {
         alert("fslts")           
         console.log(data)
@@ -116,7 +115,8 @@ const FormUserRegisterPoints = () => {
             <InputUserRegisterPoints id="socialNumber" name="cpf" type="text" register={register} placeholder="CPF do cliente"/>
             { errors.cpf?.message ? <Span style={{marginTop: "-15px"}}>{errors.cpf.message}</Span> : null }
 
-            <InputUserRegisterPoints id="points" name="points" type="text" register={register} placeholder="Pontuação do usuário"/>
+            {/* <InputUserRegisterPoints id="points" name="points" type="text" register={register} placeholder="Pontuação do usuário"/> */}
+            <InputCalculatePoints/>
             { errors.points?.message ? <Span style={{marginTop: "-15px"}}>{errors.points.message}</Span> : null }
 
             <ButtonUser type="submit" text="Registrar Pontuação"/>

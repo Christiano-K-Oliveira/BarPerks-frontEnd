@@ -22,7 +22,8 @@ export const Modal = styled.div`
     z-index: 3;
     padding: 20px;
     position: absolute;
-    height: 205px;
+    overflow-x: hidden;
+    height: 300px;
 
     @media(max-width: 800px){
         width: 75%;
@@ -72,7 +73,6 @@ export const ButtonCloseModal = styled.button`
 export const FormEditProduct = styled.form`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     width: 99%;
     margin: 0 auto;
     margin-top: 20px;
@@ -137,7 +137,7 @@ export const ButtonRescue = styled.button`
     font-size: var(--font-size-5);
     font-weight: 600;
     transition: 0.3s ease;
-    width: 40%;
+    width: 100%;
     margin: 0 auto;
     margin-top: 10px;
 
@@ -151,4 +151,43 @@ export const ButtonRescue = styled.button`
 export const SpanError = styled.span`
     color: var(--alert-1);
     font-size: var(--font-size-6);
+`
+
+export const ListRewards = styled.ul`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    h2{
+        color: var(--grey-0);
+        font-size: var(--font-size-2);
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    div{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: 20px;
+    }
+    div li{
+        display: flex;
+        justify-content: space-between;
+        padding-right: 5px;
+        background-color: var(--yellow-1);
+        padding: 5px 10px;
+
+        span{
+            color: var(--grey-0);
+            font-size: var(--font-size-5);
+        }
+    }
+
+    p{
+        font-size: var(--font-size-4);
+        color: var(--grey-0);
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+    }
 `

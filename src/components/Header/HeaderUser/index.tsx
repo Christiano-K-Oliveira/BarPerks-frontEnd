@@ -8,6 +8,7 @@ import { ClientContext } from "../../../contexts/clienteContext"
 import { AdminContext } from "../../../contexts/administradorContext"
 import { FaArrowDown } from "react-icons/fa"
 
+
 const HeaderUserAdmin = () => {
     const navigate = useNavigate()
     const [menuMobile, openMenuMobile] = useState(false)
