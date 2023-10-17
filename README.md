@@ -1,5 +1,5 @@
 # Bar Perks - E-Commerce (Front-End)
-![Badge Tecnologias](https://img.shields.io/badge/Tecnologias-ReactJS%20|%20StyledComponents%20|%20Typescript%20-informational)
+![Badge Tecnologias](https://img.shields.io/badge/Tecnologias-ReactJS%20|%20Styled Components%20|%20Typescript%20-informational)
 
 
 Este projeto é um WebSite para clientes e estabelecimentos no setor de serviços de alimentação e bebidas, sendo desenvolvido como um projeto FullStack. O BarPerks é uma plataforma que permite aos usuários se registrarem e manterem um vínculo com o estabelecimento, conseguindo realizar o resgate de recompensas de produtos oferecidos pelo estabelecimento, mantendo um contato entre
