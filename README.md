@@ -1,11 +1,11 @@
 # Bar Perks - E-Commerce (Front-End)
-![Badge Tecnologias](https://img.shields.io/badge/Tecnologias-ReactJS%20|%20Styled-Components%20|%20Typescript%20-informational)
+![Badge Tecnologias](https://img.shields.io/badge/Tecnologias-ReactJS%20|%20StyledComponents%20|%20Typescript%20-informational)
 
 
-Este projeto é um WebSite para clientes e estabelecimentos no setor de serviços de alimentação e bebidas, sendo desenvolvido como um projeto FullStack. O BarPerks é uma plataforma que permite aos usuários se registrarem para manterem um vínculo com o estabelecimento e conseguindo realizar o resgate recompensas de produtos oferecidos pelo estabelecimento, mantendo um contato entre
+Este projeto é um WebSite para clientes e estabelecimentos no setor de serviços de alimentação e bebidas, sendo desenvolvido como um projeto FullStack. O BarPerks é uma plataforma que permite aos usuários se registrarem e manterem um vínculo com o estabelecimento, conseguindo realizar o resgate de recompensas de produtos oferecidos pelo estabelecimento, mantendo um contato entre
 o estabelecimento e o cliente.
 
-O objetivo principal do projeto é criar uma experiência única de vantagens tanto ao estabelecimento que poderá manter uma base de registro de todos os seus clientes, assim como os clientes que poderão ganhar recompensas por suas compras, conquistando cada vez mais clientes para o estabelecimento. 
+O objetivo principal do projeto é criar uma experiência única de vantagens tanto para o estabelecimento que poderá manter uma base de registro de todos os seus clientes, assim como os clientes que poderão ganhar recompensas por suas compras, conquistando cada vez mais clientes para o estabelecimento. 
 
 Os clientes podem se cadastrar, fazer login, atualizar suas informações, verem seu histórico de resgates, procurar bares em que estão cadastrados, resgatar produtos, confirmarem entrada de pontuação com leitura de qr code ou digitando o código.
 Os estabelecimentos podem se cadastrar, fazer login, atualizar suas informações, excluir sua conta, registrar pontuação, passar qr code ou código para o cliente confirmar a entrada de pontos em sua conta, cadastrar produtos, ver sua lista de produtos, editar e excluir produtos, registrar clientes, buscar clientes ou ver lista completa com os clientes registrados, editar e excluir registro de clientes, resgatar recompensas para o cliente. 
@@ -44,13 +44,13 @@ Este projeto foi realizado seguindo o método Scrum, com o objetivo de manter um
 <p>✔ Cadastro de Usuários</p>
 <p>✔ Edição e exclusão de Usuários</p>
 <p>✔ Cadastro de Produtos</p>
-<p>✔ Resgate de produtos</p>
+<p>✔ Resgate de Produtos</p>
 <p>✔ Edição e exclusão de Produtos</p>
-<p>✔ Registro de pontuação</p>
+<p>✔ Registro de Pontuação</p>
 <p>✔ Leitura por QrCode ou com código para confimação de pontuação</p>
-<p>✔ Histórico de pontuação</p>
+<p>✔ Histórico de Pontuação</p>
 <p>✔ Pesquisa de Usuários</p>
-<p>✔ Edição e exclusão de registro de usuário</p>
+<p>✔ Edição e exclusão de Registro de Usuário</p>
 <p>✔ Proteção de rotas</p>
 <p>✔ Responsividade</p>
 
