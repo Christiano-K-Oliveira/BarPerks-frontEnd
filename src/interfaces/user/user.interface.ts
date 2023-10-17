@@ -80,6 +80,8 @@ export interface iUpdateRegisterClient {
     cpf?: string;
     email?: string;
     telephone?: string;
+    points?: string;
+    link_qrcode?: string;
 }
 
 export interface iInputFormRegisterClient{
@@ -100,6 +102,7 @@ export interface iSearchClient {
     cpf: string;
     email: string;
     telephone: string;
+    link_qrcode: string;
     client: {
         id: string;
         photo_url?: string;
@@ -178,6 +181,17 @@ export interface iPub {
         id: string;
         name: string;
     }
+}
+
+export interface iValidPoints {
+    id: string;
+    name: string;
+    cpf: string;
+    email: string;
+    telephone: string;
+    points: string;
+    link_qrcode?: string;
+    old_points?: string;
 }
 
 export interface iSearchPub {

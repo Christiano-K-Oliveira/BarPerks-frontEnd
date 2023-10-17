@@ -218,3 +218,90 @@ export const SpanFile = styled.span`
     color: var(--grey-0);
     cursor: pointer;
 `
+
+export const ButtonCalculate = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--yellow-1);
+    color: var(--grey-0);
+    font-size: var(--font-size-5);
+    font-weight: 600;
+    width: 150px;
+    border-radius: 8px;
+    padding: 5px;
+    transition: 0.3s ease;
+    margin-top: -10px;
+
+    &:hover{
+        color: var(--white-fixed);
+        background-color: var(--grey-0);
+    }
+`
+
+export const DivInputCalculate = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h4{
+        color: var(--grey-0);
+        font-size: var(--font-size-4);
+        font-weight: 600;
+    }
+
+    input{
+        padding: 8px;
+        width: 100px;
+        height: 28px;
+        border-radius: 24px;
+        background-color: var(--grey-6);
+        outline: none;
+        border: 2px solid transparent;
+        color: var(--grey-0);
+        font-size: var(--font-size-4);
+        font-weight: 600;
+        transition: 0.3s ease;
+        margin-top: 5px;
+        text-align: center;
+
+        &:focus{
+            border: 2px solid var(--grey-0);
+        }
+
+        &::placeholder{
+            text-align: center;
+            opacity: 1;
+        }
+    }
+`
+
+export const DivQrCode = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+
+    h3{
+        color: var(--grey-0);
+        font-size: var(--font-size-3);
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    span{
+        margin-top: 30px;
+        color: var(--grey-0);
+        font-size: var(--font-size-2);
+        font-weight: 600;
+    }
+
+    .link-qrcode{
+        color: var(--grey-0);
+        font-size: var(--font-size-3);
+        font-weight: 600;
+        margin-top: 20px;
+    }
+`

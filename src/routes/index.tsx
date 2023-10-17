@@ -19,6 +19,7 @@ import UserRedeemRewardPage from "../pages/user/userRedeemReward"
 import TermsAndConditionsPage from "../pages/linksFast/termsConditions"
 import PrivacyPolicyPage from "../pages/linksFast/privacyPolicy"
 import { ProtectedRoutesAdmin, ProtectedRoutesClient } from "../components/ProtectedRoutes"
+import UserQrCode from "../pages/user/userQrCode"
 
 const RoutesMain = () => {
     return (
@@ -45,6 +46,8 @@ const RoutesMain = () => {
                 <Route path="/usuario" element={<UserEditPage/>}/>
                 <Route path="/usuario/historico-resgates" element={<UserRewardHistoricPage/>}/>
                 <Route path="/usuario/resgatar-recompensas" element={<UserRedeemRewardPage/>}/>
+                <Route path="/usuario/qrcode" element={<UserQrCode/>}/>
+                <Route path="/usuario/qrcode/:qrcode" element={<UserQrCode/>}/>
             </Route>
             <Route path="/termos-e-condicoes" element={<TermsAndConditionsPage/>}/>
             <Route path="/politica-de-privacidade" element={<PrivacyPolicyPage/>}/>

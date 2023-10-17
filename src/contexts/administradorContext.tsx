@@ -88,6 +88,9 @@ interface iAdminContext {
   idClient: number | undefined;
   setIdClient: Dispatch<SetStateAction<number | undefined>>;
   getRescueHistory: (data: iSearchReward) => Promise<void>;
+  updatePointsRegisterClient: (data: iUpdateRegisterClient) => Promise<void>;
+  linkQrCode: string;
+  setLinkQrCode: Dispatch<SetStateAction<string>>;
 }
   
 export const AdminContext = createContext({} as iAdminContext);
@@ -109,6 +112,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   const [ modalRescueRewards, setModalRescueRewards ] = useState(false)
   const [ listRewardsClient, setListRewardsClient ] = useState<iListHistoryRewardsClient[]>([])
   const [ idClient, setIdClient ] = useState<number>()
+  const [ linkQrCode, setLinkQrCode ] = useState("https://...")
   const { signOut } = useGoogleLogout({
     clientId: "481227944368-euu396jbn5pnafft63hn4d6rpsgqu121.apps.googleusercontent.com",
     cookiePolicy: "single_host_origin",
@@ -122,6 +126,16 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
     getProducts(cookie)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cookies]);
+
+  function create_UUID(){
+    let dt = new Date().getTime();
+    const uuid = 'xyxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = (dt + Math.random()*16)%16 | 0;
+        dt = Math.floor(dt/16);
+        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+}
 
   const adminRegister = async (pubData: iRegisterData): Promise<void> => {
       try {
@@ -621,7 +635,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
     }
   }
 
-  const getClient = async(data: iFormSearchClient): Promise<void> => {
+  const getClient = async (data: iFormSearchClient): Promise<void> => {
     try{
       const token = cookies["token"]
 
@@ -632,7 +646,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         }
       })
 
-      setSearchUser(res.data)
+      await setSearchUser(res.data)
     }
     catch {
       toast.error('Registro de cliente não encontrado.', {
@@ -672,6 +686,56 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
       getListClients()
 
       toast.success('Registro de cliente atualizado com sucesso!', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    catch {
+      toast.error('Ops, algo deu errado.', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+  const updatePointsRegisterClient = async (data: iUpdateRegisterClient): Promise<void> => {
+    try{
+      const token = cookies["token"]
+
+      const getRegisterClient = await api.get(`pub/registered-clients/${data.name}/${data.cpf}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        }
+      })
+
+      const newData = {
+        old_points: getRegisterClient.data[0].points,
+        points: (+getRegisterClient.data[0].points + +data.points!) + "",
+        link_qrcode: create_UUID(),
+      }
+    
+      const res = await api.patch(`pub/registered-clients/${getRegisterClient.data[0].id}`, newData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        }
+      })
+
+      setLinkQrCode(res.data.link_qrcode)
+
+      toast.success('Pontuação registrada com sucesso!', {
         position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -905,6 +969,9 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         idClient,
         setIdClient,
         getRescueHistory,
+        updatePointsRegisterClient,
+        linkQrCode,
+        setLinkQrCode,
       }}>
       {children}
     </AdminContext.Provider>

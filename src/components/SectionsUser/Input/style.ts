@@ -60,28 +60,34 @@ export const DivInputCalculate = styled.div`
     display: flex;
     justify-content: space-between;
     position: relative;
+    height: 30px;
 
     button{
         position: absolute;
         right: 5px;
-        top: 5px;
+        top: 4px;
         background-color: transparent;
+    }
+
+    p{
+        display: flex;
+        font-size: var(--font-size-5);
+        text-align: justify;
+        width: 180px;
+        height: fit-content;
+        background-color: var(--white-fixed);
+        border: 2px solid var(--grey-0);
+        padding: 5px;
+        margin-right: -190px;
+        margin-left: 10px;
+        margin-top: -10px;
+    }
+
+    @media(max-width: 800px){
+        width: 100%;
     }
 `
 
 export const IconQuest = styled(BsQuestionLg)`
     color: var(--grey-0);
-`
-
-export const DivInfo = styled.div`
-    border: 2px solid var(--grey-0);
-    background-color: var(--white-fixed);
-    padding: 10px;
-    width: 250px;
-    transform: translate(-200px)
-
-    p{
-        font-size: var(--font-size-5);
-        text-align: justify;
-    }
 `
