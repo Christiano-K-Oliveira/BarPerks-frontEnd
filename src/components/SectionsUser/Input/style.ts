@@ -81,10 +81,19 @@ export const DivInputCalculate = styled.div`
         margin-right: -190px;
         margin-left: 10px;
         margin-top: -10px;
+
+        @media (max-width: 800px) {
+            position: absolute;
+            margin: 0;
+            margin-top: 5px;
+            right: 13%;
+            top: 30px;
+        }
     }
 
     @media(max-width: 800px){
         width: 100%;
+        flex-direction: column;
     }
 `
 

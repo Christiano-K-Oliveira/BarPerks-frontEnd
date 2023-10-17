@@ -54,7 +54,7 @@ const InputCalculatePoints = ({ register, setValue }: { register: UseFormRegiste
                 <IconQuest size="20px"/>
             </button>
 
-            <p  style={info ? {display: "flex"} : {display: "none"}}>A soma dos pontos é realizada através da soma de valores cheios.<br/>Ex: 20, 30, 50...</p>
+            <p style={info ? {display: "flex"} : {display: "none"}}>A soma dos pontos é realizada através da soma de valores cheios.<br/>Ex: 20, 30, 50...</p>
         </DivInputCalculate>
     )
 }
