@@ -2,7 +2,7 @@
 ![Badge Tecnologias](https://img.shields.io/badge/Tecnologias-ReactJS%20|%20Styled_Components%20|%20Typescript%20-informational)
 
 
-Este projeto é um WebSite para clientes e estabelecimentos no setor de serviços de alimentação e bebidas, sendo desenvolvido como um projeto FullStack. O BarPerks é uma plataforma que permite aos usuários se registrarem e manterem um vínculo com o estabelecimento, conseguindo realizar o resgate de recompensas de produtos oferecidos pelo estabelecimento, mantendo um contato entre
+Este projeto é um WebSite para clientes e estabeleciVmentos no setor de serviços de alimentação e bebidas, sendo desenvolvido como um projeto FullStack. O BarPerks é uma plataforma que permite aos usuários se registrarem e manterem um vínculo com o estabelecimento, conseguindo realizar o resgate de recompensas de produtos oferecidos pelo estabelecimento, mantendo um contato entre
 o estabelecimento e o cliente.
 
 O objetivo principal do projeto é criar uma experiência única de vantagens tanto para o estabelecimento que poderá manter uma base de registro de todos os seus clientes, assim como os clientes que poderão ganhar recompensas por suas compras, conquistando cada vez mais clientes para o estabelecimento. 
@@ -14,9 +14,9 @@ O projeto foi desenvolvido utilizando tecnologias modernas de desenvolvimento we
 
 Este projeto foi realizado seguindo o método Scrum, com o objetivo de manter um ambiente de desenvolvimento mais produtivo. A proteção de rotas foi implementada para garantir a segurança e privacidade dos usuários, enquanto a responsividade foi priorizada para oferecer uma experiência consistente em diferentes dispositivos.
 
-### 💻 Link da página: [Clique aqui](https://github.com/Christiano-K-Oliveira/BarPerks-frontEnd)
+### 💻 Link da página: [Clique aqui](https://github.com/)
 
-### 💻 Link do repositório Back-end: [Clique aqui](https://github.com/Christiano-K-Oliveira/BarPerks-backEnd)
+### 💻 Link do repositório Back-end: [Clique aqui](https://github.com/)
 <br>
 
 

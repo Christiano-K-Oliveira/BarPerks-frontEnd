@@ -1,12 +1,11 @@
 import { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import api from "../services/api";
+import { api, apiMercadoPago } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { iSendEmail } from "../interfaces/user/recoverPassword.interface";
 import { iAdminInfo, iFormRegisterClient, iFormSearchClient, iFormUserEdit, iProduct, iRegisterProduct, iSearchClient, iSearchReward, iUpdateProduct, iUpdateRegisterClient } from "../interfaces/user/user.interface";
 import { iListHistoryRewardsClient } from "../interfaces/user/historyRewards.interface";
-import { useGoogleLogout } from "react-google-login";
 
 interface iAdminProviderProps {
     children: React.ReactNode;   
@@ -91,6 +90,7 @@ interface iAdminContext {
   updatePointsRegisterClient: (data: iUpdateRegisterClient) => Promise<void>;
   linkQrCode: string;
   setLinkQrCode: Dispatch<SetStateAction<string>>;
+  buyPlan: (plan: string) => Promise<void>;
 }
   
 export const AdminContext = createContext({} as iAdminContext);
@@ -113,11 +113,6 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   const [ listRewardsClient, setListRewardsClient ] = useState<iListHistoryRewardsClient[]>([])
   const [ idClient, setIdClient ] = useState<number>()
   const [ linkQrCode, setLinkQrCode ] = useState("https://...")
-  const { signOut } = useGoogleLogout({
-    clientId: "481227944368-euu396jbn5pnafft63hn4d6rpsgqu121.apps.googleusercontent.com",
-    cookiePolicy: "single_host_origin",
-  })
-
 
   useEffect(() => {
     const cookie = cookies['token']
@@ -394,7 +389,6 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   }
   const exitAdmin = async () => {
     removeCookie("token")
-    signOut()
 
     navigate("/")
   }
@@ -912,6 +906,71 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
       });
     }
   }
+
+  const buyPlan = async (plan: string): Promise<void> => {
+    try{
+      const premium = {
+        items: [
+          {
+            "id": "1",
+            "description": "Plano Premium de 6 meses para estabelecimento na plataforma bar perks.", 
+            "title": "Plano Premium",
+            "quantity": 1,
+            "currency_id": "BRL",
+            "unit_price": 50.0
+          }
+        ]
+      }
+      const standart = {
+        items: [
+          {
+            "id": "2",
+            "description": "Plano Padrão de 6 meses para estabelecimento na plataforma bar perks.", 
+            "title": "Plano Padrão",
+            "quantity": 1,
+            "currency_id": "BRL",
+            "unit_price": 30.0
+          }
+        ]
+      }
+
+      const token = 'TEST-541286837154157-101709-163a08ba6b4eae3ac10cc11e609e30c9-311362426'
+
+      if(plan === 'premium'){
+        const res = await apiMercadoPago.post('', premium, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` 
+          }
+        })
+
+        window.location.assign(res.data.sandbox_init_point)
+      }
+      else{
+        const res = await apiMercadoPago.post('', standart, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` 
+          }
+        })
+
+        window.location.assign(res.data.sandbox_init_point)
+      }
+    }
+    catch {
+      toast.error('Ops, algo deu errado..', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+  
   
   return (
     <AdminContext.Provider
@@ -972,6 +1031,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         updatePointsRegisterClient,
         linkQrCode,
         setLinkQrCode,
+        buyPlan,
       }}>
       {children}
     </AdminContext.Provider>

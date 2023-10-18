@@ -66,7 +66,7 @@ export const SpanLight = styled.span`
     color: var(--grey-0);
 `
 
-export const LinkStartBlack = styled.a`
+export const ButtonStartBlack = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -89,7 +89,7 @@ export const LinkStartBlack = styled.a`
     }
 `
 
-export const LinkStartWhite = styled.a`
+export const ButtonStartWhite = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;

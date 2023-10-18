@@ -1,12 +1,11 @@
 import { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
-import api from "../services/api";
+import { api } from "../services/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { iSendEmail } from "../interfaces/user/recoverPassword.interface";
 import { iClientInfo, iFormUserEdit, iProduct, iPub, iSearchPub, iValidPoints } from "../interfaces/user/user.interface";
 import { iListHistoryRewards, iRewardInfo } from "../interfaces/user/historyRewards.interface";
-// import { GoogleLogout } from "react-google-login";
 
 interface iClientProviderProps {
     children: React.ReactNode;   

@@ -5,4 +5,9 @@ const api = axios.create({
     timeout: 20000
 })
 
-export default api
+const apiMercadoPago = axios.create({
+    baseURL: "https://api.mercadopago.com/checkout/preferences",
+    timeout: 20000
+})
+
+export { api, apiMercadoPago }
