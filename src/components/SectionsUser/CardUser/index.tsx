@@ -4,8 +4,8 @@ import { iCardUser } from "../../../interfaces/user/user.interface"
 import { ButtonEditUser, ButtonExclude, ButtonRewards, FigureUser, ImgUser, ItemList, SpanInfoUser, TitleUser } from "./style"
 import { FaUserCircle } from "react-icons/fa"
 
-const CardUser = ({ name, cpf, photo_url, telephone, email, id }: iCardUser) => {
-    const { setModalEditRegisterClient, setIdRegisterClient, excludeRegisterClient, setModalRescueRewards } = useContext(AdminContext)  
+const CardUser = ({ name, cpf, photo_url, telephone, email, id, client_id }: iCardUser) => {
+    const { setModalEditRegisterClient, setIdRegisterClient, excludeRegisterClient, setModalRescueRewards, getListRewardsClient, setIdClient } = useContext(AdminContext)  
 
     return (
         <ItemList>
@@ -25,7 +25,12 @@ const CardUser = ({ name, cpf, photo_url, telephone, email, id }: iCardUser) => 
             </div>
 
             <div>
-                <ButtonRewards onClick={() => setModalRescueRewards(true)}>Resgatar Recompensa</ButtonRewards>
+                <ButtonRewards onClick={ async () => {
+                    setIdClient(+client_id)
+                    await getListRewardsClient(+client_id)
+                    setModalRescueRewards(true)
+                    }
+                }>Resgatar Recompensa</ButtonRewards>
                 <ButtonEditUser onClick={() => {
                     setModalEditRegisterClient(true)
                     setIdRegisterClient(id)

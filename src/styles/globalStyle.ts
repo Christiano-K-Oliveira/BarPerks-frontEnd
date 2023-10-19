@@ -63,35 +63,45 @@ const GlobalStyle = createGlobalStyle`
         font-size: 85%;
     }
 
-    *::-webkit-scrollbar {
-  height: 10px;
-  width: 10px;
-}
-*::-webkit-scrollbar-track {
-  border-radius: 5px;
-  background-color: #DFE9EB;
-}
+  *::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
 
-*::-webkit-scrollbar-track:hover {
-  background-color: #DFE9EB;
-}
+  *::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: #DFE9EB;
+  }
 
-*::-webkit-scrollbar-track:active {
-  background-color: #DFE9EB;
-}
+  *::-webkit-scrollbar-track:hover {
+    background-color: #DFE9EB;
+  }
 
-*::-webkit-scrollbar-thumb {
-  border-radius: 5px;
-  background-color: var(--grey-4);
-}
+  *::-webkit-scrollbar-track:active {
+    background-color: #DFE9EB;
+  }
 
-*::-webkit-scrollbar-thumb:hover {
+  *::-webkit-scrollbar-thumb {
+    border-radius: 5px;
     background-color: var(--grey-4);
-}
+  }
 
-*::-webkit-scrollbar-thumb:active {
-    background-color: var(--grey-3);
-}
+  *::-webkit-scrollbar-thumb:hover {
+      background-color: var(--grey-4);
+  }
+
+  *::-webkit-scrollbar-thumb:active {
+      background-color: var(--grey-3);
+  }
+
+  input[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;
+  }
+  input[type=number] { 
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
 `
 
 export default GlobalStyle

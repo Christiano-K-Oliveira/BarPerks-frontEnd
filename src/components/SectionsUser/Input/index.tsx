@@ -1,5 +1,7 @@
-import { iInputFormRegisterClient, iInputFormSearchClient, iInputRegisterProduct, iInputUserEdit, iInputUserRegisterPoints } from "../../../interfaces/user/user.interface"
-import { Input, InputEdit } from "./style"
+import { Dispatch, SetStateAction, useState } from "react"
+import { iFormUserRegisterPoints, iInputFormRegisterClient, iInputFormSearchClient, iInputRegisterProduct, iInputUserEdit, iInputUserRegisterPoints } from "../../../interfaces/user/user.interface"
+import { DivInputCalculate, IconQuest, Input, InputEdit } from "./style"
+import { UseFormRegister } from "react-hook-form"
 
 const InputUser = ({ id, name, register, type, placeholder }: iInputUserEdit) => {
     return (
@@ -31,10 +33,37 @@ const InputUserSearchClient = ({ name, register, type, placeholder }: iInputForm
     )
 }
 
+const InputCalculatePoints = ({ register, setValue }: { register: UseFormRegister<iFormUserRegisterPoints>, setValue: Dispatch<SetStateAction<string>> }) => {
+    const [ info, setInfo ] = useState(false)
+
+    function calculateValue(el : React.KeyboardEvent<HTMLInputElement>){
+        const target = el.target as HTMLInputElement;
+
+        if(target.value === ""){
+            return setValue("")
+        }
+
+        const value = Math.ceil(+target.value / 10) * 10;
+        setValue(value.toString())
+    }
+
+    return (
+        <DivInputCalculate>
+            <Input type="number" placeholder="Valor Gasto" { ...register("points") } onKeyUp={(el) => calculateValue(el)}/>
+            <button type="button" onClick={() => info ? setInfo(false) : setInfo(true)}>
+                <IconQuest size="20px"/>
+            </button>
+
+            <p style={info ? {display: "flex"} : {display: "none"}}>A soma dos pontos é realizada através da soma de valores cheios.<br/>Ex: 20, 30, 50...</p>
+        </DivInputCalculate>
+    )
+}
+
 export { 
     InputUser, 
     InputUserRegisterPoints, 
     InputUserRegisterProduct,
     InputUserRegisterClient,
-    InputUserSearchClient
+    InputUserSearchClient,
+    InputCalculatePoints,
 }

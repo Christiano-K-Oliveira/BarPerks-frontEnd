@@ -69,6 +69,7 @@ const userSearchReward = z.object({
     code_rescue: z.string().nonempty('Código obrigatório').max(10),
 })
 
+
 export { 
     userEditSchema, 
     userRegisterPointsSchema, 
@@ -78,5 +79,5 @@ export {
     userSearchPubSchema,
     userRegisterUpdateProductSchema,
     userUpdateRegisterClientSchema,
-    userSearchReward
+    userSearchReward,
 }

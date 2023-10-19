@@ -14,7 +14,7 @@ const SectionUserAdminEdit = () => {
 
     return (
         <SectionUser>
-            <Title style={{fontSize: "var(--font-size-1)"}}>{ adminInfo?.photo_url ? <img style={{borderRadius: "50%", width: "42px", height: "42px"}} src={adminInfo.photo_url}/> : <BiSolidUser size="32px"/> }Detalhes do Usuário</Title>
+            <Title style={{fontSize: "var(--font-size-1)"}}>{ adminInfo?.photo_url ? <img style={{borderRadius: "50%", width: "42px", height: "42px"}} src={adminInfo.photo_url}/> : <BiSolidUser size="32px"/> }Detalhes do Estabelecimento</Title>
             <SpanName>{adminInfo?.name}</SpanName>
 
             <FormUserAdminEdit/>
@@ -65,7 +65,7 @@ const SectionSearchUser = () => {
                 {
                     searchUser.length > 0 ? searchUser.map((item, index) => {
                     return (
-                        <CardUser key={index} id={item.id} name={item.name} cpf={item.cpf} email={item.email} telephone={item.telephone} photo_url={item.client.photo_url ? item.client.photo_url : img}/>
+                        <CardUser key={index} id={item.id} client_id={item.client.id} name={item.name} cpf={item.cpf} email={item.email} telephone={item.telephone} photo_url={item.client.photo_url ? item.client.photo_url : img}/>
                     );
                   }): null
                 }
@@ -125,7 +125,7 @@ const SectionRewardHistoric = () => {
                 {
                     listHistoryRewards.length > 1 ? 
                     listHistoryRewards.map((item, index) => {
-                        if(index >= 2) {
+                        if(index >= 1) {
                             return (
                                 <CardRewardWithoutTitle
                                     rescue_code={item.code_rescue}

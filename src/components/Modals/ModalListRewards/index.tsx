@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AdminContext } from "../../../contexts/administradorContext";
-import { ButtonCloseModal, ButtonRescue, DivInput, DivTitle, FormEditProduct, Input, Label, Modal, ModalBackground, SpanError, TitleModal } from "./style";
+import { ButtonCloseModal, ButtonRescue, DivInput, DivTitle, FormEditProduct, Input, Label, ListRewards, Modal, ModalBackground, SpanError, TitleModal } from "./style";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { userSearchReward } from "../../../schemas/user.schema";
 import { iSearchReward } from "../../../interfaces/user/user.interface";
@@ -8,14 +8,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const ModalRescueRewards = () => {
-    const { setModalRescueRewards } = useContext(AdminContext);
+    const { setModalRescueRewards, listRewardsClient, getRescueHistory } = useContext(AdminContext);
 
     const { register, handleSubmit, formState: { errors } } = useForm<iSearchReward>({
         resolver: zodResolver(userSearchReward)
     })
     const submitProduct: SubmitHandler<iSearchReward> = (data: iSearchReward) => {
-        console.log(data)
-        setModalRescueRewards(false)
+        getRescueHistory(data)
     };
   
     function closeModal(element: React.MouseEvent<HTMLDivElement, MouseEvent>) {
@@ -42,6 +41,24 @@ const ModalRescueRewards = () => {
                 </DivInput>
 
                 <ButtonRescue type="submit">Resgatar</ButtonRescue>
+
+                <ListRewards>
+                  <h2>Lista de Recompensas</h2>
+
+                  <div>
+                    {
+                      listRewardsClient.length > 0 ? listRewardsClient.map((item, index) => {
+                        return (
+                          <li key={index}>
+                            <span>{item.reward_name}</span>
+                            <span>{item.rescue_date}</span>
+                          </li>
+                        )
+                      })
+                      : <p>Sem Recompensas</p>
+                    }
+                  </div>
+                </ListRewards>
             </FormEditProduct>
         </Modal>
       </ModalBackground>

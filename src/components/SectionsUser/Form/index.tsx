@@ -1,14 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InputUser, InputUserRegisterClient, InputUserRegisterPoints, InputUserRegisterProduct, InputUserSearchClient } from "../Input"
-import { DivBoxInput, DivBtns, Form, Label, Span, InputFile, DivInputsYellow, SpanFile } from "./style"
+import { InputCalculatePoints, InputUser, InputUserRegisterClient, InputUserRegisterPoints, InputUserRegisterProduct, InputUserSearchClient } from "../Input"
+import { DivBoxInput, DivBtns, Form, Label, Span, InputFile, DivInputsYellow, SpanFile, ButtonCalculate, DivInputCalculate, DivQrCode } from "./style"
 import { SubmitHandler, useForm } from "react-hook-form";
 import { iFormAdminEdit, iFormRegisterClient, iFormSearchClient, iFormSearchPub, iFormUserEdit, iFormUserRegisterPoints, iRegisterProduct } from "../../../interfaces/user/user.interface";
 import { userEditSchema, userRegisterClientSchema, userRegisterPointsSchema, userRegisterProductSchema, userSearchClientSchema, userSearchPubSchema } from "../../../schemas/user.schema";
 import { ButtonEditProducts, ButtonListRegisterClient, ButtonUser, ButtonUserSmall } from "../Button";
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useState } from "react";
 import { ClientContext } from "../../../contexts/clienteContext";
 import { useDropzone } from "react-dropzone";
 import { AdminContext } from "../../../contexts/administradorContext";
+import QrCode from "react-qr-code"
 
 const FormUserAdminEdit = () => {
     const { dropFile, setFile, adminInfo, updateAdmin } = useContext(AdminContext)
@@ -103,23 +104,48 @@ const FormUserRegisterPoints = () => {
         resolver: zodResolver(userRegisterPointsSchema),
     });
 
+    const submitRegisterPoints: SubmitHandler<iFormUserRegisterPoints> = async (data: iFormUserRegisterPoints) => {
+        const newData = {
+            name: "notname",
+            cpf: data.cpf,
+            points: value,
+        }
 
-    const submitRegisterPoints: SubmitHandler<iFormUserRegisterPoints> = (data: iFormUserRegisterPoints) => {
-        alert("fslts")           
-        console.log(data)
-
-        return;
+        updatePointsRegisterClient(newData)
     };
+
+    const [ value, setValue ] = useState('')
+    const [ calculate, setCalculate ] = useState(false)
+    const { updatePointsRegisterClient, linkQrCode } = useContext(AdminContext)
 
     return (
         <Form onSubmit={handleSubmit(submitRegisterPoints)} style={{alignItems: "center", gap: "15px", marginTop: "20px"}}>
             <InputUserRegisterPoints id="socialNumber" name="cpf" type="text" register={register} placeholder="CPF do cliente"/>
             { errors.cpf?.message ? <Span style={{marginTop: "-15px"}}>{errors.cpf.message}</Span> : null }
 
-            <InputUserRegisterPoints id="points" name="points" type="text" register={register} placeholder="Pontuação do usuário"/>
+            <InputCalculatePoints register={register} setValue={setValue}/>
             { errors.points?.message ? <Span style={{marginTop: "-15px"}}>{errors.points.message}</Span> : null }
 
+            <ButtonCalculate type="button" onClick={() => setCalculate(true)}>Calcular</ButtonCalculate>
+
+            <DivInputCalculate>
+                <h4>A pontuação gerada foi:</h4>
+                <input type="text" placeholder="---" value={calculate && value !== "" ? `${value} pts` : ""}/>
+            </DivInputCalculate>
+
             <ButtonUser type="submit" text="Registrar Pontuação"/>
+
+            <DivQrCode>
+                <h3>Valide sua pontuação. Basta escanear o QrCode:</h3>
+
+                <QrCode
+                    value={linkQrCode ? `${window.location.origin}/usuario/qrcode/${linkQrCode}` : ""}
+                />
+
+                <span>Ou digite o código:</span>
+
+                <span className="link-qrcode">{linkQrCode}</span>
+            </DivQrCode>
         </Form>
     )
 }

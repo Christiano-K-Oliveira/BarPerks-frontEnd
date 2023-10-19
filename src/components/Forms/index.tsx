@@ -278,12 +278,12 @@ const FormLogin = () => {
         }
     };
 
-    const responseGoogle = (res: GoogleLoginResponse | { readonly code: string, profileObj: { googleId: string, imageUrl: string, email: string, name: string, givenName: string, familyName: string,} }) => {
+    const responseGoogle = (res: GoogleLoginResponse | { readonly code: string, profileObj?: { googleId: string, imageUrl: string, email: string, name: string, givenName: string, familyName: string,} }) => {
         if(url === '/login-cliente'){
-            clientLoginGoogle(res.profileObj.email)
+            clientLoginGoogle(res.profileObj!.email!)
         }
         else {
-            adminLoginGoogle(res.profileObj.email)    
+            adminLoginGoogle(res.profileObj!.email!)    
         }
     }
 

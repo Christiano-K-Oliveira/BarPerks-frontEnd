@@ -1,10 +1,11 @@
 import { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import api from "../services/api";
+import { api, apiMercadoPago } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { iSendEmail } from "../interfaces/user/recoverPassword.interface";
-import { iAdminInfo, iFormRegisterClient, iFormSearchClient, iFormUserEdit, iProduct, iRegisterProduct, iSearchClient, iUpdateProduct, iUpdateRegisterClient } from "../interfaces/user/user.interface";
+import { iAdminInfo, iFormRegisterClient, iFormSearchClient, iFormUserEdit, iProduct, iRegisterProduct, iSearchClient, iSearchReward, iUpdateProduct, iUpdateRegisterClient } from "../interfaces/user/user.interface";
+import { iListHistoryRewardsClient } from "../interfaces/user/historyRewards.interface";
 
 interface iAdminProviderProps {
     children: React.ReactNode;   
@@ -79,6 +80,17 @@ interface iAdminContext {
   excludeRegisterClient: (id: number) => Promise<void>;
   modalRescueRewards: boolean;
   setModalRescueRewards: Dispatch<SetStateAction<boolean>>;
+  getListRewardsClient: (id: number | undefined) => Promise<void>;
+  listRewardsClient: iListHistoryRewardsClient[] | [];
+  setListRewardsClient: Dispatch<SetStateAction<iListHistoryRewardsClient[] | []>>;
+  updateRescueHistory: (data: iSearchReward, idRescueHistory: number) => Promise<void>;
+  idClient: number | undefined;
+  setIdClient: Dispatch<SetStateAction<number | undefined>>;
+  getRescueHistory: (data: iSearchReward) => Promise<void>;
+  updatePointsRegisterClient: (data: iUpdateRegisterClient) => Promise<void>;
+  linkQrCode: string;
+  setLinkQrCode: Dispatch<SetStateAction<string>>;
+  buyPlan: (plan: string) => Promise<void>;
 }
   
 export const AdminContext = createContext({} as iAdminContext);
@@ -98,6 +110,9 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   const [ listRegisterClient, setListRegisterClient ] = useState<iSearchClient[]>([])
   const [ modalListRegisterClient, setModalListRegisterClient ] = useState(false)
   const [ modalRescueRewards, setModalRescueRewards ] = useState(false)
+  const [ listRewardsClient, setListRewardsClient ] = useState<iListHistoryRewardsClient[]>([])
+  const [ idClient, setIdClient ] = useState<number>()
+  const [ linkQrCode, setLinkQrCode ] = useState("https://...")
 
   useEffect(() => {
     const cookie = cookies['token']
@@ -106,6 +121,16 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
     getProducts(cookie)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cookies]);
+
+  function create_UUID(){
+    let dt = new Date().getTime();
+    const uuid = 'xyxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = (dt + Math.random()*16)%16 | 0;
+        dt = Math.floor(dt/16);
+        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+}
 
   const adminRegister = async (pubData: iRegisterData): Promise<void> => {
       try {
@@ -604,7 +629,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
     }
   }
 
-  const getClient = async(data: iFormSearchClient): Promise<void> => {
+  const getClient = async (data: iFormSearchClient): Promise<void> => {
     try{
       const token = cookies["token"]
 
@@ -615,7 +640,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         }
       })
 
-      setSearchUser(res.data)
+      await setSearchUser(res.data)
     }
     catch {
       toast.error('Registro de cliente não encontrado.', {
@@ -655,6 +680,56 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
       getListClients()
 
       toast.success('Registro de cliente atualizado com sucesso!', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    catch {
+      toast.error('Ops, algo deu errado.', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+  const updatePointsRegisterClient = async (data: iUpdateRegisterClient): Promise<void> => {
+    try{
+      const token = cookies["token"]
+
+      const getRegisterClient = await api.get(`pub/registered-clients/${data.name}/${data.cpf}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        }
+      })
+
+      const newData = {
+        old_points: getRegisterClient.data[0].points,
+        points: (+getRegisterClient.data[0].points + +data.points!) + "",
+        link_qrcode: create_UUID(),
+      }
+    
+      const res = await api.patch(`pub/registered-clients/${getRegisterClient.data[0].id}`, newData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        }
+      })
+
+      setLinkQrCode(res.data.link_qrcode)
+
+      toast.success('Pontuação registrada com sucesso!', {
         position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -733,7 +808,169 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
       });
     }
   }
-  // const updateRescueHistory = async (): Promise<void> => {}
+
+  const getListRewardsClient = async (id: number | undefined): Promise<void> => {
+    try {
+      const token = cookies["token"]
+
+      const res = await api.get(`pub/rescue-history/${id ? id : idClient}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        }
+      })
+      
+      const dataFilter = res.data.reverse().filter((item: iListHistoryRewardsClient) => {
+        if(item.status !== "disponivel"){
+          const data  = item.rescue_date.split("/", 3);
+          const date = new Date();
+
+          if(+data[2].split(",")[0] - date.getFullYear() >= 0 && +data[1] - date.getMonth() + 1 >= 0 || +data[0] - date.getDate() >= 0){
+            return item
+          }
+        }
+      })
+
+      setListRewardsClient(dataFilter)
+    }
+    catch(erro) {
+      console.log(erro)
+    }
+  }
+  const getRescueHistory = async (data: iSearchReward): Promise<void> => {
+    try{
+      const token = cookies["token"]
+
+      const res = await api.get(`pub/rescue-history/search/${idClient}/${data.code_rescue}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        }
+      })
+
+      updateRescueHistory(data, res.data.id)
+
+    }
+    catch {
+      toast.error('Código de resgate inválido.', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });    }
+  }
+  const updateRescueHistory = async (data: iSearchReward, idRescueHistory: number): Promise<void> => {
+    try {
+      const token = cookies["token"]
+      const date = new Date().toLocaleString()
+      const newData = {
+        status: "resgatado",
+        rescue_date: date,
+        ...data,
+      }
+
+      await api.patch(`pub/rescue-history/${idRescueHistory}`, newData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        }
+      })
+
+      getListRewardsClient(idClient)
+
+      toast.success('Recompensa resgatada com sucesso!', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    catch {
+      toast.error('Código de resgate inválido.', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+
+  const buyPlan = async (plan: string): Promise<void> => {
+    try{
+      const premium = {
+        items: [
+          {
+            "id": "1",
+            "description": "Plano Premium de 6 meses para estabelecimento na plataforma bar perks.", 
+            "title": "Plano Premium",
+            "quantity": 1,
+            "currency_id": "BRL",
+            "unit_price": 50.0
+          }
+        ]
+      }
+      const standart = {
+        items: [
+          {
+            "id": "2",
+            "description": "Plano Padrão de 6 meses para estabelecimento na plataforma bar perks.", 
+            "title": "Plano Padrão",
+            "quantity": 1,
+            "currency_id": "BRL",
+            "unit_price": 30.0
+          }
+        ]
+      }
+
+      const token = 'TEST-541286837154157-101709-163a08ba6b4eae3ac10cc11e609e30c9-311362426'
+
+      if(plan === 'premium'){
+        const res = await apiMercadoPago.post('', premium, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` 
+          }
+        })
+
+        window.location.assign(res.data.sandbox_init_point)
+      }
+      else{
+        const res = await apiMercadoPago.post('', standart, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` 
+          }
+        })
+
+        window.location.assign(res.data.sandbox_init_point)
+      }
+    }
+    catch {
+      toast.error('Ops, algo deu errado..', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+  
   
   return (
     <AdminContext.Provider
@@ -784,6 +1021,17 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         excludeRegisterClient,
         modalRescueRewards,
         setModalRescueRewards,
+        getListRewardsClient,
+        listRewardsClient,
+        setListRewardsClient,
+        updateRescueHistory,
+        idClient,
+        setIdClient,
+        getRescueHistory,
+        updatePointsRegisterClient,
+        linkQrCode,
+        setLinkQrCode,
+        buyPlan,
       }}>
       {children}
     </AdminContext.Provider>

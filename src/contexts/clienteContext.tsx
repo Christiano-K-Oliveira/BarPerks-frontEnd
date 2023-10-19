@@ -1,12 +1,11 @@
 import { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
-import api from "../services/api";
+import { api } from "../services/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { iSendEmail } from "../interfaces/user/recoverPassword.interface";
-import { iClientInfo, iFormUserEdit, iProduct, iPub, iSearchPub } from "../interfaces/user/user.interface";
+import { iClientInfo, iFormUserEdit, iProduct, iPub, iSearchPub, iValidPoints } from "../interfaces/user/user.interface";
 import { iListHistoryRewards, iRewardInfo } from "../interfaces/user/historyRewards.interface";
-// import { GoogleLogout } from "react-google-login";
 
 interface iClientProviderProps {
     children: React.ReactNode;   
@@ -63,6 +62,9 @@ interface iClientContext {
     updatePoints: () => Promise<string | void>;
     rewardInfo: iRewardInfo | undefined;
     setRewardInfo: Dispatch<SetStateAction<iRewardInfo | undefined>>;
+    validatePoints: (qrcode: string) => Promise<void>;
+    points: iValidPoints | undefined;
+    setPoints: Dispatch<SetStateAction<iValidPoints | undefined>>;
 }
   
 
@@ -79,6 +81,7 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
     const [filterListProducts, setFilterListProducts ] = useState<iProduct[]>([])
     const [ modalConfReward, setModalConfReward ] = useState(false)
     const [ rewardInfo, setRewardInfo ] = useState<iRewardInfo>()
+    const [ points, setPoints ] = useState<iValidPoints>()
 
     useEffect(() => {
         const cookie = cookies['token']
@@ -418,7 +421,8 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
 
                 const date = new Date();
 
-                if(+ano - date.getFullYear() >= 0 && (+mes + 2) - date.getMonth() + 1 >= 0 && +dia - date.getDate() >= 0){
+
+                if(+ano - date.getFullYear() >= 0 && (+mes + 2) - date.getMonth() + 1 >= 0 || +dia - date.getDate() >= 0){
                     return item
                 }
             })
@@ -550,6 +554,44 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
         }
     }
 
+    const validatePoints = async (qrcode: string): Promise<void> => {
+        try{
+            const token = cookies["token"]
+
+            const res = await api.get(`client/registered-clients/${qrcode}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+
+            setPoints(res.data)
+
+            toast.success('Validação de pontuação feita com sucesso!', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+        catch{
+            toast.error('Código de QrCode inválido.', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }
+
     return (
         <ClientContext.Provider
             value={{
@@ -587,6 +629,9 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
                 rewardInfo,
                 createHistoryReward,
                 updatePoints,
+                validatePoints,
+                points,
+                setPoints,
             }}>
             {children}
         </ClientContext.Provider>

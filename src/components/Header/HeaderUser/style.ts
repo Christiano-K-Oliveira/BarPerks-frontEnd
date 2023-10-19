@@ -223,7 +223,7 @@ export const MenuNav = styled.nav`
     top: 65px;
     padding: 5px 10px;
 
-    a{
+    .link{
         color: var(--grey-0);
         font-size: var(--font-size-5);
         font-weight: 600;

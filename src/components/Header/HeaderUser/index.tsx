@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { CloseMenuIcon, DivBox, DivBoxLinksMobile, Figure, LinkMobile, LinkMobileExit, MenuIcon, MenuNav } from "./style"
 import { DivBoxIcon, HeaderUserEdit, ImgLogo, LinkHeader, NavLinks, NavLinksMobile, TitleLogo, UserIcon } from "./style"
 import IconLogo from '../../../assets/images/icon-barperks.svg'
@@ -7,6 +7,7 @@ import { useContext, useState } from "react"
 import { ClientContext } from "../../../contexts/clienteContext"
 import { AdminContext } from "../../../contexts/administradorContext"
 import { FaArrowDown } from "react-icons/fa"
+
 
 const HeaderUserAdmin = () => {
     const navigate = useNavigate()
@@ -40,8 +41,8 @@ const HeaderUserAdmin = () => {
 
                         <FaArrowDown size="26px"/>
                         <MenuNav style={navAdmin ? {display: "flex"} : {display: "none"}}>
-                            <a href="">Meu Plano</a>
-                            <a href="/admin">Minha Conta</a>
+                            <Link className="link" to="">Meu Plano</Link>
+                            <Link className="link" to="/admin">Minha Conta</Link>
                             <a className="exit-link" onClick={() => exitAdmin()}>Sair</a>
                         </MenuNav>
                     </DivBoxIcon>                    
@@ -104,8 +105,8 @@ const HeaderUser = () => {
 
                         <FaArrowDown size="26px"/>
                         <MenuNav style={navClient ? {display: "flex"} : {display: "none"}}>
-                            <a href="">Qr Code</a>
-                            <a href="/usuario">Minha Conta</a>
+                            <Link className="link" to="/usuario/qrcode">Ler QR Code</Link>
+                            <Link className="link" to="/usuario">Minha Conta</Link>
                             <a className="exit-link" onClick={() => exitClient()}>Sair</a>
                         </MenuNav>
                     </DivBoxIcon> 
@@ -125,7 +126,7 @@ const HeaderUser = () => {
                             <LinkMobile to={'/usuario/historico-resgates'}>Histórico de Resgates</LinkMobile>
                             <LinkMobile to={'/usuario'}>Editar Perfil</LinkMobile>
                             <LinkMobile to={'/usuario/resgatar-recompensas'}>Resgatar Recompensas</LinkMobile>
-                            <LinkMobile to={'/usuario'}>Qr Code</LinkMobile>
+                            <LinkMobile to={'/usuario/qrcode'}>Ler QR Code</LinkMobile>
                             <LinkMobileExit onClick={() => exitClient()}>Sair da Página</LinkMobileExit>
                         </DivBoxLinksMobile>
                     </NavLinksMobile>
