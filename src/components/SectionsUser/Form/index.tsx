@@ -4,7 +4,7 @@ import { DivBoxInput, DivBtns, Form, Label, Span, InputFile, DivInputsYellow, Sp
 import { SubmitHandler, useForm } from "react-hook-form";
 import { iFormAdminEdit, iFormRegisterClient, iFormSearchClient, iFormSearchPub, iFormUserEdit, iFormUserRegisterPoints, iRegisterProduct } from "../../../interfaces/user/user.interface";
 import { userEditSchema, userRegisterClientSchema, userRegisterPointsSchema, userRegisterProductSchema, userSearchClientSchema, userSearchPubSchema } from "../../../schemas/user.schema";
-import { ButtonEditProducts, ButtonListRegisterClient, ButtonUser, ButtonUserSmall } from "../Button";
+import { ButtonEditProducts, ButtonListRegisterClient, ButtonUser, ButtonUserSmall, ButtonUserSmallDelete } from "../Button";
 import { useCallback, useContext, useState } from "react";
 import { ClientContext } from "../../../contexts/clienteContext";
 import { useDropzone } from "react-dropzone";
@@ -26,14 +26,14 @@ const FormUserAdminEdit = () => {
         }
     })
 
-    const { register, handleSubmit, formState: { errors } } = useForm<iFormAdminEdit>({
+    const { register, handleSubmit, formState: { errors } } = useForm<iFormUserEdit>({
         resolver: zodResolver(userEditSchema),
     });
 
-    const submitEditUser: SubmitHandler<iFormAdminEdit> = (data: iFormAdminEdit) => {
+    const submitEditUser: SubmitHandler<iFormUserEdit> = (data: iFormUserEdit) => {
         const newData: iFormAdminEdit = {
             name: data.name ? data.name : adminInfo?.name,
-            social_number: data.social_number ? data.social_number : adminInfo?.social_number,
+            social_number: data.cpf ? data.cpf : adminInfo?.social_number,
             email: data.email ? data.email : adminInfo?.email,
             password: data.password ? data.password : '',
             telephone: data.telephone ? data.telephone : adminInfo?.telephone,
@@ -57,7 +57,7 @@ const FormUserAdminEdit = () => {
             <DivBoxInput>
                 <Label htmlFor="cpf">CPF/CNPJ:</Label>
                 <InputUser id="cpf" name="cpf" type="text" register={register} placeholder={adminInfo?.social_number}/>
-                { errors.social_number?.message ? <Span>{errors.social_number.message}</Span> : null }
+                { errors.cpf?.message ? <Span>{errors.cpf.message}</Span> : null }
             </DivBoxInput>
 
             <DivBoxInput>
@@ -92,7 +92,7 @@ const FormUserAdminEdit = () => {
             </DivBoxInput>
 
             <DivBtns>
-                <ButtonUserSmall text="Remover Usuário" type="submit"/>
+                <ButtonUserSmallDelete text="Remover Usuário" type="button"/>
                 <ButtonUserSmall text="Salvar" type="submit"/>
             </DivBtns>
         </Form>

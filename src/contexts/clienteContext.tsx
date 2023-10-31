@@ -53,7 +53,7 @@ interface iClientContext {
     getPub: (data: iSearchPub) => Promise<void>;
     listProducts: iProduct[] | [];
     setListProducts: Dispatch<SetStateAction<iProduct[] | []>>;
-    getProducts: (id: number) => Promise<void>;
+    getProducts: () => Promise<void>;
     filterListProducts: iProduct[] | [];
     setFilterListProducts: Dispatch<SetStateAction<iProduct[] | []>>;
     modalConfReward: boolean;
@@ -521,7 +521,7 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
 
             setSearchPub(res.data)
 
-            getProducts(res.data.pub.id)
+            getProducts()
         }
         catch {
             toast.error('Bar não encontrado.', {
@@ -536,11 +536,11 @@ const ClientProvider = ({ children }: iClientProviderProps) => {
             });
         }
     }
-    const getProducts = async (id: number): Promise<void> => {
+    const getProducts = async (): Promise<void> => {
         try{
             const token = cookies["token"]
 
-            const res = await api.get(`products/${id}`, { 
+            const res = await api.get(`products`, { 
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`    

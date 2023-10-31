@@ -20,6 +20,7 @@ import TermsAndConditionsPage from "../pages/linksFast/termsConditions"
 import PrivacyPolicyPage from "../pages/linksFast/privacyPolicy"
 import { ProtectedRoutesAdmin, ProtectedRoutesClient } from "../components/ProtectedRoutes"
 import UserQrCode from "../pages/user/userQrCode"
+import UserPlan from "../pages/user/userPlan"
 
 const RoutesMain = () => {
     return (
@@ -39,6 +40,7 @@ const RoutesMain = () => {
                 <Route path="/admin/cadastrar-produtos" element={<UserRegisterProductPage/>}/>
                 <Route path="/admin/cadastrar-cliente" element={<UserRegisterClientPage/>}/>
                 <Route path="/admin/buscar-usuario" element={<UserSearchClientPage/>}/>
+                <Route path="/admin/plano" element={<UserPlan/>}/>
             </Route>
             <Route path="/recuperar-senha" element={<RecoverPasswordSendingEmailPage/>}/>
             <Route path="/recuperar-senha/:user/:token" element={<RecoverPasswordPage/>}/>

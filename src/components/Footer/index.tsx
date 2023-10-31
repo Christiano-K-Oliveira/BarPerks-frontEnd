@@ -31,7 +31,7 @@ const Footer = () => {
                                 <TitleInfo>Endereço</TitleInfo>
 
                                 <ParagraphInfo>
-                                    Rua Vergueiro, 1211 - Aclimação, São Paulo - SP, 01533-000
+                                    São Paulo - SP
                                 </ParagraphInfo>
                             </DivBoxInfoUnique>
 

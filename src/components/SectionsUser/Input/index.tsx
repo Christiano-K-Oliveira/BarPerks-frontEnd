@@ -43,7 +43,7 @@ const InputCalculatePoints = ({ register, setValue }: { register: UseFormRegiste
             return setValue("")
         }
 
-        const value = Math.ceil(+target.value / 10) * 10;
+        const value = +target.value * 5;
         setValue(value.toString())
     }
 
@@ -54,7 +54,7 @@ const InputCalculatePoints = ({ register, setValue }: { register: UseFormRegiste
                 <IconQuest size="20px"/>
             </button>
 
-            <p style={info ? {display: "flex"} : {display: "none"}}>A soma dos pontos é realizada através da soma de valores cheios.<br/>Ex: 20, 30, 50...</p>
+            <p style={info ? {display: "flex"} : {display: "none"}}>A cada 1 real gasto, é somado 5 pontos a sua conta.</p>
         </DivInputCalculate>
     )
 }

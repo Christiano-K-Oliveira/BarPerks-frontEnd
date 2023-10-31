@@ -202,3 +202,9 @@ export interface iSearchPub {
 export interface iSearchReward {
     code_rescue: string;
 }
+
+export interface iPlan {
+    name: string;
+    created_at: string;
+    updated_at: string;
+}

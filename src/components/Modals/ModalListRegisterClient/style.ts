@@ -16,7 +16,7 @@ export const ModalBackground = styled.div`
 export const Modal = styled.div`
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 63%;
     background-color: var(--white-fixed);
     border-radius: 8px;
     z-index: 2;

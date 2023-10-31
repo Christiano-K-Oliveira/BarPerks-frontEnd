@@ -60,7 +60,7 @@ export interface iInputAdmin {
     type: string;
     placeholder: string;
     register: UseFormRegister<iFormInscricao>;
-    name: "name" | "socialNumber" | "email" | "password" | "address" | "state" | "city" | "postalCode" | "passwordRepeated" | "phone" | "photo";
+    name: "name" | "socialNumber" | "email" | "password" | "address" | "state" | "city" | "postalCode" | "passwordRepeated" | "phone";
 }
 
 export interface iInputUser {
@@ -68,5 +68,5 @@ export interface iInputUser {
     type: string;
     placeholder: string;
     register: UseFormRegister<iFormInscricaoUser>;
-    name: "name" | "birthDate" | "socialNumber" | "email" | "password" | "passwordRepeated" | "phone" | "photo" ;
+    name: "name" | "birthDate" | "socialNumber" | "email" | "password" | "passwordRepeated" | "phone";
 }

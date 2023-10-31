@@ -1,10 +1,6 @@
-import { useContext } from "react"
-import { DivBoxBlack, DivPrice, ItemPlan, ButtonStartBlack, ButtonStartWhite, ListPlans, SectionAllPlans, SpanBestCost, SpanLight, SpanNumberPrice, SpanSignPrice, TitlePlan, TitlePlans } from "./style"
-import { AdminContext } from "../../contexts/administradorContext"
+import { DivBoxBlack, DivPrice, ItemPlan, ListPlans, SectionAllPlans, SpanBestCost, SpanLight, SpanNumberPrice, SpanSignPrice, TitlePlan, TitlePlans } from "./style"
 
 const SectionPlans = () => {
-    const { buyPlan } = useContext(AdminContext)
-
     return (
         <SectionAllPlans>
             <TitlePlans>Explore nossos planos</TitlePlans>
@@ -21,9 +17,7 @@ const SectionPlans = () => {
                     <SpanLight>Todo mês</SpanLight>
                     <SpanLight>Válido por 6 meses</SpanLight>
 
-                    <ButtonStartBlack type="button" onClick={() => buyPlan('padrao')}>Começar</ButtonStartBlack>
-
-                    <SpanLight style={{width: '100%'}}>- Até 500 clientes mensais</SpanLight>
+                    <SpanLight style={{width: '100%', marginTop: "40px"}}>- Até 500 clientes</SpanLight>
                     <SpanLight style={{width: '100%'}}>- Válido por 6 meses</SpanLight>
                 </ItemPlan>
 
@@ -42,9 +36,7 @@ const SectionPlans = () => {
 
                     </DivBoxBlack>
 
-                    <ButtonStartWhite type="button" onClick={() => buyPlan('premium')}>Começar</ButtonStartWhite>
-
-                    <SpanLight style={{padding: '0px 40px'}}>- Clientes ilimitados</SpanLight>
+                    <SpanLight style={{padding: '0px 40px', marginTop: "30px"}}>- Clientes ilimitados</SpanLight>
                     <SpanLight style={{padding: '0px 40px'}}>- Suporte prioritário</SpanLight>
                     <SpanLight style={{padding: '0px 40px'}}>- Válido por 12 meses</SpanLight>
                 </ItemPlan>

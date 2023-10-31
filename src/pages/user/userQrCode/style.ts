@@ -5,7 +5,7 @@ export const SectionQrCode = styled.section`
     flex-direction: column;
     width: 100vw;
     margin-top: 20px;
-    min-height: 69vh;
+    min-height: 100vh;
 
     div{
         display: flex;

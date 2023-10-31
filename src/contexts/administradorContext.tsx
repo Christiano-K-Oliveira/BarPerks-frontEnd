@@ -4,7 +4,7 @@ import { api, apiMercadoPago } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { iSendEmail } from "../interfaces/user/recoverPassword.interface";
-import { iAdminInfo, iFormRegisterClient, iFormSearchClient, iFormUserEdit, iProduct, iRegisterProduct, iSearchClient, iSearchReward, iUpdateProduct, iUpdateRegisterClient } from "../interfaces/user/user.interface";
+import { iAdminInfo, iFormRegisterClient, iFormSearchClient, iFormAdminEdit, iProduct, iRegisterProduct, iSearchClient, iSearchReward, iUpdateProduct, iUpdateRegisterClient, iPlan } from "../interfaces/user/user.interface";
 import { iListHistoryRewardsClient } from "../interfaces/user/historyRewards.interface";
 
 interface iAdminProviderProps {
@@ -50,7 +50,7 @@ interface iAdminContext {
   adminInfo: iAdminInfo | undefined;
   setAdminInfo: Dispatch<SetStateAction<iAdminInfo | undefined>>;
   exitAdmin: () => Promise<void>;
-  updateAdmin: (data: iFormUserEdit, id: number) => Promise<void>;
+  updateAdmin: (data: iFormAdminEdit, id: number) => Promise<void>;
   registerClient: (data: iFormRegisterClient) => Promise<void>;
   registerProduct: (data: iRegisterProduct) => Promise<void>;
   editProductsModal: boolean;
@@ -91,6 +91,10 @@ interface iAdminContext {
   linkQrCode: string;
   setLinkQrCode: Dispatch<SetStateAction<string>>;
   buyPlan: (plan: string) => Promise<void>;
+  excludeAdmin: (id: number) => Promise<void>;
+  plan: iPlan | undefined;
+  setPlan: Dispatch<SetStateAction<iPlan | undefined>>;
+  getPlan: () => Promise<void>;
 }
   
 export const AdminContext = createContext({} as iAdminContext);
@@ -113,12 +117,16 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   const [ listRewardsClient, setListRewardsClient ] = useState<iListHistoryRewardsClient[]>([])
   const [ idClient, setIdClient ] = useState<number>()
   const [ linkQrCode, setLinkQrCode ] = useState("https://...")
+  const [ plan, setPlan ] = useState<iPlan>()
 
   useEffect(() => {
     const cookie = cookies['token']
 
     getAdminInfo(cookie)
     getProducts(cookie)
+    getPlan()
+    getListClients()
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cookies]);
 
@@ -135,6 +143,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   const adminRegister = async (pubData: iRegisterData): Promise<void> => {
       try {
           const res = await api.post<iRegisterData>("pubs", pubData)
+          await api.post("plans", { name: "Sem Plano", pub_id: res.data.id })
 
           if(res.data.id && dropFile){
             uploadAdmin(res.data.id, dropFile)
@@ -392,7 +401,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
 
     navigate("/")
   }
-  const updateAdmin = async (data: iFormUserEdit, id: number): Promise<void> => { 
+  const updateAdmin = async (data: iFormAdminEdit, id: number): Promise<void> => { 
     try {
         const token = cookies["token"]
 
@@ -433,18 +442,123 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         });
     }
   }
+  const excludeAdmin = async (id: number): Promise<void> => {
+    try {
+      const token = cookies["token"]
+
+      await api.delete(`pubs/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`    
+        }
+      })
+
+      toast.success('Conta excluída com sucesso!', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        removeCookie("token")
+
+        navigate("/")
+      }, 3200)
+
+    }
+    catch {
+      toast.error('Ops, algo de errado!', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+    }
+  }
+  const getPlan = async (): Promise<void> => {
+    try {
+      const token = cookies["token"]
+
+      const res = await api.get('plans', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`                
+        }
+      })
+
+      setPlan(res.data)
+    }
+    catch (erro){
+      console.log(erro)
+    }
+  }
 
   const registerClient = async (data: iFormRegisterClient): Promise<void> => {
     try {
       const token = cookies["token"]
-  
-      await api.post('pub/registered-clients', data, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` 
-        }
-      })
 
+      if(plan!.name == "Sem Plano"){
+        if(listRegisterClient.length < 100){
+          await api.post('pub/registered-clients', data, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}` 
+            }
+          })
+        }
+        else{
+          toast.error('Sem Plano, permitido apenas o registro de 100 clientes.', {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      }
+      if(plan!.name == "Plano Padrão"){
+        if(listRegisterClient.length < 500){
+          await api.post('pub/registered-clients', data, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}` 
+            }
+          })
+        }
+        else{
+          toast.error('Plano Padrão, permitido apenas o registro de 500 clientes.', {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      }
+      else{
+        await api.post('pub/registered-clients', data, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` 
+          }
+        })
+      }
+  
       toast.success('Cliente registrado com sucesso!', {
         position: "bottom-right",
         autoClose: 3000,
@@ -910,31 +1024,33 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
   const buyPlan = async (plan: string): Promise<void> => {
     try{
       const premium = {
+        notification_url: "https://barperks-backend.onrender.com/pubs/plan",
         items: [
           {
-            "id": "1",
-            "description": "Plano Premium de 6 meses para estabelecimento na plataforma bar perks.", 
-            "title": "Plano Premium",
-            "quantity": 1,
-            "currency_id": "BRL",
-            "unit_price": 50.0
+            id: adminInfo!.email,
+            description: "Plano Premium de 6 meses para estabelecimento na plataforma bar perks.", 
+            title: "Plano Premium",
+            quantity: 1,
+            currency_id: "BRL",
+            unit_price: 50.0
           }
         ]
       }
       const standart = {
+        notification_url: "https://barperks-backend.onrender.com/pubs/plan",
         items: [
           {
-            "id": "2",
-            "description": "Plano Padrão de 6 meses para estabelecimento na plataforma bar perks.", 
-            "title": "Plano Padrão",
-            "quantity": 1,
-            "currency_id": "BRL",
-            "unit_price": 30.0
+            id: adminInfo!.email,
+            description: "Plano Padrão de 6 meses para estabelecimento na plataforma bar perks.", 
+            title: "Plano Padrão",
+            quantity: 1,
+            currency_id: "BRL",
+            unit_price: 30.0
           }
         ]
       }
 
-      const token = 'TEST-541286837154157-101709-163a08ba6b4eae3ac10cc11e609e30c9-311362426'
+      const token = "APP_USR-541286837154157-101709-bf66b22aa6b728632b5fb5bc13190870-311362426"
 
       if(plan === 'premium'){
         const res = await apiMercadoPago.post('', premium, {
@@ -944,7 +1060,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
           }
         })
 
-        window.location.assign(res.data.sandbox_init_point)
+        window.open(res.data.sandbox_init_point, '_blank')
       }
       else{
         const res = await apiMercadoPago.post('', standart, {
@@ -954,7 +1070,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
           }
         })
 
-        window.location.assign(res.data.sandbox_init_point)
+        window.open(res.data.sandbox_init_point, '_blank')
       }
     }
     catch {
@@ -1032,6 +1148,10 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         linkQrCode,
         setLinkQrCode,
         buyPlan,
+        excludeAdmin,
+        plan, 
+        setPlan,
+        getPlan,
       }}>
       {children}
     </AdminContext.Provider>

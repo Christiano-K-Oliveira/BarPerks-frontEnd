@@ -1,11 +1,19 @@
 import { useContext } from "react"
 import { iButton } from "../../../interfaces/user/user.interface"
-import { Button, ButtonSmallStyle } from "./style"
+import { Button, ButtonSmallStyle, ButtonDelete } from "./style"
 import { AdminContext } from "../../../contexts/administradorContext"
 
 const ButtonUserSmall = ({text, type}: iButton) => {
     return (
         <ButtonSmallStyle type={type}>{text}</ButtonSmallStyle>
+    )
+}
+
+const ButtonUserSmallDelete = ({text, type}: iButton) => {
+    const { excludeAdmin, adminInfo } = useContext(AdminContext)
+
+    return (
+        <ButtonDelete type={type} onClick={() => excludeAdmin(adminInfo!.id!)}>{text}</ButtonDelete>
     )
 }
 
@@ -34,4 +42,4 @@ const ButtonEditProducts = () => {
     )
 }
 
-export { ButtonUserSmall, ButtonUser, ButtonEditProducts, ButtonListRegisterClient }
+export { ButtonUserSmall, ButtonUser, ButtonEditProducts, ButtonListRegisterClient, ButtonUserSmallDelete }

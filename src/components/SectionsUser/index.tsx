@@ -1,6 +1,6 @@
 import CardUser from "./CardUser"
 import { FormSearchPub, FormUserAdminEdit, FormUserEdit, FormUserRegisterClient, FormUserRegisterPoints, FormUserRegisterProducts, FormUserSearchClient } from "./Form"
-import { DivSearchPub, ListCards, ListCardsPub, ListCardsRewards, SectionUser, SpanName, Title } from "./style"
+import { DivPlan, DivSearchPub, ListCards, ListCardsPub, ListCardsRewards, SectionUser, SpanName, Title, TitlePub } from "./style"
 import { BiSolidUser } from "react-icons/bi"
 import img from "../../assets/images/4seta-vector.svg"
 import { CardReward, CardRewardWithoutTitle } from "./CardReward"
@@ -153,7 +153,11 @@ const SectionRedeemReward = () => {
         const target = element.target as HTMLInputElement;
 
         if(target.value){
-            const listFilter = listProducts.filter((item) => item.name.includes(target.value))
+            const listFilter = listProducts.filter((item) => {
+                if(item.name.includes(target.value)){
+                    return item
+                }
+            })
 
             setFilterListProducts(listFilter)
         }
@@ -214,6 +218,48 @@ const SectionRedeemReward = () => {
     )
 }
 
+const SectionUserPlan = () => {
+    const { adminInfo, buyPlan, plan } = useContext(AdminContext)
+
+    const date: string[] = plan?.created_at ? plan.created_at.split('-') : ["0000", "00", "00"]
+    const dateUpdate: string[] = plan?.updated_at ? plan.updated_at.split('-') : ["0000", "00", "00"]
+
+    const initialDate = plan?.created_at === plan?.updated_at ? `${date[2]}-${date[1]}-${date[0]}` : `${dateUpdate[2]}-${dateUpdate[1]}-${dateUpdate[0]}`
+    const expiresStandart = plan?.created_at === plan?.updated_at ? `${date[2]}-${+date[1] <= 6 ? +date[1] + 6 : +date[1] - 6}-${+date[1] > 6 ? +date[0] + 1 : date[0]}` : `${dateUpdate[2]}-${+dateUpdate[1] <= 6 ? +dateUpdate[1] + 6 : +dateUpdate[1] - 6}-${+dateUpdate[1] > 6 ? +dateUpdate[0] + 1 : dateUpdate[0]}`
+    const expiresPremium = plan?.created_at === plan?.updated_at ? `${date[2]}-${date[1]}-${+date[0] + 1}` : `${dateUpdate[2]}-${dateUpdate[1]}-${+dateUpdate[0] + 1}`
+
+    return (
+        <SectionUser>
+            <TitlePub>{adminInfo?.name}</TitlePub>
+
+            <DivPlan>
+                <h3>Assinaturas</h3>
+                <span className="span">Gerencie suas assinaturas aqui</span>
+                <span className="span-line"></span>
+
+                <span className="span">Plano: {plan?.name} {plan?.name == "Sem Plano" ? "- limite de 100 clientes" : plan?.name == "Plano Padrão" ? "- limite de 500 clientes" : null}</span>
+                <span className="span">Data de início: {initialDate}</span>
+                <span className="span">Data de expiração: {plan?.name == "Sem Plano" ? "Sem Tempo Limite" : plan?.name == "Plano Premium" ? expiresPremium : expiresStandart}</span>
+
+                {
+                    plan?.name == "Sem Plano" ?
+                    <>
+                        <h3 className="title-plans">Planos Disponíveis para Compra</h3>
+                        
+                        <div className="box-btns">
+                            <button type="button" className="btn-plan" onClick={() => buyPlan("padrao")}>Padrão</button>
+                            <button type="button" className="btn-plan" onClick={() => buyPlan("premium")}>Premium</button>
+                        </div>
+                    </>
+                    :
+                    null                
+                }
+
+            </DivPlan>
+        </SectionUser>
+    )
+}
+
 export { 
     SectionUserAdminEdit, 
     SectionRegisterPoints,
@@ -222,5 +268,6 @@ export {
     SectionSearchUser,
     SectionUserEdit,
     SectionRewardHistoric,
-    SectionRedeemReward
+    SectionRedeemReward,
+    SectionUserPlan,
 }

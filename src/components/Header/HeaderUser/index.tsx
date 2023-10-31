@@ -41,7 +41,7 @@ const HeaderUserAdmin = () => {
 
                         <FaArrowDown size="26px"/>
                         <MenuNav style={navAdmin ? {display: "flex"} : {display: "none"}}>
-                            <Link className="link" to="">Meu Plano</Link>
+                            <Link className="link" to="/admin/plano">Meu Plano</Link>
                             <Link className="link" to="/admin">Minha Conta</Link>
                             <a className="exit-link" onClick={() => exitAdmin()}>Sair</a>
                         </MenuNav>
@@ -59,7 +59,7 @@ const HeaderUserAdmin = () => {
                     menuMobile !== false ?
                     <NavLinksMobile>
                         <DivBoxLinksMobile>
-                            <LinkMobile to={'/admin'}>Editar Usuário</LinkMobile>
+                            <LinkMobile to={'/admin/plano'}>Meu Plano</LinkMobile>
                             <LinkMobile to={'/admin/registro-pontuacao'}>Registar Pontuação</LinkMobile>
                             <LinkMobile to={'/admin/cadastrar-produtos'}>Cadastrar Produtos</LinkMobile>
                             <LinkMobile to={'/admin/cadastrar-cliente'}>Cadastrar Cliente</LinkMobile>

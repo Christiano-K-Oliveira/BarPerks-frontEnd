@@ -6,7 +6,7 @@ export const SectionUser = styled.section`
     width: 81vw;
     margin: 0 auto;
     margin-top: 25px;
-    min-height: 68vh;
+    min-height: 100vh;
 `
 
 export const Title = styled.h2`
@@ -156,5 +156,71 @@ export const ListCardsPub = styled.ul`
 
     @media(max-width: 900px){
         justify-content: center;
+    }
+`
+
+export const TitlePub = styled.h2`
+    color: var(--grey-0);
+    font-size: var(--font-title-1);
+    font-weight: 600;
+    background-color: var(--yellow-1);
+    width: 100%;
+    margin: 0 auto;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+export const DivPlan = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+
+    h3{
+        color: var(--grey-0);
+        font-size: var(--font-size-1);
+        font-weight: 600;
+    }
+
+    .span{
+        color: var(--grey-0);
+        font-size: var(--font-size-3);
+        margin-bottom: 5px;
+    }
+
+    .span-line{
+        background-color: var(--grey-0);
+        width: 100%;
+        height: 3px;
+        margin-bottom: 20px;
+    }
+
+    .title-plans{
+        color: var(--grey-0);
+        font-size: var(--font-size-1);
+        font-weight: 600;
+        margin-top: 20px;
+    }
+
+    .box-btns{
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;        
+    }
+    .btn-plan{
+        background-color: var(--yellow-1);
+        color: var(--grey-0);
+        font-size: var(--font-size-3);
+        font-weight: 600;
+        transition: 0.3s ease;
+        padding: 5px;
+        width: 150px;
+
+        &:hover{
+            background-color: var(--grey-0);
+            color: var(--white-fixed);
+            transition: 0.3s ease;
+        }
     }
 `
