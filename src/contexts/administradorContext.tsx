@@ -1060,7 +1060,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
           }
         })
 
-        window.open(res.data.sandbox_init_point, '_blank')
+        window.open(res.data.init_point, '_blank')
       }
       else{
         const res = await apiMercadoPago.post('', standart, {
@@ -1070,7 +1070,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
           }
         })
 
-        window.open(res.data.sandbox_init_point, '_blank')
+        window.open(res.data.init_point, '_blank')
       }
     }
     catch {
