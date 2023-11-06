@@ -1050,7 +1050,7 @@ const AdminProvider = ({ children }: iAdminProviderProps) => {
         ]
       }
 
-      const token = "APP_USR-541286837154157-101709-bf66b22aa6b728632b5fb5bc13190870-311362426"
+      const token = "APP_USR-2600481674697355-110617-ebde29dc7f6bbd01fd4beaffdc12f070-74670153"
 
       if(plan === 'premium'){
         const res = await apiMercadoPago.post('', premium, {
