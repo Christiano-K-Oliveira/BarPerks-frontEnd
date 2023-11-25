@@ -40,8 +40,8 @@ const GlobalStyle = createGlobalStyle`
         --white-fixed: #FFFFFF;
 
         --alert-1: #CD2B31;
-        --alert-2: #FDD8D8;
-        --alert-3: #FFE5E5;
+        --alert-2: #ff0000;
+        --alert-3: #FF1B0E;
         --sucess-1: #18794E;
         --sucess-2: #CCEBD7;
         --sucess-3: #DDF3E4;
@@ -60,15 +60,48 @@ const GlobalStyle = createGlobalStyle`
         --font-title-2: 28px;
         --font-title-recover: 42px;
 
-
-        font-size: 60%;
+        font-size: 85%;
     }
 
-    @media(min-width: 800px) {
-        :root{
-            font-size: 62.5%;
-        }
-    }
+  *::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: #DFE9EB;
+  }
+
+  *::-webkit-scrollbar-track:hover {
+    background-color: #DFE9EB;
+  }
+
+  *::-webkit-scrollbar-track:active {
+    background-color: #DFE9EB;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: var(--grey-4);
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+      background-color: var(--grey-4);
+  }
+
+  *::-webkit-scrollbar-thumb:active {
+      background-color: var(--grey-3);
+  }
+
+  input[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;
+  }
+  input[type=number] { 
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
 `
 
 export default GlobalStyle

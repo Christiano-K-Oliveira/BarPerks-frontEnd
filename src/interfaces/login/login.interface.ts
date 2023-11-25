@@ -16,3 +16,18 @@ export interface iInputLogin {
     register: UseFormRegister<iFormLogin>;
     name: "email" | "password";
 }
+
+export interface iGoogleResponse {
+    Ca: string;
+    acessToken: string;
+    googleId: string;
+    profileObj: {
+        email: string;
+        familyName: string;
+        givenName: string;
+        googleid: string;
+        imageUrl: string;
+        name: string;
+    };
+    tokenId: string;
+}

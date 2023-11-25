@@ -66,51 +66,6 @@ export const SpanLight = styled.span`
     color: var(--grey-0);
 `
 
-export const LinkStartBlack = styled.a`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: var(--font-size-5);
-    font-weight: 700;
-    color: var(--white-fixed);
-    background-color: var(--grey-0);
-    border-radius: 30px;
-    width: 120px;
-    padding: 10px;
-    transition: 0.3s ease;
-    margin: 20px 0;
-    border: 2px solid transparent;
-    margin-top: 30px;
-
-    &:hover{
-        background-color: var(--white-fixed);
-        color: var(--grey-0);
-        transition: 0.3s ease;
-    }
-`
-
-export const LinkStartWhite = styled.a`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: var(--font-size-5);
-    font-weight: 700;
-    color: var(--grey-0);
-    background-color: var(--white-fixed);
-    border-radius: 30px;
-    width: 120px;
-    padding: 10px;
-    transition: 0.3s ease;
-    margin: 20px 40px;
-    border: 2px solid transparent;
-
-    &:hover{
-        background-color: var(--grey-0);
-        color: var(--white-fixed);
-        transition: 0.3s ease;
-    }
-`
-
 export const DivPrice = styled.div`
     display: flex;
     margin-top: 10px;

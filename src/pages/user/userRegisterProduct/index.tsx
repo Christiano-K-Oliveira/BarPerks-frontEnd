@@ -1,20 +1,29 @@
-import FooterUser from "../../../components/Footer/FooterUser"
-import { HeaderUserAdmin } from "../../../components/Header/HeaderUser"
-import { SectionRegisterProducts } from "../../../components/SectionsUser"
-import { Main } from "../style"
+import FooterUser from "../../../components/Footer/FooterUser";
+import { HeaderUserAdmin } from "../../../components/Header/HeaderUser";
+import { SectionRegisterProducts } from "../../../components/SectionsUser";
+import { Main } from "../style";
+import { ModalEditProducts } from "../../../components/Modals/ModalEditProducts/index";
+import { useContext } from "react";
+import { AdminContext } from "../../../contexts/administradorContext";
+import { ModalUpdateProduct } from "../../../components/Modals/ModalUpdateProduct";
 
 const UserRegisterProductPage = () => {
-    return (
-        <>
-            <HeaderUserAdmin/>
+  const { editProductsModal, modalEditProduct } = useContext(AdminContext);
 
-            <Main>
-                <SectionRegisterProducts/>
-            </Main>
+  return (
+    <>
+      <HeaderUserAdmin />
 
-            <FooterUser/>
-        </>
-    )
-}
+      <Main>
+        <SectionRegisterProducts />
+      </Main>
 
-export default UserRegisterProductPage
+      { editProductsModal ? <ModalEditProducts /> : null }
+      { modalEditProduct ? <ModalUpdateProduct/> : null }
+
+      <FooterUser />
+    </>
+  );
+};
+
+export default UserRegisterProductPage;

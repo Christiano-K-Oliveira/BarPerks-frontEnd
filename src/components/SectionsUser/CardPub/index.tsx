@@ -1,18 +1,36 @@
+import { useContext } from "react";
 import { ButtonRescue, FigurePub, ItemPub } from "./style"
+import { ClientContext } from "../../../contexts/clienteContext";
 
-const CardPub = () => {
+interface iCardPub {
+    name: string;
+    value: string;
+    photo?: string;
+}
+
+const CardPub = ({ name, value, photo }: iCardPub) => {
+    const { setModalConfReward, setRewardInfo } = useContext(ClientContext)
+
     return (
         <ItemPub>
             <FigurePub>
-                <img src="" alt="img-bar" />
+                <img src={photo} alt="img-produto" />
 
                 <div>
-                    <h3>Nome do Produto</h3>
-                    <span>Valor R$50.00</span>
+                    <h3>{name}</h3>
+                    <span>{`Valor ${value}pts`}</span>
                 </div>
             </FigurePub>
 
-            <ButtonRescue>Resgatar</ButtonRescue>
+            <ButtonRescue onClick={() => {
+                setRewardInfo({
+                    name: name,
+                    points: value,
+                })
+                
+                setModalConfReward(true)
+                }
+            }>Resgatar</ButtonRescue>
         </ItemPub>
     )
 }

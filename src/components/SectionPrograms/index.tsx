@@ -10,14 +10,14 @@ import {
     TitlePrograms,
 } from "./style"
 import PhotoHandsLoyalty from "../../assets/images/fides-photo.svg"
-import PhotoPeopleHappy from "../../assets/images/programa-de-fidelidade-photo.svg"
-import PhotoClientLoyal from "../../assets/images/cliente-fidelizado-photo.svg"
+// import PhotoPeopleHappy from "../../assets/images/programa-de-fidelidade-photo.svg"
+// import PhotoClientLoyal from "../../assets/images/cliente-fidelizado-photo.svg"
 
 const SectionPrograms = () => {
     return (
         <SectionProgramsLoyalty>
             <DivBoxText>
-                <TitlePrograms>Programas de Fidelidade</TitlePrograms>
+                <TitlePrograms>Programa de Fidelidade</TitlePrograms>
 
                 <ParagraphPrograms>
                     Um programa de fidelidade é um sistema de recompensas oferecido por 
@@ -45,7 +45,7 @@ const SectionPrograms = () => {
                     </ParagraphItemList>
                 </ItemListProgram>
 
-                <ItemListProgram>
+                {/* <ItemListProgram>
                     <TitleItemList>PROGRAMA DE FIDELIDADE POR LEALDADE</TitleItemList>
                     <PhotoItemList src={PhotoPeopleHappy} alt={'photo-Clientes'}/>
 
@@ -71,7 +71,7 @@ const SectionPrograms = () => {
                         eficaz de aproveitar a rede de relacionamentos dos clientes para 
                         aumentar a fidelização e atrair novos consumidores.
                     </ParagraphItemList>
-                </ItemListProgram>
+                </ItemListProgram> */}
             </ListPrograms>
         </SectionProgramsLoyalty>
     )

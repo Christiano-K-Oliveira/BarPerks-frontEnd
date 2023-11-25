@@ -47,7 +47,6 @@ export const Span = styled.span`
     font-size: var(--font-size-6);
     font-weight: 500;
     margin-top: -10px;
-    margin-bottom: 15px;
 `
 
 export const DivBtns = styled.div`
@@ -121,17 +120,29 @@ export const OptionSelect = styled.option`
 
 export const InputFile = styled.input`
     color: var(--gray-0);
-    font-size: var(--font-size-4);
+    font-size: var(--font-size-5);
     font-size: 500;
-    outline: none;
-    border: none;
+    font-weight: 600;
+    border: 2px solid var(--yellow-1);
+    padding: 5px 15px;
     transition: 0.2s ease;
-    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    background-color: var(--white-fixed);
+
+    &:hover{
+        background-color: var(--yellow-1);
+        transition: 0.3s ease;
+        color: var(--white-fixed);
+    }
 `
 
 export const DivInputsYellow = styled.div`
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     flex-wrap: wrap;
     background-color: var(--yellow-1);
     padding: 10px;
@@ -142,10 +153,20 @@ export const DivInputsYellow = styled.div`
     border-radius: 8px;
     max-width: 100%;
 
+    div {
+        display: flex;
+        justify-content: space-between;
+        width: 102%;
+    }
+    div div{
+        display: flex;
+        flex-direction: column;
+    }
+
     input{
+        display: flex;
+        width: 95%;
         border: 2px solid var(--grey-3);
-        width: 48%;
-        max-width: 100%;
         height: 40px;
         border-radius: 12px;
         background-color: var(--white-fixed);
@@ -190,5 +211,97 @@ export const DivInputsYellow = styled.div`
             border: 2px solid var(--grey-0);
             transition: 0.3s ease;
         }
+    }
+`
+
+export const SpanFile = styled.span`
+    color: var(--grey-0);
+    cursor: pointer;
+`
+
+export const ButtonCalculate = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--yellow-1);
+    color: var(--grey-0);
+    font-size: var(--font-size-5);
+    font-weight: 600;
+    width: 150px;
+    border-radius: 8px;
+    padding: 5px;
+    transition: 0.3s ease;
+    margin-top: -10px;
+
+    &:hover{
+        color: var(--white-fixed);
+        background-color: var(--grey-0);
+    }
+`
+
+export const DivInputCalculate = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h4{
+        color: var(--grey-0);
+        font-size: var(--font-size-4);
+        font-weight: 600;
+    }
+
+    input{
+        padding: 8px;
+        width: 100px;
+        height: 28px;
+        border-radius: 24px;
+        background-color: var(--grey-6);
+        outline: none;
+        border: 2px solid transparent;
+        color: var(--grey-0);
+        font-size: var(--font-size-4);
+        font-weight: 600;
+        transition: 0.3s ease;
+        margin-top: 5px;
+        text-align: center;
+
+        &:focus{
+            border: 2px solid var(--grey-0);
+        }
+
+        &::placeholder{
+            text-align: center;
+            opacity: 1;
+        }
+    }
+`
+
+export const DivQrCode = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+
+    h3{
+        color: var(--grey-0);
+        font-size: var(--font-size-3);
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    span{
+        margin-top: 30px;
+        color: var(--grey-0);
+        font-size: var(--font-size-2);
+        font-weight: 600;
+    }
+
+    .link-qrcode{
+        color: var(--grey-0);
+        font-size: var(--font-size-3);
+        font-weight: 600;
+        margin-top: 20px;
     }
 `

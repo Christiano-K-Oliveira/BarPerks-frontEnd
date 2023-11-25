@@ -88,18 +88,69 @@ export const IconImage = styled.img`
 
 export const InputFile = styled.input`
     color: var(--gray-0);
-    font-size: var(--font-size-4);
+    font-size: var(--font-size-5);
     font-size: 500;
-    outline: none;
-    border: none;
-    padding: 10px 0;
+    font-weight: 600;
+    border: 2px solid var(--yellow-1);
+    padding: 5px 15px;
     transition: 0.2s ease;
-    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    background-color: var(--white-fixed);
+
+    &:hover{
+        background-color: var(--yellow-1);
+        transition: 0.3s ease;
+        color: var(--white-fixed);
+    }
 `
 
 export const LabelFile = styled.label`
     color: var(--gray-0);
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
     font-size: 600;
+`
+
+export const DivOlderAge = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
     margin-top: 5px;
+
+    input{
+        width: 16px;
+        height: 16px;
+    }
+
+    label{
+        color: var(--grey-0);
+        font-size: var(--font-size-4);
+        font-weight: 400;
+        margin-left: 10px;
+    }
+`
+
+export const FacebookLoginDiv = styled.div`
+    display: flex;
+
+    .icon-facebook{
+        height: 45px;
+        background-color: #2961d6;
+        color: var(--grey-0);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 10px;
+        border-radius: 5px;
+        color: var(--white-fixed);
+        font-weight: 400;
+        font-size: var(--font-size-5);
+
+        @media(max-width: 799px){
+            height: 55px;
+        }
+    }
 `

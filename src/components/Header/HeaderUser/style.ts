@@ -60,7 +60,15 @@ export const NavLinks = styled.nav`
     gap: 15px;
 
     @media (max-width: 860px) {
-        display: none
+        display: none;
+    }
+
+    @media (max-width: 980px) {
+        gap: 5px;
+    }
+
+    @media (max-width: 1060px) {
+        gap: 10px;
     }
 `
 
@@ -77,8 +85,13 @@ export const LinkHeader = styled(Link)`
         transition: 0.2s ease;
     }
 
-    @media(max-width: 930px){
+    @media(max-width: 1060px){
         font-size: var(--font-size-6);
+    }
+
+    @media(max-width: 980px){
+        text-align: center;
+        width: 80px;
     }
 `
 
@@ -87,9 +100,15 @@ export const UserIcon = styled.figure`
     justify-content: center;
     align-items: center;
     background-color: var(--yellow-1);
-    padding: 5px;
+    padding: 3px;
     border-radius: 50%;
     cursor: pointer;
+
+    img {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+    }
 `
 
 export const DivBoxIcon = styled.div`
@@ -101,6 +120,7 @@ export const DivBoxIcon = styled.div`
     margin-left: 20px;
     border-radius: 12px;
     transition: 0.3s ease;
+    gap: 5px;
 
     &:hover{
         border-bottom: 3px solid var(--grey-0);
@@ -150,8 +170,8 @@ export const NavLinksMobile = styled.nav`
 
 export const DivBoxLinksMobile = styled.div`
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center;
     width: 80vw;
     margin: 0 auto;
@@ -161,7 +181,7 @@ export const LinkMobile = styled(Link)`
     display: flex;
     margin: 0 auto;
     color: var(--grey-3);
-    font-size: var(--font-size-5);
+    font-size: var(--font-size-6);
     font-weight: 600;
     transition: 0.2s ease;
     border-bottom: 2px solid transparent;
@@ -174,9 +194,60 @@ export const LinkMobile = styled(Link)`
     }
 `
 
-export const SpanName = styled.span`
-    color: var(--grey-0);
-    font-size: var(--font-size-4);
+export const LinkMobileExit = styled.a`
+    display: flex;
+    margin: 0 auto;
+    color: var(--grey-3);
+    font-size: var(--font-size-6);
     font-weight: 600;
-    margin-left: 5px;
+    transition: 0.2s ease;
+    border-bottom: 2px solid transparent;
+    margin: 5px;
+    cursor: pointer;
+
+    &:hover{
+        color: var(--alert-2);
+        border-bottom: 2px solid var(--alert-2);
+        transition: 0.2s ease;
+    }
+`
+
+export const MenuNav = styled.nav`
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 2px solid var(--grey-0);
+    background-color: var(--white-fixed);
+    position: absolute;
+    right: 20px;
+    top: 65px;
+    padding: 5px 10px;
+
+    .link{
+        color: var(--grey-0);
+        font-size: var(--font-size-5);
+        font-weight: 600;
+        transition: 0.3s ease;
+        border-bottom: 2px solid transparent;
+        
+        &:hover{
+            border-bottom: 2px solid var(--yellow-1);
+        }
+    }
+    .exit-link{
+        color: var(--grey-0);
+        font-size: var(--font-size-5);
+        font-weight: 600;
+        transition: 0.3s ease;
+        border-bottom: 2px solid transparent;
+        
+        &:hover{
+            color: var(--alert-2);
+            border-bottom: 2px solid var(--alert-2);
+        }
+    }
+
+    @media(max-width: 860px){
+        display: none;
+    }
 `

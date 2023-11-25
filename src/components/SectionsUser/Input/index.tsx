@@ -1,9 +1,11 @@
-import { iInputFormRegisterClient, iInputFormSearchClient, iInputRegisterProduct, iInputUserEdit, iInputUserRegisterPoints } from "../../../interfaces/user/user.interface"
-import { Input } from "./style"
+import { Dispatch, SetStateAction, useState } from "react"
+import { iFormUserRegisterPoints, iInputFormRegisterClient, iInputFormSearchClient, iInputRegisterProduct, iInputUserEdit, iInputUserRegisterPoints } from "../../../interfaces/user/user.interface"
+import { DivInputCalculate, IconQuest, Input, InputEdit } from "./style"
+import { UseFormRegister } from "react-hook-form"
 
 const InputUser = ({ id, name, register, type, placeholder }: iInputUserEdit) => {
     return (
-        <Input id={id} type={type} placeholder={placeholder} { ...register(name) }/>
+        <InputEdit id={id} type={type} placeholder={placeholder} { ...register(name) }/>
     )
 }
 
@@ -31,10 +33,37 @@ const InputUserSearchClient = ({ name, register, type, placeholder }: iInputForm
     )
 }
 
+const InputCalculatePoints = ({ register, setValue }: { register: UseFormRegister<iFormUserRegisterPoints>, setValue: Dispatch<SetStateAction<string>> }) => {
+    const [ info, setInfo ] = useState(false)
+
+    function calculateValue(el : React.KeyboardEvent<HTMLInputElement>){
+        const target = el.target as HTMLInputElement;
+
+        if(target.value === ""){
+            return setValue("")
+        }
+
+        const value = +target.value * 5;
+        setValue(value.toString())
+    }
+
+    return (
+        <DivInputCalculate>
+            <Input type="number" placeholder="Valor Gasto" { ...register("points") } onKeyUp={(el) => calculateValue(el)}/>
+            <button type="button" onClick={() => info ? setInfo(false) : setInfo(true)}>
+                <IconQuest size="20px"/>
+            </button>
+
+            <p style={info ? {display: "flex"} : {display: "none"}}>A cada 1 real gasto, é somado 5 pontos a sua conta.</p>
+        </DivInputCalculate>
+    )
+}
+
 export { 
     InputUser, 
     InputUserRegisterPoints, 
     InputUserRegisterProduct,
     InputUserRegisterClient,
-    InputUserSearchClient
+    InputUserSearchClient,
+    InputCalculatePoints,
 }
